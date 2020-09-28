@@ -110,7 +110,7 @@ if (autoChangeMode === '1') {
       appKey: 'EssGMoJq9MxGb3s5PMr5Eljq',
       placeholder: '...',
       avatar: 'monsterid',
-      meta: 'nick,mail,link'.split(','),
+      meta: 'nick# valine comment header info (nick/mail/link)'.split(','),
       pageSize: '10',
       lang: 'zh-CN',
       recordIP: false,
@@ -120,7 +120,7 @@ if (autoChangeMode === '1') {
       enableQQ: false,
       path: window.location.pathname,
     });
-    if ('nick,mail') { valine.config.requiredFields= 'nick,mail'.split(',') }
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
   }
 
   if (typeof Valine === 'function') initValine() 
