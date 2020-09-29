@@ -2309,4 +2309,50 @@
         <tag>逆向（调试）</tag>
       </tags>
   </entry>
+  <entry>
+    <title>x86汇编学习笔记(0X13)</title>
+    <url>/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x13/</url>
+    <content><![CDATA[<h1 id="CALL和RET指令"><a href="#CALL和RET指令" class="headerlink" title="CALL和RET指令"></a>CALL和RET指令</h1><p>call和ret都是转移指令，它们都修改IP或CS和IP。</p>
+<h2 id="ret和retf"><a href="#ret和retf" class="headerlink" title="ret和retf"></a>ret和retf</h2><p>ret指令用栈中的数据，修改IP的内容，从而实现近转移</p>
+<p>retf用栈中的数据，修改CS和IP的内容，从而实现远转移</p>
+<p>CPU执行ret指令时，进行下面两步操作：</p>
+<ol>
+<li>(IP)=((SS)*16+(SP))</li>
+<li>(sp)=(sp)+2</li>
+</ol>
+<p>CPU执行retf指令时，进行下面四步操作：</p>
+<ol>
+<li>(IP)=((SS)*16+(SP))</li>
+<li>(sp)=(sp)+2</li>
+<li>(CS)=((SS)*16+(SP))</li>
+<li>(sp)=(sp)+2</li>
+</ol>
+<p>如果用汇编语法解释ret和retf指令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;ret指令：</span><br><span class="line">pop IP</span><br><span class="line"></span><br><span class="line">;retf指令</span><br><span class="line">pop IP</span><br><span class="line">pop CS</span><br></pre></td></tr></table></figure>
+
+<h2 id="call指令"><a href="#call指令" class="headerlink" title="call指令"></a>call指令</h2><p>CPU执行call指令时，进行两步操作：</p>
+<ol>
+<li>将当前的IP 或 CS和IP压入栈</li>
+<li>转移</li>
+</ol>
+<blockquote>
+<p>call指令不能实现短转移，除此之外，call指令实现转移的方法和jmp指令的原理相同。</p>
+</blockquote>
+<p>不同命令释义：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">;call 标号  相当于：</span><br><span class="line">push IP</span><br><span class="line">jmp near ptr 标号</span><br><span class="line"></span><br><span class="line">;call far ptr 标号   实现的是段间转移，相当于：</span><br><span class="line">push IP</span><br><span class="line">push CS</span><br><span class="line">jmp far ptr 标号</span><br><span class="line"></span><br><span class="line">;call 16位reg，相当于：</span><br><span class="line">push IP</span><br><span class="line">jmp 16位reg</span><br><span class="line"></span><br><span class="line">;call word ptr 内存单元地址，相当于：</span><br><span class="line">push IP</span><br><span class="line">jmp word ptr 内存单元地址</span><br><span class="line"></span><br><span class="line">;call dword ptr 内存单元地址，相当于：</span><br><span class="line">push CS</span><br><span class="line">push IP</span><br><span class="line">jmp dword ptr 内存单元地址</span><br></pre></td></tr></table></figure>
+
+<h2 id="mul指令"><a href="#mul指令" class="headerlink" title="mul指令"></a>mul指令</h2><p>mul是乘法指令，使用指令时注意以下两点：</p>
+<ol>
+<li>两个相乘的数要么都是8位，要么都是16位。如果是8位，一个默认放在AL中，另一个存放在reg中或内存字节单元中。如果是16位，一个默认放在AX中，另一个放在reg内存字单元中。</li>
+<li>结果：如果是8位乘法，结果默认放在AX中；如果是16位乘法，高位默认放在DX中，低位放在AX中。</li>
+</ol>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>
+]]></content>
+      <categories>
+        <category>x86汇编</category>
+      </categories>
+      <tags>
+        <tag>x86汇编</tag>
+      </tags>
+  </entry>
 </search>
