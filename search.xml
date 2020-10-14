@@ -2355,4 +2355,120 @@
         <tag>逆向（调试）</tag>
       </tags>
   </entry>
+  <entry>
+    <title>逆向（调试）学习笔记(0X02)</title>
+    <url>/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x02/</url>
+    <content><![CDATA[<h1 id="动态分析技术（1）"><a href="#动态分析技术（1）" class="headerlink" title="动态分析技术（1）"></a>动态分析技术（1）</h1><h2 id="OllyDbg调试器"><a href="#OllyDbg调试器" class="headerlink" title="OllyDbg调试器"></a>OllyDbg调试器</h2><h3 id="Hit-Trace"><a href="#Hit-Trace" class="headerlink" title="Hit Trace"></a>Hit Trace</h3><blockquote>
+<p>Hit Trace能够让调试者辨别哪一部分代码被执行了、哪一部分没有。使用Hit Trace时，不能再数据中设置断点，否则可能会使程序崩溃。</p>
+<p><strong>使用条件</strong>：当遇到一段跳转分支较多的代码，需要了解程序的直行线路时。</p>
+<p><strong>使用流程</strong>：单机右键的Hit Trace  –&gt;  Add selection命令  –&gt;  选中要监视的代码  –&gt;  F9运行</p>
+</blockquote>
+<h3 id="调试符号"><a href="#调试符号" class="headerlink" title="调试符号"></a>调试符号</h3><h4 id="符号格式"><a href="#符号格式" class="headerlink" title="符号格式"></a>符号格式</h4><ul>
+<li><p>DBG格式</p>
+<blockquote>
+<p>DBG是系统调试符，有了调试符系统才能显示出系统函数名。DBG文件基本是一个包含其他调试符的文件，微软将操作系统调试符分配在DBG文件中。</p>
+</blockquote>
+</li>
+<li><p>MAP文件</p>
+<blockquote>
+<p>MAP文件是程序的全局符号、源文件、代码行号信息的文艺问呗表示方法。MAP文件在任何地方、任何时候都可以使用，不需要程序支持，通用性极好。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><ol>
+<li><p>快速回到当前程序领域空间</p>
+<p> <em>快速回到CPU所在的指令处，双击寄存器面板中的<code>EIP</code>或者单机<code>C</code>按钮</em>。</p>
+</li>
+<li><p>修改EIP</p>
+<p> 将光标移动到要修改的地址上，右键，<code>New Origin Here</code>或快捷键<code>Ctrl+※</code></p>
+</li>
+<li><p>已删除断点，重新加载时再次出现</p>
+<p> <em>将OllyDbg.ini中的相应内容改为 <code>Backup UDD files=1</code>即可解决</em></p>
+</li>
+</ol>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《加密与解密（第4版）》；</em></strong></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向（调试）</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>逆向（调试）学习笔记(0X03)</title>
+    <url>/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x03/</url>
+    <content><![CDATA[<h1 id="动态分析技术（2）"><a href="#动态分析技术（2）" class="headerlink" title="动态分析技术（2）"></a>动态分析技术（2）</h1><h2 id="常用PE工具"><a href="#常用PE工具" class="headerlink" title="常用PE工具"></a>常用PE工具</h2><p>PE文件格式是Windows操作系统下可执行文件的标准格式，可执行文件的装载、内存分布、执行等都依赖于PE文件格式</p>
+<h3 id="PE工具"><a href="#PE工具" class="headerlink" title="PE工具"></a>PE工具</h3><ul>
+<li>PE文件格式查看（解析）工具</li>
+<li>PE文件格式编辑工具</li>
+<li>PE文件格式修改工具</li>
+<li>……</li>
+</ul>
+<h3 id="Stud-PE介绍"><a href="#Stud-PE介绍" class="headerlink" title="Stud_PE介绍"></a>Stud_PE介绍</h3><p>Stud_PE是PE文件格式查看（解析）工具</p>
+<p>Stud_PE主要的解析功能在选项卡中，即上方的tools项。主要包含PE头部、数据目录、DOS头、节表信息等。</p>
+<h2 id="PE文件格式详解"><a href="#PE文件格式详解" class="headerlink" title="PE文件格式详解"></a>PE文件格式详解</h2><h3 id="PE文件结构全貌介绍"><a href="#PE文件结构全貌介绍" class="headerlink" title="PE文件结构全貌介绍"></a>PE文件结构全貌介绍</h3><p>PE，即可移植的执行体。在Windows平台下，所有的可执行文件均使用PE文件结构，也称它们位PE文件。</p>
+<p>PE结构包含的结构体有DOS头、PE标识、文件头、可选头、目录结构、节表等。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/13/MoTLfxlZDHcBQGt.png" alt="PE文件格式"></p>
+<p>从数据管理的角度看，可分为两个部分：</p>
+<ul>
+<li>DOS头、PE头和节表属于构成可执行文件的<strong>数据管理结构</strong>或<strong>数据组织结构部分</strong></li>
+<li><strong>节表数据</strong>才是文件真正的数据部分，包含着真正的数据、资源、代码等内容</li>
+</ul>
+<blockquote>
+<p><strong>PE结构各部分简介:</strong></p>
+<ol>
+<li><p>DOS头</p>
+<p> DOS头分为两部分，分别是“<strong>MZ头部</strong>和<strong>DOS存根</strong>”。</p>
+<p> MZ头部用于程序在DOS系统下加载。</p>
+<p> DOS存根是一段简单的DOS程序</p>
+<p> DOS头部的存在是为了执行程序可以兼容DOS系统。</p>
+</li>
+<li><p>PE头</p>
+<p> PE头保存着Windows加载可执行文件的重要信息</p>
+<p> PE头在PE文件中的位置是<strong>固定不变</strong>的，PE头部的位置由DOS头部的某个字段给出。</p>
+</li>
+<li><p>节表</p>
+<p> 节表中描述了各个节在<strong>整个文件中</strong>的的位置与<strong>加载入内存后</strong>的位置</p>
+</li>
+<li><p>节数据</p>
+<p> 真正程序代码、数据、资源。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="详解PE文件结构"><a href="#详解PE文件结构" class="headerlink" title="详解PE文件结构"></a>详解PE文件结构</h3><p>PE头分为32位和64位版本。64位的PE结构是对32位PE结构的扩展。</p>
+<h4 id="DOS头部详解-IMAGE-DOS-HEADER"><a href="#DOS头部详解-IMAGE-DOS-HEADER" class="headerlink" title="DOS头部详解(IMAGE_DOS_HEADER)"></a><strong>DOS头部详解(IMAGE_DOS_HEADER)</strong></h4><p>对于一个PE文件来说，最开始的位置就是一个DOS程序。</p>
+<p>DOS程序包含DOS头部和DOS程序体，DOS头部就是用来装载DOS程序的。</p>
+<blockquote>
+<p><strong>在Windows下只要一个文件是PE文件，那么开头两个字肯定是4D 5A</strong></p>
+</blockquote>
+<h4 id="PE头部详解-IMAGE-NT-HEADERS"><a href="#PE头部详解-IMAGE-NT-HEADERS" class="headerlink" title="PE头部详解(IMAGE_NT_HEADERS)"></a><strong>PE头部详解(IMAGE_NT_HEADERS)</strong></h4><p>PE头部是真正用来装载Windows程序的头部</p>
+<p>标识该文件是否是PE文件的标识符为“<code>50 45 00 00</code>”。</p>
+<p>在判断一个文件是否为PE文件时，首先判断其实位置是否为MZ(<code>4D 5A</code>)</p>
+<h4 id="文件头部详解-IMAGE-FILE-HEADER"><a href="#文件头部详解-IMAGE-FILE-HEADER" class="headerlink" title="文件头部详解(IMAGE_FILE_HEADER)"></a><strong>文件头部详解(IMAGE_FILE_HEADER)</strong></h4><p>IMAGE_FILE_HEADER结构体的大小为20字节，起始位置为<code>0x000000E4</code>，结束位置为<code>0x000000F7</code>。</p>
+<p>文件头部的其实位置取决于PE头部的其实位置。</p>
+<h4 id="可选头详解-IMAGE-OPTIONAL-HEADER"><a href="#可选头详解-IMAGE-OPTIONAL-HEADER" class="headerlink" title="可选头详解(IMAGE_OPTIONAL_HEADER)"></a><strong>可选头详解(IMAGE_OPTIONAL_HEADER)</strong></h4><p>虽然被称为可选头，但并不是一个可选的头部，而是<strong>必须存在的</strong></p>
+<p>可选头紧挨文件头，文件头结束位置为<code>0x000000F7</code>，那么可选头其实位置就为<code>0x000000F8</code>，可选头的大小为<code>0x00E0</code>字节（十进制为224字节），结束位置为<code>0x000000F8+0x00E0-1=0x000001D7</code></p>
+<h4 id="节表详解-IMAGE-SECTION-HEADER"><a href="#节表详解-IMAGE-SECTION-HEADER" class="headerlink" title="节表详解(IMAGE_SECTION_HEADER)"></a><strong>节表详解(IMAGE_SECTION_HEADER)</strong></h4><p>节表的位置在可选头后边，节表中的每个 IMAGE_SECTION_HEADER 中都存放着可执行文件被映射到内存中所在位置的信息。</p>
+<h3 id="PE结构的三种地址"><a href="#PE结构的三种地址" class="headerlink" title="PE结构的三种地址"></a>PE结构的三种地址</h3><p>与PE结构相关的地址有<strong>VA</strong>（虚拟地址）、<strong>RVA</strong>（相对虚拟地址）和 FOA（文件 偏移地址）3 种形式。</p>
+<blockquote>
+<ol>
+<li>VA（虚拟地址）：PE 文件被Windows 加载到内存后的地址。</li>
+<li>RVA（相对虚拟地址）：PE 文件<strong>虚拟地址</strong>相对于 <strong>映射基</strong> 地址的 <strong>偏移地址</strong>。</li>
+<li>FOA（文件偏移地址）：相对于 PE 文件在磁盘上文件开头的偏移地址。</li>
+</ol>
+</blockquote>
+<h3 id="三种地址的转换"><a href="#三种地址的转换" class="headerlink" title="三种地址的转换"></a>三种地址的转换</h3><p>计算公式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">某数据的FOA &#x3D; 该数据的RVA - （该数据所在节的起始RVA - 该数据所在节的起始FOA）</span><br></pre></td></tr></table></figure>
+
+<p>RVA 与 FOA <strong>不同的原因是由于节的起始位置的不同而导致的</strong></p>
+<p>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《加密与解密（第4版）》；</p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向（调试）</tag>
+      </tags>
+  </entry>
 </search>
