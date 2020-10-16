@@ -2471,4 +2471,127 @@
         <tag>逆向（调试）</tag>
       </tags>
   </entry>
+  <entry>
+    <title>逆向（调试）学习笔记(0X04)</title>
+    <url>/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x04/</url>
+    <content><![CDATA[<h2 id="手写PE文件"><a href="#手写PE文件" class="headerlink" title="手写PE文件"></a>手写PE文件</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>将要完成的功能：</p>
+<ul>
+<li>弹出一个有”确定“按钮的对话框</li>
+<li>提示对话框上显示“Hello,PE File!”</li>
+<li>单机确定按钮后退出</li>
+</ul>
+<blockquote>
+<p>弹出提示对话框的API函数是<code>MessageBox</code>，进程退出使用的是<code>ExitProcess</code>函数。</p>
+<p><em><code>MessageBox</code> 函数是系统中 user32.dll 导出的一个函数，<code>ExitProcess</code> 函数是系统中 kernel32.dll 中导出的一个函数。</em></p>
+</blockquote>
+<p>PE文件规划</p>
+<blockquote>
+<ul>
+<li>DOS头</li>
+<li>PE标识符(PE\0\0)</li>
+<li>文件头</li>
+<li>可选头</li>
+<li>节表</li>
+<li>节（代码节、数据节、导入表节）</li>
+</ul>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/W2dY4JcQXysLMoq.png"></p>
+<p>各个节的作用</p>
+<ul>
+<li>代码节中存放<code>MessageBox</code>函数和<code>ExitProcess</code>函数的代码。</li>
+<li>数据节中存放调用 <code>Message Box</code>函数时，在提示框中显示的内容，即存放的是字<br>  符串的数据。</li>
+<li>导入表节中存放 <code>MessageBox</code> 函数和 <code>ExitProcess</code> 函数的导入函数信息。</li>
+</ul>
+<h3 id="用十六进制字节完成PE文件"><a href="#用十六进制字节完成PE文件" class="headerlink" title="用十六进制字节完成PE文件"></a>用十六进制字节完成PE文件</h3><p>构造PE文件的顺序是将结构逐一构造，就是先构造DOS头、PE标识等，最后完成PE文件的代码</p>
+<p><strong>创建文件的步骤</strong></p>
+<blockquote>
+<p>C32Asm编辑器  —&gt;  文件  —&gt;  新建16进制文件  —&gt;  文件大小填写64</p>
+<p>在DOS头结构体中，最后死歌字节是指向PE标识符的便宜</p>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/DZWf1Icy3dQSVoz.png"></p>
+<p><strong>构造PE标识符</strong></p>
+<p>构造完DOS头后，紧接着构造PE标识符，PE标识符站四个字节，因此在C32Asm增减四个字节的位置</p>
+<blockquote>
+<p>菜单  —&gt;  编辑  —&gt;  插入数据  —&gt;  插入数据大小  —&gt;  填写“4”</p>
+<p>将前两个字节填写为50 45</p>
+</blockquote>
+<p><strong>构造文件头(IMAGE_FILE_HEADER)结构</strong></p>
+<blockquote>
+<p>该文件体大小为14H字节（十进制为20字节），在C32Asm中插入20字节数据，修改填充表如图所示</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/lOgkZxP5TsUBqCr.png"></p>
+<p>填充后的数据如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/JCYkBw5iPHGcxRd.png"></p>
+</blockquote>
+<p><strong>构造可选头(IMAGE_OPTIONAL_HEADER)结构</strong></p>
+<p>该结构体分为32位和64位，本次使用32位</p>
+<p>该结构体大小为0E0h字节（转换为十进制为224字节），在C32Asm填充224字节的数据。</p>
+<p>填充后数据如下图：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/mGwaRLF8NDoUlZb.png"></p>
+<p>填充完基础数据部分后，需要填写数据目录部分，由于手动完成的是一个EXE文件，因此数据目录中只需要存在两项：</p>
+<ul>
+<li>第一个数据目录项（导入表）</li>
+<li>第十三个数据目录项（导入地址表）</li>
+</ul>
+<p>导入地址表后放入导入表，导入地址表占用16个字节</p>
+<p><strong>构造节表(IMAGE_SECTION_HEADER)结构</strong></p>
+<p>节表中一共包含三个节表项，也就是需要构造三个IMAGE_SECTION_HEADER结构体</p>
+<p>IMAGE_SECTION_HEADER结构体的大小是40个字节，由于需要构造3个，所以占用120字节</p>
+<p>填充完成后如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/WEt6OHvN2rGLld5.png"></p>
+<p><strong>0数据的填充</strong></p>
+<p>在 IMAGE_OPTIONAL_HEADER结构体中 的 <code>SizeOfHeader</code> 字段的值是 0x00001000。因此，为了按照对齐粒度需要将头部的大小用 0<br>字节补足，头部文件当前位432字节，最后一位地址为<code>000001B0</code>，用0x1000-0x01B0=0x0E50，转换为10进制数为3664，所以还需填充3664位。</p>
+<p>在填充完 PE 文件头部后，需要继续填充 0x00001000 字节的 0 字符，该 0x00001000 字 节的数据用来存放.text 节的内容，即代码节的内容</p>
+<p>继续使用 C32Asm 插入 4096 个 0 字符。 由于代码节是最后完成的部分，因此这里只是先对其填充 0 字符。</p>
+<p><strong>填充.data节的数据</strong></p>
+<p>.data 节是用来保存程序在运行时弹出提示对话框时，对话框上显示的字符串。提示对 话框使用的是 MessageBox 函数来完成</p>
+<p>本例中<code>MessageBox</code> 函数的第二个参数和第三个参数分别是两个字符串，第二个参数 <code>lpText</code> 是 提示对话框中用于显示的字符串，第三个参数l<code>pCaption</code>是提示对话框中标题显示的字符串。 在本例子中，<code>lpText</code> 显示的字符串是“<code>Hello, Pe Binary Diy!</code>!”,<code>lpCaption</code>显示的字符串是<br>“<code>Binary Diy</code>”。</p>
+<p>在 0x00002000 的地址处写入 <code>lpText</code> 的值，在 0x00002020 的地址处写入 <code>lpCaption</code> 的值，如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/Ii4y8lwXeC7czrb.png"></p>
+<p><strong>插入.idata节的数据</strong></p>
+<p>.idata 节用来保存 PE 文件中重要的两个部分，分别是导入表和导入地址表</p>
+<p>导入表和导入地址表的地址分别是由数据目录给出的。导入地址表的偏移地址在 0x00003000，而导入表的偏移地址在 0x00003010 处。</p>
+<p>在文件偏移地址为 0x00003010 处进行构造占位用的导入表，导入后结果如下图</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/JlkQZd9xaVuWger.png"></p>
+<blockquote>
+<p>在该实例中导入了两个 DLL 文件，分别是 user32.dll 和 kernel32.dll。在 user32.dll 中调用 了 MessageBoxA 函数，在 kernel32.dll 中调用了 ExitProcess 函数。</p>
+</blockquote>
+<p>构造 user32.dll 的导入信息，按照 IMAGE_IMPORT_DESCRIPTOR 结构体来进行构造。</p>
+<blockquote>
+<ol>
+<li>在0x00003050 地址处构造导入表的 <code>Name</code> 字段的值“user32.dll”。 </li>
+<li>在 0x00003060 地址处构造导入表的 <code>OriginalFirstThunk</code> 字段的值“0x00003070”。</li>
+<li>在 0x00003070 地址处根据 IMAGE_IMPORT_BY_NAME 结构体构造导入函数的 名称。</li>
+<li>在 0x00003000 地址处是导入地址表，该值由 FirstThunk 来指向，该值在磁盘上时与 OriginalFirstThunk 相同。因此，在文件偏移地址 0x00003000 处填入 0x00003070。</li>
+</ol>
+</blockquote>
+<p>构造后如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/IPinDAu8yVtEWMj.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/PIBfloMe1ki23wG.png"></p>
+<p>根据表5-6重新导入数据，得到下图：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/WE8BqtjUX76JmYH.png"></p>
+<p><strong>填充.text节的数据</strong></p>
+<p>在OD中对数据进行查看后，得到如下的结果： </p>
+<ul>
+<li><p>.<code>text</code> 节的位置从 0x00401000 处开始； </p>
+</li>
+<li><p>“<code>Hello,PE Binary Diy</code>!!”字符串的地址在 0x00402000 处；</p>
+</li>
+<li><p>“<code>Binary Diy</code>”字符串的地址在 0x00402020 处； </p>
+</li>
+<li><p>“<code>MessageBoxA</code>”函数的导入地址在 0x403000 处；</p>
+</li>
+<li><p>“<code>ExitProcess</code>”函数的导入地址在 0x403008 处。</p>
+</li>
+</ul>
+<p>选中录入的反汇编代码，单击鼠标右键，在弹出的菜单中选择“复制到可执行文件”→ “选择”，在弹出的“文件”窗口中单击鼠标右键，在弹出的菜单中选择“保存文件”，将文件<br>命名为“pe1.exe”进行保存。</p>
+<p><strong>至此一个可执行文件就构造完成了</strong></p>
+<p><u><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《加密与解密（第4版）》；</em></u></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向（调试）</tag>
+      </tags>
+  </entry>
 </search>
