@@ -2670,4 +2670,188 @@
         <tag>智能硬件安全</tag>
       </tags>
   </entry>
+  <entry>
+    <title>智能硬件安全_笔记(0X02)</title>
+    <url>/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x02)/</url>
+    <content><![CDATA[<h1 id="网络协议安全分析方法"><a href="#网络协议安全分析方法" class="headerlink" title="网络协议安全分析方法"></a>网络协议安全分析方法</h1><h2 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h2><h3 id="TcpDump"><a href="#TcpDump" class="headerlink" title="TcpDump"></a>TcpDump</h3><p>通常<code>TcpDump</code>将监视第一个网络接口上所有流过的数据包</p>
+<blockquote>
+<ol>
+<li><p>监视指定网络接口的数据包（-i）</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tcpdump -i eth1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>截获所有10.10.1.1的主机收到和发出的数据包（host）</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tcpdump host 10.10.1.1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>截获指定主机和端口的数据包（tcp port、host）</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tcpdump tcp port 80 and host 10.10.1.1</span><br><span class="line"><span class="meta">#</span><span class="bash">UDP同理</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<h3 id="TcpDump与Wireshark、Burpsuite"><a href="#TcpDump与Wireshark、Burpsuite" class="headerlink" title="TcpDump与Wireshark、Burpsuite"></a>TcpDump与Wireshark、Burpsuite</h3><p>Linux下使用<code>TcpDump</code></p>
+<p>Windows下使用<code>Wireshark</code>、<code>Burpsuite</code></p>
+<h2 id="流量的捕获"><a href="#流量的捕获" class="headerlink" title="流量的捕获"></a>流量的捕获</h2><p>有些智能硬件，在局域网内是直接通信的，那么就需要在手机上安装<code>TcpDump</code>然后抓包，发一些控制请求，分析数据包的内容。</p>
+<p>档手机客户端在局域网内可以控制智能硬件的时候，就证明云端的控制和手机端的控制都一样。那么只要分析出手机客户端的内容就可以了。</p>
+<h3 id="手机和云端"><a href="#手机和云端" class="headerlink" title="手机和云端"></a>手机和云端</h3><p>手机和云端之间的数据都包括控制请求、登陆请求、状态请求等，通常都是传统的HTTP协议，如果考虑安全的会加<code>HTTPS</code>协议。</p>
+<h3 id="云端和设备"><a href="#云端和设备" class="headerlink" title="云端和设备"></a>云端和设备</h3><p>云端和设备之间的数据主要包括控制请求、状态请求的数据，这些数据都是从手机控制中转发过来的，设备和云端常见的控制协议包括<code>HTTPS</code>,<code>XMPP</code>,<code>MQTT</code>等。这些协议也是市面上标准化的物联网协议。</p>
+<h3 id="手机和设备"><a href="#手机和设备" class="headerlink" title="手机和设备"></a>手机和设备</h3><p>手机和设备的数据比较特殊，在手机和设备之间的抓包有时是不通过网关传输啊的，所以在Wi-Fi上面是抓不到任何内容的。这时就需要在手机里安装TcpDump抓包功能。</p>
+<p>通过对比发现，如果手机和设备的控制信息与云端和设备之间的控制信息相同，则说明云端只做数据转发工作，这时只要分析手机客户端的内容就可以了。</p>
+<h2 id="流量分析方法与常见漏洞"><a href="#流量分析方法与常见漏洞" class="headerlink" title="流量分析方法与常见漏洞"></a>流量分析方法与常见漏洞</h2><p>在捕获到智能硬件的流量后，下一步就是分析流量，通过分析，可以大致推测出智能硬件的实现方法和工作流程。</p>
+<h3 id="数据重放"><a href="#数据重放" class="headerlink" title="数据重放"></a>数据重放</h3><p>在捕获到一个控制请求之后会尝试其是否能够被重放，如果被重放，则证明该控制请求非常容易被伪造。</p>
+<ol>
+<li><p>HTTP重放</p>
+<blockquote>
+<p>BP抓包，repeater模块重放。</p>
+</blockquote>
+</li>
+<li><p>TCP数据包重放</p>
+<blockquote>
+<p>可以写一个简单的脚本，或者使用<code>NC</code>的发包功能即可</p>
+<p>例如从<code>Wireshark</code>抓取到智能硬件传输指令数据包，将包的数据赋值，写一个<code>Py</code>脚本重放，由与Wireshark将数据包内容转换为16进制，所以要先转码，脚本示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line">s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">s.conect((<span class="string">&#x27;121.41.20.214&#x27;</span>,<span class="number">9001</span>))</span><br><span class="line">d = <span class="string">&#x27;cc00000100000b00000100b0000400020000&#x27;</span></span><br><span class="line">d = d.decode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line">s.send(d)</span><br><span class="line">r = s.recv(<span class="number">100</span>)</span><br><span class="line">print(r.encode(<span class="string">&#x27;hex&#x27;</span>))</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+<h3 id="数据解密"><a href="#数据解密" class="headerlink" title="数据解密"></a>数据解密</h3><p>很多厂商会选择将传输数据加密来保证安全，但是由于软件设计的问题，有时可以将数据解密然后分析、篡改。</p>
+<ol>
+<li><p>HTTPS</p>
+<blockquote>
+<p>HTTPS，是以安全为目标的HTTP通道，加入了SSL协议。</p>
+<p>启用HTTPS对流量分析并不会有太多障碍，可以通过替换证书的方式获取数据明文内容、篡改和重放。</p>
+</blockquote>
+</li>
+<li><p>AES/DES</p>
+<blockquote>
+<p>很多厂商会选择AES/DES对称加密，即用特定字符串作为秘钥将数据加密，然后再用相同的字符串将消息还原。</p>
+<p>如果没有妥善的保管秘钥，导致可以通过逆向APK、抓包等方法拿到秘钥，然后解密和篡改数据。</p>
+</blockquote>
+</li>
+<li><p>数据篡改</p>
+<blockquote>
+<p>在不能对控制协议重放的前提下，需要通过篡改数据绕过防重放的机制来控制目标。</p>
+<p>在对数据篡改前首先要对数据进行解密，解密之后可以看到数据的铭文及提交的参数。</p>
+</blockquote>
+</li>
+<li><p>身份验证与越权</p>
+<blockquote>
+<p>智能硬件的最大危害就是在未经改装的情况下，横向控制所有的智能硬件。这种危害是建立在协议分析的基础上的，通过分析身份验证标识，判断其规律性，再接个控制请求，进行批量控制。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h2><p>在智能硬件流程中，不同位置的设备往不同的终端转发时会根据业务需求产生不同的控制指令。</p>
+<p>本证街上的攻击方法：</p>
+<ul>
+<li>重放攻击</li>
+<li>AES解密</li>
+<li>数据篡改</li>
+<li>绕过身份认证方式越权</li>
+</ul>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《智能硬件安全》刘键皓 等编著；</em></strong></p>
+]]></content>
+      <categories>
+        <category>智能硬件安全</category>
+      </categories>
+      <tags>
+        <tag>智能硬件安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>智能硬件安全_笔记(0X03)</title>
+    <url>/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x03)/</url>
+    <content><![CDATA[<h1 id="软件定义无线电安全分析方法"><a href="#软件定义无线电安全分析方法" class="headerlink" title="软件定义无线电安全分析方法"></a>软件定义无线电安全分析方法</h1><h2 id="软件定义无线电"><a href="#软件定义无线电" class="headerlink" title="软件定义无线电"></a>软件定义无线电</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>软件定义无线电（SDR）是一种无线电通讯系统，它基于软件定义无线通信协议而非通过硬连线实现。</p>
+<p>无线电技术的原理在于：导体中电流强弱的改变会产生无线电波，利用这一现象，通过调制可将信息加载与无线电波之上。当电波通过空间传播到达收信端，电波引起的点此上变化又会在导体中产生电流，通过解调将信息从电流变化中提取出来，就达到了信息传递的目的。</p>
+<p>SDR具有以下两个特点：</p>
+<ol>
+<li><p>具有较强的灵活性</p>
+<blockquote>
+<p>可以通过增加软件模块，很容易的增加新的功能</p>
+</blockquote>
+</li>
+<li><p>具有较强的开放性</p>
+<blockquote>
+<p>由于采用了标准化、模块化的结构，其硬件可以随着器件和技术的发展而更新或扩展，软件也可以随需要不断升级。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p>如下图所示，中间的SDR overview模块主要由三部分组成：无限频率放大器（Radio Frequency Amplifier）、调谐器（Tuner）、模数转换模块（ADC）</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/20/zEdTJPrIyfuL8b9.png"></p>
+<ul>
+<li>天线模块（Antenna）用于接收电磁波信号</li>
+<li>RF放大器主要通过自定义的增益值对接受到的微弱信号进行放大操作，增益的单一般用dB表示。</li>
+<li>调谐器就像收音机或电视机用于选台的装置，从众多信号中选出一个自己需要的信号做分析。</li>
+<li>ADC将从调谐器输出的RF信号转换为数字信号，这就是通常所说的采样（Sampling）</li>
+<li>GUN Radio是一个开源软件平台，是一个学习、构建和部署SDR系统的免费软件开发工具套件。</li>
+</ul>
+<h2 id="SDR的分析方法"><a href="#SDR的分析方法" class="headerlink" title="SDR的分析方法"></a>SDR的分析方法</h2><h3 id="采样定理及信号处理频谱分析原理"><a href="#采样定理及信号处理频谱分析原理" class="headerlink" title="采样定理及信号处理频谱分析原理"></a>采样定理及信号处理频谱分析原理</h3><p><strong>采样定理：</strong>采样过程是指模拟信号经过A/D变换转换为数字信号的过程。信号采样后其频谱会产生周期延拓。采样定理是指为保证采样后信号的频谱形状不失真，采样频率必须大于信号中最高频率成分的两倍。</p>
+<p>低噪声放大器（LAN）主要的功能是增加信号的强度，使信号的幅值增大。</p>
+<h3 id="无线信号分析"><a href="#无线信号分析" class="headerlink" title="无线信号分析"></a>无线信号分析</h3><ol>
+<li><p>分析钥匙信号</p>
+<blockquote>
+<p>目前，无线通信系统常用的频率为315MHz、332MHz、2.4GHz等。其中常见的汽车无线钥匙信号一般工作在315MHz和433MHz两个频段上，蓝牙和Wi-Fi的工作频段在2.4GHz上。</p>
+<p>433MHz不仅用在汽车钥匙系统上，还有一些遥控门也采用该频段的无线信号来遥控门的开关。</p>
+</blockquote>
+</li>
+<li><p>分析步骤</p>
+<blockquote>
+<p>（1）查看无线信号使用的调制方式是什么</p>
+<p>（2）将抓取的无线信号转化成比特流</p>
+<p>（3）分析系统存在的漏洞缺陷</p>
+<p>（4）修复加固</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h2><p>在软件定义无线电的应用中最大的问题就是没有加密和防止重放攻击的方法，所以对与无线电信号的分析至关重要。</p>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《智能硬件安全》刘键皓 等编著；</em></strong></p>
+]]></content>
+      <categories>
+        <category>智能硬件安全</category>
+      </categories>
+      <tags>
+        <tag>智能硬件安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>智能硬件安全_笔记(0X04)</title>
+    <url>/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x04)/</url>
+    <content><![CDATA[<h1 id="智能电视盒子安全分析"><a href="#智能电视盒子安全分析" class="headerlink" title="智能电视盒子安全分析"></a>智能电视盒子安全分析</h1><h2 id="智能电视盒子安全威胁分析"><a href="#智能电视盒子安全威胁分析" class="headerlink" title="智能电视盒子安全威胁分析"></a>智能电视盒子安全威胁分析</h2><h3 id="系统被植入木马，恶意应用的风险"><a href="#系统被植入木马，恶意应用的风险" class="headerlink" title="系统被植入木马，恶意应用的风险"></a>系统被植入木马，恶意应用的风险</h3><p>目前主流的电视盒子的底层系统都是Android平台，应此存在被植入的Android应用，甚至是Android木马的风险。</p>
+<h2 id="智能电视遭受攻击的方式"><a href="#智能电视遭受攻击的方式" class="headerlink" title="智能电视遭受攻击的方式"></a>智能电视遭受攻击的方式</h2><h3 id="系统底层的攻击"><a href="#系统底层的攻击" class="headerlink" title="系统底层的攻击"></a>系统底层的攻击</h3><p>目前市面上大多智能电视是<code>Android TV</code>，由于Android原生代码中并没有开启身份验证和登录认证，一些厂商也没对智能电视的源码进行修改，直接通过root权限控制系统，导致市面上<code>Android TV</code>很容易被黑客攻击。攻击者往往可以直接获取电视盒子系统底层的权限。</p>
+<p>例如：很多电视盒子为了测试方便会开启Android远程adb接口，很多情况下这些接口被直接暴露在公网上。攻击者利用这些接口可以直接获取Android系统的root权限，种植root木马。</p>
+<p>一些智能电视盒子可以带有打开网页的功能，而很多智能电视盒子载入Web页面时使用了Android原生浏览器<code>WebView</code>组件，这个组件层爆出过多个高危漏洞，攻击者只需要因哟受害者打开一个精心构造的网页，便可以直接给系统底层种植木马。</p>
+<h3 id="云端服务器的攻击"><a href="#云端服务器的攻击" class="headerlink" title="云端服务器的攻击"></a>云端服务器的攻击</h3><p>智能盒子的视频内容都来自云端服务器，而一些厂商的云服务还都存在各种各样的安全漏洞，例如SQL注入、文件上传的传统Web漏洞。攻击者利用漏洞控制云服务器，进而可以通过推送<code>ota</code>升级、篡改云端接口等方法实现对智能电视短的攻击</p>
+<h3 id="电视盒子应用层的攻击"><a href="#电视盒子应用层的攻击" class="headerlink" title="电视盒子应用层的攻击"></a>电视盒子应用层的攻击</h3><p>有些电视盒子会在系统桑开启Web服务，与用户通过手机端调用Web API接口来实现对电视盒子的远程控制，例如操作遥控器、安装卸载应用。</p>
+<h2 id="智能电视盒子漏洞"><a href="#智能电视盒子漏洞" class="headerlink" title="智能电视盒子漏洞"></a>智能电视盒子漏洞</h2><ol>
+<li><p>利用APP非授权控制电视</p>
+<blockquote>
+<p>第三方APP未经授权与身份验证即可控制电视</p>
+</blockquote>
+</li>
+<li><p>智能电视信息泄露</p>
+<blockquote>
+<p>智能电视未对相关配置文件进行访问权限限制，在未经认证的情况下，任意用户都能访问智能电视的配置文件。</p>
+</blockquote>
+</li>
+<li><p>智能电视遥控器会话劫持漏洞</p>
+<blockquote>
+<p>控制信息传输过程中使用了未加密的HTTP协议，可造成在同语句往内通过分析智能电视控制参数，劫持智能遥控器控制权限的安全隐患。</p>
+</blockquote>
+</li>
+<li><p>绕过验证机制，远程任意APK安装漏洞</p>
+<blockquote>
+<p>智能电视使用手机请求安装APK功能时，是使用session id作为验证交互的，但验证session实在手机本地APP中进行验证的，从而造成了无需验证就可以安装任意的APK应用软件，并且利用该漏洞绕过未知的APK应用检测的情况</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="智能电视盒子类产品安全建议"><a href="#智能电视盒子类产品安全建议" class="headerlink" title="智能电视盒子类产品安全建议"></a>智能电视盒子类产品安全建议</h2><ol>
+<li>对于底层采用Android系统的电视盒子，首先应做好对Android西永的加固和防护，限制系统权限，不root系统，关闭远程<code>adb</code>调试接口，保持Android系统的版本更新，有必要的话可以安装反病毒软件。</li>
+<li>对于运行在系统上的应用程序，应遵循权限最小化原则，不授予应用不必要的权限，同事加强开发人员的安全培训，减少应用程序中的安全漏洞。</li>
+<li>对于云服务，设备厂商应加强对开发和运维人员的安全培训，较少开发中漏洞的产生。同事可部署相关的安全防护设备，防止黑客利用云服务的漏洞对企业、用户进行攻击。</li>
+</ol>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《智能硬件安全》刘键皓 等编著；</em></strong></p>
+]]></content>
+      <categories>
+        <category>智能硬件安全</category>
+      </categories>
+      <tags>
+        <tag>智能硬件安全</tag>
+      </tags>
+  </entry>
 </search>
