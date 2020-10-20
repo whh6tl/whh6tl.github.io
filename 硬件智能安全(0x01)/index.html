@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>智能硬件安全_笔记(0X01) | WHH's blog</title><meta name="description" content="手机PK终端安全分析法APK及其基本结构APK的基本结构Android应用程序包未见(APK)是亿中Android操作系统上的应用程序安装文件格式。 一个APK文件内包含被编译的代码文件(.dex文件)、资源文件、assets、证书、清单文件。 classes.dexclasses.dex是将程序中的类和逻辑代码编译成Dalvik虚拟机可以理解的dex文件格式，由Dalvik虚拟机加载并运行。 A"><meta name="keywords" content="智能硬件安全"><meta name="author" content="whh6tl"><meta name="copyright" content="whh6tl"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://whh6tl.github.io/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x01)/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="智能硬件安全_笔记(0X01)"><meta property="og:url" content="https://whh6tl.github.io/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x01)/"><meta property="og:site_name" content="WHH's blog"><meta property="og:description" content="手机PK终端安全分析法APK及其基本结构APK的基本结构Android应用程序包未见(APK)是亿中Android操作系统上的应用程序安装文件格式。 一个APK文件内包含被编译的代码文件(.dex文件)、资源文件、assets、证书、清单文件。 classes.dexclasses.dex是将程序中的类和逻辑代码编译成Dalvik虚拟机可以理解的dex文件格式，由Dalvik虚拟机加载并运行。 A"><meta property="og:image" content="https://i.loli.net/2020/10/20/lteXZ4EQ5oTyAjM.jpg"><meta property="article:published_time" content="2020-10-20T13:00:00.000Z"><meta property="article:modified_time" content="2020-10-20T07:55:37.495Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-20 15:55:37'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">45</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">19</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%8B%E6%9C%BAPK%E7%BB%88%E7%AB%AF%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">手机PK终端安全分析法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#APK%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">APK及其基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#APK%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">APK的基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#classes-dex"><span class="toc-number">1.1.2.</span> <span class="toc-text">classes.dex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AndroidManifest-xml"><span class="toc-number">1.1.3.</span> <span class="toc-text">AndroidManifest.xml</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="toc-number">1.2.</span> <span class="toc-text">反编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E7%BC%96%E8%AF%91Dalvik%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.1.</span> <span class="toc-text">反编译Dalvik字节码文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E5%9B%BA%E4%BB%B6%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">设备固件安全分析方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">固件概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E4%B8%B2%E5%8F%A3%E8%8E%B7%E5%8F%96shell"><span class="toc-number">2.2.</span> <span class="toc-text">调试串口获取shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E4%B8%B2%E5%8F%A3"><span class="toc-number">2.2.1.</span> <span class="toc-text">寻找串口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90"><span class="toc-number">2.2.2.</span> <span class="toc-text">获取访问控制权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%9B%BA%E4%BB%B6"><span class="toc-number">2.3.</span> <span class="toc-text">调试固件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Binwalk%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">2.3.1.</span> <span class="toc-text">Binwalk信息收集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5IDA%E5%88%86%E6%9E%90"><span class="toc-number">2.3.2.</span> <span class="toc-text">导入IDA分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E7%AB%A0%E5%B0%8F%E7%BB%93"><span class="toc-number">2.4.</span> <span class="toc-text">本章小结</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/10/20/lteXZ4EQ5oTyAjM.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">WHH's blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">智能硬件安全_笔记(0X01)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-20T13:00:00.000Z" title="发表于 2020-10-20 21:00:00">2020-10-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-20T07:55:37.495Z" title="更新于 2020-10-20 15:55:37">2020-10-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%99%BA%E8%83%BD%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/">智能硬件安全</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="手机PK终端安全分析法"><a href="#手机PK终端安全分析法" class="headerlink" title="手机PK终端安全分析法"></a>手机PK终端安全分析法</h1><h2 id="APK及其基本结构"><a href="#APK及其基本结构" class="headerlink" title="APK及其基本结构"></a>APK及其基本结构</h2><h3 id="APK的基本结构"><a href="#APK的基本结构" class="headerlink" title="APK的基本结构"></a>APK的基本结构</h3><p>Android应用程序包未见(APK)是亿中Android操作系统上的应用程序安装文件格式。</p>
+<p>一个APK文件内包含被编译的代码文件(<code>.dex</code>文件)、资源文件、assets、证书、清单文件。</p>
+<h3 id="classes-dex"><a href="#classes-dex" class="headerlink" title="classes.dex"></a>classes.dex</h3><p>classes.dex是将程序中的类和逻辑代码编译成Dalvik虚拟机可以理解的dex文件格式，由Dalvik虚拟机加载并运行。</p>
+<h3 id="AndroidManifest-xml"><a href="#AndroidManifest-xml" class="headerlink" title="AndroidManifest.xml"></a>AndroidManifest.xml</h3><p>每个应用的根目录中都必须包含一个AndroidManifesr.xml文件，这个清单文件为Android系统提供有关应用的基本信息，例如：应用名、版本、所需权限、只测的服务、应用的库文件等，系统必须获得这些信息才能运行应用代码。</p>
+<blockquote>
+<p>该文件在打包时会被编译成二进制XML格式，可以使用共计反编译回XML文本格式。</p>
+</blockquote>
+<h2 id="反编译"><a href="#反编译" class="headerlink" title="反编译"></a>反编译</h2><h3 id="反编译Dalvik字节码文件"><a href="#反编译Dalvik字节码文件" class="headerlink" title="反编译Dalvik字节码文件"></a>反编译Dalvik字节码文件</h3><p>先将APK解压，找到classes.dex文件。</p>
+<ol>
+<li><p><strong>反编译为<code>smali</code>代码</strong></p>
+<p> 使用apktool.jsr反编译APK文件，命令格式为：</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool.jar d APK文件 -o 输出目录</span><br></pre></td></tr></table></figure>
+
+<p> smali目录中的文件即为反编译处的代码</p>
+</li>
+<li><p>反编译为jar包</p>
+<p> 使用dex2jar反编译calsses.dex文件，编译完成后可用JD-GUI等工具打开查看</p>
+</li>
+</ol>
+<h1 id="设备固件安全分析方法"><a href="#设备固件安全分析方法" class="headerlink" title="设备固件安全分析方法"></a>设备固件安全分析方法</h1><h2 id="固件概述"><a href="#固件概述" class="headerlink" title="固件概述"></a>固件概述</h2><p>固件就是写入EROM（eraseable Read-Only Memory，可擦制度存储器）、EEPROM（电可擦可编程只读存储器）</p>
+<h2 id="调试串口获取shell"><a href="#调试串口获取shell" class="headerlink" title="调试串口获取shell"></a>调试串口获取shell</h2><h3 id="寻找串口"><a href="#寻找串口" class="headerlink" title="寻找串口"></a>寻找串口</h3><p>在PCB主板上寻找串口，采用观察法，利用万用表和串口数据接收工具基本可以定位到串口的位置。</p>
+<p>一般情况下，串口至少包含以下四个引脚：</p>
+<ul>
+<li>VCC：电源电压，该引脚表明串口工作电压</li>
+<li>GND：接地，该引脚电压通常与PCB地短接</li>
+<li>TXD：数据发送引脚</li>
+<li>RXD：数据接收引脚</li>
+</ul>
+<p>对于没有直接标明串口的PCB主板，在寻找串口时主要步骤为观察和验证</p>
+<ol>
+<li><p>观察</p>
+<blockquote>
+<p>通过万用表探测与其他GND短接的引脚，那么这一根就是GND，进而根据电势差寻找VCC.</p>
+<p>VCC引脚的特点：</p>
+<p>（1）VCC引脚通常被画成方形，其他引脚为圆形。</p>
+<p>（2）串口端的VCC电压几乎不是3.3V就是5V。</p>
+</blockquote>
+</li>
+<li><p>验证</p>
+<blockquote>
+<p>单独引出所怀疑的引脚后分别尝试接到计算机串口的RXD商，给板子供电后查看计算机串口调试工具有误数据或者字符串输出。厂商通常使用的破特率为115200,如果这个波特率下没有数据输出则尝试其他波特率。</p>
+<p>如果最终没有输出，则这个结构要么不是串口，要么就是为安全起见固件程序并没有在串口上输出数据。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="获取访问控制权限"><a href="#获取访问控制权限" class="headerlink" title="获取访问控制权限"></a>获取访问控制权限</h3><p>以某款摄像头为例，通过USB-RS232接诶摄像头的串口至PC机，在给摄像头上电后，可以看到PC机串口调试工具显示出的log信息，如下如所示</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/20/H1hBMrpYxtjNiLF.png"></p>
+<p>通过打断u-boot引导可以得知摄像头u-boot所支持的一些命令，这些命令可能已经对摄像头构成安全隐患了。</p>
+<h2 id="调试固件"><a href="#调试固件" class="headerlink" title="调试固件"></a>调试固件</h2><h3 id="Binwalk信息收集"><a href="#Binwalk信息收集" class="headerlink" title="Binwalk信息收集"></a>Binwalk信息收集</h3><p>前提：分析固件文件首先需要了解文件结构、编程语言指令集、运行系统、文件压缩格式等。</p>
+<p>首先可以用Binwalk初步扫描分析固件结构</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> binwalk NOE77101.bin</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以使用WinHex直接查看二进制文件。</p>
+<h3 id="导入IDA分析"><a href="#导入IDA分析" class="headerlink" title="导入IDA分析"></a>导入IDA分析</h3><p>固件导入IDA，一般需要以下几个步骤：</p>
+<ol>
+<li>识别处理器类型，结合指令集编写解析模块插件。</li>
+<li>结合处理器修复代码中的函数位置</li>
+<li>确定固件代码段基址</li>
+<li>重构符号表</li>
+</ol>
+<h2 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h2><p>固件分析是基本功</p>
+<p>首先定位固件的存放位置，一般固件都存放在Flash芯片中，可以使用编程器通过Flash芯片把固件读取成二进制文件，或者下载bin文件。</p>
+<p>然后需要使用固件分析软件将固件解压，对程序进行分析。</p>
+<p>对于解压后是二进制的文件，需要导入IDA来分析流程和逻辑。</p>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《智能硬件安全》刘键皓 等编著；</em></strong></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Wthh6tl</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://whh6tl.github.io/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x01)/">https://whh6tl.github.io/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x01)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://whh6tl.github.io" target="_blank">WHH's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%99%BA%E8%83%BD%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/">智能硬件安全</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/10/20/lteXZ4EQ5oTyAjM.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/10/12/bgDoOV1CEkGPMf8.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">汇编指令集</div></div></a></div><div class="next-post pull-right"><a href="/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x04/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">逆向（调试）学习笔记(0X04)</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://i.loli.net/2020/10/20/lteXZ4EQ5oTyAjM.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By whh6tl</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'cI4aeIGeJ1JoT9EuyAoPpBC9-gzGzoHsz',
+      appKey: 'pr9R4Ncy9tGPb0PO9C3DmMnp',
+      placeholder: '...',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://leancloud.cn/',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script></div></body></html>
