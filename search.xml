@@ -2597,7 +2597,7 @@
   <entry>
     <title>智能硬件安全_笔记(0X01)</title>
     <url>/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x01)/</url>
-    <content><![CDATA[<h1 id="手机PK终端安全分析法"><a href="#手机PK终端安全分析法" class="headerlink" title="手机PK终端安全分析法"></a>手机PK终端安全分析法</h1><h2 id="APK及其基本结构"><a href="#APK及其基本结构" class="headerlink" title="APK及其基本结构"></a>APK及其基本结构</h2><h3 id="APK的基本结构"><a href="#APK的基本结构" class="headerlink" title="APK的基本结构"></a>APK的基本结构</h3><p>Android应用程序包未见(APK)是亿中Android操作系统上的应用程序安装文件格式。</p>
+    <content><![CDATA[<h1 id="手机APK终端安全分析法"><a href="#手机APK终端安全分析法" class="headerlink" title="手机APK终端安全分析法"></a>手机APK终端安全分析法</h1><h2 id="APK及其基本结构"><a href="#APK及其基本结构" class="headerlink" title="APK及其基本结构"></a>APK及其基本结构</h2><h3 id="APK的基本结构"><a href="#APK的基本结构" class="headerlink" title="APK的基本结构"></a>APK的基本结构</h3><p>Android应用程序包未见(APK)是亿中Android操作系统上的应用程序安装文件格式。</p>
 <p>一个APK文件内包含被编译的代码文件(<code>.dex</code>文件)、资源文件、assets、证书、清单文件。</p>
 <h3 id="classes-dex"><a href="#classes-dex" class="headerlink" title="classes.dex"></a>classes.dex</h3><p>classes.dex是将程序中的类和逻辑代码编译成Dalvik虚拟机可以理解的dex文件格式，由Dalvik虚拟机加载并运行。</p>
 <h3 id="AndroidManifest-xml"><a href="#AndroidManifest-xml" class="headerlink" title="AndroidManifest.xml"></a>AndroidManifest.xml</h3><p>每个应用的根目录中都必须包含一个AndroidManifesr.xml文件，这个清单文件为Android系统提供有关应用的基本信息，例如：应用名、版本、所需权限、只测的服务、应用的库文件等，系统必须获得这些信息才能运行应用代码。</p>
