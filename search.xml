@@ -2607,7 +2607,7 @@
 <h2 id="反编译"><a href="#反编译" class="headerlink" title="反编译"></a>反编译</h2><h3 id="反编译Dalvik字节码文件"><a href="#反编译Dalvik字节码文件" class="headerlink" title="反编译Dalvik字节码文件"></a>反编译Dalvik字节码文件</h3><p>先将APK解压，找到classes.dex文件。</p>
 <ol>
 <li><p><strong>反编译为<code>smali</code>代码</strong></p>
-<p> 使用apktool.jsr反编译APK文件，命令格式为：</p>
+<p> 使用apktool.jar反编译APK文件，命令格式为：</p>
  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java -jar apktool.jar d APK文件 -o 输出目录</span><br></pre></td></tr></table></figure>
 
 <p> smali目录中的文件即为反编译处的代码</p>
@@ -3002,7 +3002,7 @@
     <url>/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%AF%BC%E8%88%AA/</url>
     <content><![CDATA[<ol>
 <li><h2 id="智能硬件安全-笔记-0X01"><a href="#智能硬件安全-笔记-0X01" class="headerlink" title="智能硬件安全_笔记(0X01)"></a>智能硬件安全_笔记(0X01)</h2><blockquote>
-<p>《手机PK终端安全分析法》、《设备固件安全分析方法》</p>
+<p>《手机APK终端安全分析法》、《设备固件安全分析方法》</p>
 <p><a href="http://www.whh6tl.com/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x01)/">笔记0X01</a></p>
 </blockquote>
 </li>
