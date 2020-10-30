@@ -3634,7 +3634,7 @@
       </tags>
   </entry>
   <entry>
-    <title>ARM汇编学习笔记(0X01)</title>
+    <title>ARM汇编学习笔记(0X02)</title>
     <url>/ARM%E6%B1%87%E7%BC%9602/</url>
     <content><![CDATA[<h1 id="编写ARM汇编语言"><a href="#编写ARM汇编语言" class="headerlink" title="编写ARM汇编语言"></a>编写ARM汇编语言</h1><h2 id="将常数加载到寄存器"><a href="#将常数加载到寄存器" class="headerlink" title="将常数加载到寄存器"></a>将常数加载到寄存器</h2><h3 id="用MOV和MVN直接加载"><a href="#用MOV和MVN直接加载" class="headerlink" title="用MOV和MVN直接加载"></a>用MOV和MVN直接加载</h3><p>在 ARM 和 Thumb-2 中，可以使用 32 位 MOV 和 MVN 指令直接将一系列常数值加载 到寄存器中。<br>16 位 Thumb MOV 指令可以加载位于范围 0 到 255 内的任何常数。 不能使用 16 位MVN 指令加载常数。    </p>
 <h2 id="将地址加载到寄存器中"><a href="#将地址加载到寄存器中" class="headerlink" title="将地址加载到寄存器中"></a>将地址加载到寄存器中</h2><p>通常需要将地址加到寄存器中。 可能需要加载变量、字符串常数或跳转表的起 始位置的地址。</p>
