@@ -3633,4 +3633,48 @@
         <tag>ARM汇编</tag>
       </tags>
   </entry>
+  <entry>
+    <title>ARM汇编学习笔记(0X01)</title>
+    <url>/ARM%E6%B1%87%E7%BC%9602/</url>
+    <content><![CDATA[<h1 id="编写ARM汇编语言"><a href="#编写ARM汇编语言" class="headerlink" title="编写ARM汇编语言"></a>编写ARM汇编语言</h1><h2 id="将常数加载到寄存器"><a href="#将常数加载到寄存器" class="headerlink" title="将常数加载到寄存器"></a>将常数加载到寄存器</h2><h3 id="用MOV和MVN直接加载"><a href="#用MOV和MVN直接加载" class="headerlink" title="用MOV和MVN直接加载"></a>用MOV和MVN直接加载</h3><p>在 ARM 和 Thumb-2 中，可以使用 32 位 MOV 和 MVN 指令直接将一系列常数值加载 到寄存器中。<br>16 位 Thumb MOV 指令可以加载位于范围 0 到 255 内的任何常数。 不能使用 16 位MVN 指令加载常数。    </p>
+<h2 id="将地址加载到寄存器中"><a href="#将地址加载到寄存器中" class="headerlink" title="将地址加载到寄存器中"></a>将地址加载到寄存器中</h2><p>通常需要将地址加到寄存器中。 可能需要加载变量、字符串常数或跳转表的起 始位置的地址。</p>
+<h3 id="用-ADR-和-ADRL-直接加载"><a href="#用-ADR-和-ADRL-直接加载" class="headerlink" title="用 ADR 和 ADRL 直接加载"></a>用 ADR 和 ADRL 直接加载</h3><p>利用 ADR 指令和 ADRL 伪指令，无需执行数据加载即可生成位于某一范围内的地址。A</p>
+<p>ADR 可用范围因指令集而异： </p>
+<p>ARM        ±255 到字节或半字对齐的地址。 ±1020 字节到字对齐的地址。</p>
+<p>32 位 Thumb-2         ±4095 字节到字节、半字或字对齐的地址。</p>
+<p>16 位 Thumb        0 到 1020 字节。label 必须为字对齐。 可以使用 ALIGN 指令确保这一点。</p>
+<h3 id="加载和存储可在-ARM-和-Thumb-中使用的多个指令"><a href="#加载和存储可在-ARM-和-Thumb-中使用的多个指令" class="headerlink" title="加载和存储可在 ARM 和 Thumb 中使用的多个指令"></a>加载和存储可在 ARM 和 Thumb 中使用的多个指令</h3><h1 id="ARM-和-Thumb-指令"><a href="#ARM-和-Thumb-指令" class="headerlink" title="ARM 和 Thumb 指令"></a>ARM 和 Thumb 指令</h1><h2 id="乘法指令"><a href="#乘法指令" class="headerlink" title="乘法指令"></a>乘法指令</h2><h3 id="MUL、MLA、和MLS"><a href="#MUL、MLA、和MLS" class="headerlink" title="MUL、MLA、和MLS"></a>MUL、MLA、和MLS</h3><blockquote>
+<p>乘法，乘加，乘减，有符号或无符号的32位操作数，结果取低32位。</p>
+</blockquote>
+<p>语法：</p>
+<p>MUL Rd,Rn,Rm</p>
+<blockquote>
+<p>MUL指令将Rm,和Rn中的值相乘，将结果的低32位存入Rd。</p>
+</blockquote>
+<p>MLA Rd,Rn,Rm,Ra</p>
+<blockquote>
+<p>MLA 指令可将 Rn 和 Rm 中的值相乘，然后再将乘积与 Ra 中的值相加，最后将所得 和的低 32 位存入 Rd。</p>
+</blockquote>
+<p>MLS Rd,Rn,Rm,Ra</p>
+<blockquote>
+<p>MLS 指令可将 Rn 和 Rm 中的值相乘，然后再从 Ra 中的值中减去乘积，最后将所得 差的低 32 位存入 Rd。</p>
+</blockquote>
+<h2 id="饱和指令"><a href="#饱和指令" class="headerlink" title="饱和指令"></a>饱和指令</h2><h3 id="QADD、QSUB、QDADD-和-QDSUB"><a href="#QADD、QSUB、QDADD-和-QDSUB" class="headerlink" title="QADD、QSUB、QDADD 和 QDSUB"></a>QADD、QSUB、QDADD 和 QDSUB</h3><p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">op&#123;cond&#125; &#123;Rd&#125;, Rm, Rn</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>QADD</code> 指令可将 Rm 和 Rn 中的值相加。 </p>
+<p><code>QSUB</code> 指令可从 Rm 中的值中减去 Rn 中的值。</p>
+<p><code>QDADD</code> 指令可计算 SAT(Rm + SAT(Rn * 2))。 进行加倍和加法运算均有可能出现饱 和。 如果加倍运算发生饱和，而加法运算没有出现饱和，则将设置 Q 标记，但最 终结果是不饱和的。</p>
+<p><code>QDSUB</code> 指令可计算 SAT(Rm - SAT(Rn * 2))。 进行加倍和加法运算均有可能出现饱 和。 如果加倍运算发生饱和，而加法运算没有出现饱和，则将设置 Q 标记，但最<br>终结果是不饱和的。</p>
+</blockquote>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习途径是《ARM汇编语言官方手册》</em></p>
+]]></content>
+      <categories>
+        <category>ARM汇编</category>
+      </categories>
+      <tags>
+        <tag>ARM汇编</tag>
+      </tags>
+  </entry>
 </search>
