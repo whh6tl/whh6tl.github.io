@@ -1965,7 +1965,48 @@
   <entry>
     <title>固件逆向学习笔记(0X01)</title>
     <url>/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%9101/</url>
-    <content><![CDATA[<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
+    <content><![CDATA[<p>网上看到有人逆向小米的note3的rom，固件逆向资料比较少，只看理论必不行，研究了研究后大体搞明白了，不明白的时候感觉好复杂好难，研究完后…就这？瞬间感觉拿不出手了，但是还是写一篇来记录一下，以后还可以返回来看一看。</p>
+<h1 id="下载rom"><a href="#下载rom" class="headerlink" title="下载rom"></a>下载rom</h1><p>首先下载小米note3的rom，下载地址：</p>
+<p><a href="https://www.miui.com/download.html">小米官网固件下载</a></p>
+<p>选择好以后下载就ok</p>
+<h1 id="br转换dat"><a href="#br转换dat" class="headerlink" title="br转换dat"></a>br转换dat</h1><blockquote>
+<p>下载好之后解压zip包，按说解压后里边应该有system.img文件的，但是并没有，android5开始以后没有system.img文件了，而是改为system.new.dat，小米里边却是一个system.new.dat.br，于是上网继续学习br文件转换为dat文件，找到一个好用的工具，比较舒适，叫<a href="https://github.com/google/brotli/releases">brotli</a>，在brotli.exe路径下进入cmd，执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">brotli.exe -d system.new.dat.br</span><br></pre></td></tr></table></figure>
+
+<p>之后会自动生成dat文件</p>
+</blockquote>
+<h1 id="dat转换img"><a href="#dat转换img" class="headerlink" title="dat转换img"></a>dat转换img</h1><p>得到dat文件之后就需要system.img文件了，网上各种方法都有，最终自己总结了一下最简便的一个工具，《ROM制作工具RomMakeTool》</p>
+<p>使用方法如图</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/YwPxgziE3OmvHD1.png"></p>
+<h1 id="img解压system目录"><a href="#img解压system目录" class="headerlink" title="img解压system目录"></a>img解压system目录</h1><p>得到system.img文件后就需要转换system文件目录了，从网上搜一个system.img转换工具，或者继续使用上边的工具</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/ZahlYAH95x7Xe6L.png"></p>
+<h1 id="提取odex"><a href="#提取odex" class="headerlink" title="提取odex"></a>提取odex</h1><p>解压完后就会得到一个system目录，如果有dex文件那就直接到dex转jar步骤，没有的话就需要找odex文件了，odex文件路径参考：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;system&#x2F;priv-app&#x2F;Settings&#x2F;oat&#x2F;arm64&#x2F;Settings.odex</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="odex转换dex"><a href="#odex转换dex" class="headerlink" title="odex转换dex"></a>odex转换dex</h1><p>找到odex文件后，需要现在工具来先转换成为samli文件，然后再将samli文件转换为dex格式。</p>
+<ol>
+<li><p>baksmali.jar 用于将odex解析成smali的工具。<br> 下载地址<a href="https://bitbucket.org/JesusFreke/smali/downloads/">baksmali.jar</a></p>
+ <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">java -jar baksmali.jar de Settings.odex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>smali.jar 将smali文件转出成dex文件</p>
+<p> 下载地址<a href="https://bitbucket.org/JesusFreke/smali/downloads/">smali.jar 下载地址</a></p>
+ <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">java -jar smali.jar a out -o Settings.dex</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="dex转换jar"><a href="#dex转换jar" class="headerlink" title="dex转换jar"></a>dex转换jar</h1><p>dex文件还不能直接打开，需要转换成jar格式，转化工具使用dex2jar。</p>
+<p>命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java d2j-dex2jar.bat Settings.dex</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在转换的时候可能会报错，提示版本不匹配之类的。查了查资料，发现原因并不是出现在dex2jar的工具版本中，是出在dex文件中，dex2jar工具定义dex头是35或36才行，然后打开dex文件看一下dex头，果然，dex头是39。</p>
+<p>然后使用工具WinHex打开dex文件，将dex头改为36，再用dex2jar，成功生成jar文件。</p>
+</blockquote>
+<h1 id="jd-jui分析jar包"><a href="#jd-jui分析jar包" class="headerlink" title="jd-jui分析jar包"></a>jd-jui分析jar包</h1><p>最后就是使用jd-jui分析得到的jar包了<img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/IfOae5E4Y89JtHu.png"></p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
+<p>参考链接：<a href="https://blog.csdn.net/feiduclear_up/article/details/79443205">https://blog.csdn.net/feiduclear_up/article/details/79443205</a></p>
 ]]></content>
       <categories>
         <category>固件逆向</category>
