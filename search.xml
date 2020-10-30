@@ -1980,7 +1980,7 @@
 <p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/YwPxgziE3OmvHD1.png"></p>
 <h1 id="img解压system目录"><a href="#img解压system目录" class="headerlink" title="img解压system目录"></a>img解压system目录</h1><p>得到system.img文件后就需要转换system文件目录了，从网上搜一个system.img转换工具，或者继续使用上边的工具</p>
 <p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/ZahlYAH95x7Xe6L.png"></p>
-<h1 id="提取odex"><a href="#提取odex" class="headerlink" title="提取odex"></a>提取odex</h1><p>解压完后就会得到一个system目录，如果有dex文件那就直接到dex转jar步骤，没有的话就需要找odex文件了，odex文件路径参考：</p>
+<h1 id="提取odex"><a href="#提取odex" class="headerlink" title="提取odex"></a>提取odex</h1><p>解压完后就会得到一个system目录，APK文件内如果有dex文件那就直接到dex转jar步骤，没有的话就需要找odex文件了，odex文件路径参考：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;system&#x2F;priv-app&#x2F;Settings&#x2F;oat&#x2F;arm64&#x2F;Settings.odex</span><br></pre></td></tr></table></figure>
 
 
