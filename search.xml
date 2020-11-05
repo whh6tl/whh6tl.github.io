@@ -917,8 +917,75 @@
   <entry>
     <title>Wi-Fi协议笔记(0X01)</title>
     <url>/Wi-Fi%E5%8D%8F%E8%AE%AE01/</url>
-    <content><![CDATA[<p>暂空，将之后要学习的内容列出来</p>
-<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
+    <content><![CDATA[<h1 id="网络概论"><a href="#网络概论" class="headerlink" title="网络概论"></a>网络概论</h1><h2 id="802-11相关术语及其设计"><a href="#802-11相关术语及其设计" class="headerlink" title="802.11相关术语及其设计"></a>802.11相关术语及其设计</h2><p>802.11网络包含四种主要物理组件。包括：</p>
+<ul>
+<li><p>工作站</p>
+<blockquote>
+<p>所谓的工作站，就是配备无线网络接口的计算设备。例如笔记本等设备。</p>
+</blockquote>
+</li>
+<li><p>接入点</p>
+<blockquote>
+<p>具备无线至有线的桥接功能的设备成为接入点（AP）。接入点的功能不止于此，但桥接最为重要。</p>
+</blockquote>
+</li>
+<li><p>无线媒介</p>
+<blockquote>
+<p>802.11标准已以无线媒介在工作站之间传递帧</p>
+</blockquote>
+</li>
+<li><p>分布式系统</p>
+<blockquote>
+<p>分布式系统属于802.11的逻辑组件，负责将传送至目的地。</p>
+</blockquote>
+</li>
+</ul>
+<p>802.11允许我们将几个BSS串联为扩展服务集，借此扩展无线网络的覆盖区域。所谓ESS，就是利用骨干网络将几个BSS串联在一起。所有位于同一个ESS的接入点将会使用相同的服务组标识符（SSID），也就是用户所谓的网络“名称”。</p>
+<blockquote>
+<p>BSS  使用相同身份识别码（ssid）的一个单一访问点(single ap)以及一个无线设备群组，组成一个基本服务组（basic service set，bss）。必须使用相同的ssid。使用不同ssid的设备彼此之间不能进行通信。</p>
+<p> ESS  使用相同身份识别码（ssid）的多个访问点(multi ap)以及一个无线设备群组，组成一个扩展服务组（extendedservice set，ess）。</p>
+</blockquote>
+<p>隶属同一个ESS的工作站可以互相通信。</p>
+<h2 id="802-11网络的运作方式"><a href="#802-11网络的运作方式" class="headerlink" title="802.11网络的运作方式"></a>802.11网络的运作方式</h2><h3 id="网络服务"><a href="#网络服务" class="headerlink" title="网络服务"></a>网络服务</h3><p>802.1一共可以提供9种服务，其中三种用来传递数据、其余6种均做管理操作。目的是让让罗能够追踪移动节点并传递帧。</p>
+<h4 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h4><blockquote>
+<p>只要基础结构型网络里的移动式工作站传送任何数据就会使用这项服务，一点接入点接收到帧，就会使用分布式服务将帧送至目的地。</p>
+<p>任何使用接入点的通信都会通过分布式服务传播，包括关联至同一个接入点的两个移动式工作站的互相通信。</p>
+</blockquote>
+<h4 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h4><blockquote>
+<p>整合服务由分布式系统提供，它让分布式系统得以连接至非IEEE 802.11网络。</p>
+</blockquote>
+<h4 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h4><blockquote>
+<p>之所以能够将帧传递给移动式工作站，是因为移动式工作站会将接入点登记或与接入点产生关联。产生关联后，分布式系统可根据这些登记信息判断哪个移动式工作站该使用哪个接入点。</p>
+</blockquote>
+<h4 id="重新关联"><a href="#重新关联" class="headerlink" title="重新关联"></a>重新关联</h4><blockquote>
+<p>当移动式工作站在服务器与内移动时，它必须随时判断信号的强弱，并在必要时切换关联的接入点。</p>
+</blockquote>
+<h4 id="取消关联"><a href="#取消关联" class="headerlink" title="取消关联"></a>取消关联</h4><blockquote>
+<p>当工作站启动取消关联服务时，存储于分布式系统的关联数据随即会被移除。一旦取消关联，工作站即不在附接在网络上。</p>
+</blockquote>
+<h4 id="身份验证"><a href="#身份验证" class="headerlink" title="身份验证"></a>身份验证</h4><blockquote>
+<p>关联之前，工作站会以本身的MAC地址来跟接入点进行身份验证。</p>
+</blockquote>
+<h2 id="移动性的支持"><a href="#移动性的支持" class="headerlink" title="移动性的支持"></a>移动性的支持</h2><p>802.11所提供的的移动性存在于链路层的基本服务区域之间。</p>
+<p>就802.11而言，接入点之间可能存在三种转换：</p>
+<ul>
+<li><p>不转换</p>
+<blockquote>
+<p>如果工作站未离开当前接入点的服务范围，就无需转换。</p>
+</blockquote>
+</li>
+<li><p>BSS转换</p>
+<blockquote>
+<p>同ESS内切换BSS访问点。</p>
+</blockquote>
+</li>
+<li><p>ESS转换</p>
+<blockquote>
+<p>从某个ESS移动至另一个ESS。802.11并未支持此类切换，不过允许工作站在离开第一个ESS范文智能的接入点之后与第二个ESS范围内的接入点关联。</p>
+</blockquote>
+</li>
+</ul>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
 ]]></content>
       <categories>
         <category>网络通信协议</category>
