@@ -3785,4 +3785,132 @@
         <tag>ARM汇编</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Wi-Fi协议笔记(0X02)</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE02/</url>
+    <content><![CDATA[<h1 id="802-11MAC基础"><a href="#802-11MAC基础" class="headerlink" title="802.11MAC基础"></a>802.11MAC基础</h1><h2 id="MAC所面临的挑战"><a href="#MAC所面临的挑战" class="headerlink" title="MAC所面临的挑战"></a>MAC所面临的挑战</h2><h3 id="射频链路品质"><a href="#射频链路品质" class="headerlink" title="射频链路品质"></a>射频链路品质</h3><p>和其他链路层协议不同，802.11采用<strong>肯定确认</strong>机制，即所有传送出去的帧都必须得到响应，只要有任何一个环节失败，该帧即被视为已经遗失。</p>
+<h3 id="隐藏节点的问题"><a href="#隐藏节点的问题" class="headerlink" title="隐藏节点的问题"></a>隐藏节点的问题</h3><p>物理的媒介线路中包含的信号，而且会传输至网络各个节点。无线网络的界限比较模糊，有时候并不是每个节点都跟其他节点直接通信。</p>
+<h3 id="MAC访问模式与时机"><a href="#MAC访问模式与时机" class="headerlink" title="MAC访问模式与时机"></a>MAC访问模式与时机</h3><blockquote>
+<p>无线介质资源的访问控制方式分为DCF和PCF两种：DCF是基于竞争机制，多个分布式无线节点抢同一资源；</p>
+<p>PCF使用无竞争模式所有的带宽分配都由一个全局的Point控制。</p>
+<p>HCF（混合协调功能）允许服务站维护多组服务队列，针对需要更高服务质量的应用提供更多的无线媒介访问机会。</p>
+<p> 目前绝大多数无线设备使用DCF模式。</p>
+</blockquote>
+<h3 id="载监听功能和网络矢量分配"><a href="#载监听功能和网络矢量分配" class="headerlink" title="载监听功能和网络矢量分配"></a>载监听功能和网络矢量分配</h3><p>载波监听主要用来判断媒介是否处于可用状态，802.11具备两种载波监听功能：</p>
+<ul>
+<li><p>物理载波监听</p>
+<blockquote>
+<p>物理载波监听功能由物理层所提供，取决于所使用的媒介与调试方式。</p>
+</blockquote>
+</li>
+<li><p>虚拟载波监听</p>
+<blockquote>
+<p>虚拟载波监听是由网络分配矢量所提供，802.11的帧通常会分配一个Duration的字段，用来预定一段媒介的使用时间。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="利用DCF进行基于竞争的访问"><a href="#利用DCF进行基于竞争的访问" class="headerlink" title="利用DCF进行基于竞争的访问"></a>利用DCF进行基于竞争的访问</h2><p>大部分的传输操作均会采用DCF(分布式协调功能)。DCF允许多个独立的工作站互相交互，无需通过中心控制节点。因此可以用户IBSS网络或基础结构网络。</p>
+<p>试图传输数据之前，工作站必须查看媒介是否处于闲置状态，若处于忙碌状态，工作站必须延迟访问并使用DCF的传输中将会运用到的两项基本规则。</p>
+<blockquote>
+<p>DIFS全称(Distributed Inter-frame Spacing,DIFS)分布式帧间间隙</p>
+</blockquote>
+<ul>
+<li>如果媒介限制时间长于DIFS，便可立即进行传输。</li>
+<li>如果媒介处于忙碌状态，则工作站必须等候至信道再度闲置，802.11称之为访问延迟。</li>
+</ul>
+<h2 id="帧的分段与重组"><a href="#帧的分段与重组" class="headerlink" title="帧的分段与重组"></a>帧的分段与重组</h2><p>来自叫上层的封包以及某些较大型的管理帧可能必须经过分段，无线信道才有办法加以传送。</p>
+<p>当干扰存在时，分段封包也有主页提升可靠性。利用帧的分段，无线局域网工作站可以干扰只影响娇小的帧片段，而非较大的帧。</p>
+<h2 id="帧格式"><a href="#帧格式" class="headerlink" title="帧格式"></a>帧格式</h2><p>为迎接无线数据链路所带来的挑战，MAC被迫采用了许多特殊的功能，其中包括使用四个地址字段。这些地址字段值也会因为MAC帧类型的不同而有所差异。</p>
+<p>字段顺序由左至右，<strong>最高有效位</strong>将会<strong>最后出现</strong></p>
+<h2 id="Frame-Control字段"><a href="#Frame-Control字段" class="headerlink" title="Frame Control字段"></a>Frame Control字段</h2><p>所有帧的开头均是长为两个字节的Frame Control（帧控制）字段，该字段包括以下字段：</p>
+<ul>
+<li><p>Protocol字段</p>
+<blockquote>
+<p>Protocol（协议版本）字段由两位构成，用以显示该帧所使用的MAC版本。</p>
+</blockquote>
+</li>
+<li><p>Type与Subtype字段</p>
+<blockquote>
+<p>Type（类型）与Subtype（子类型）字段用来指定使用的帧类型。</p>
+</blockquote>
+</li>
+</ul>
+<pre><code>![](https://i.loli.net/2020/11/05/28n3JvP9jGSAb6M.png)</code></pre>
+<ul>
+<li><p>To DS与From DS</p>
+<blockquote>
+<p>这两个帧用来指示目的地是否为分布式系统。</p>
+</blockquote>
+</li>
+<li><p>More fragments位</p>
+<blockquote>
+<p>较上层的封包经过MAC分段处理，除了最后一个片段，其他片段均会将此位设定为1。</p>
+<p>大型的数据帧以及某些管理帧可能需要加一分段，除此之外的其他帧会将此位设定为0。</p>
+</blockquote>
+</li>
+<li><p>Retry位</p>
+<blockquote>
+<p>有事后可能需要重传帧。任何重传的帧会将此位设定为1，以协助接收端剔除重复的帧。</p>
+</blockquote>
+</li>
+<li><p>Power management位</p>
+<blockquote>
+<p>‘此位用来指出发送端在完成当前的原子帧交换之后是否进入省电模式。</p>
+<p><code>1</code>代表工作站即将进入省电模式，而<code>0</code>则代表工作站会一直保持在清醒状态。</p>
+</blockquote>
+</li>
+<li><p>More data位</p>
+<blockquote>
+<p>为了服务处于省电模式中的工作站，接入点会将这些从分布式系统接收来的帧加以缓存。接入点如果设定此位，即代表至少有一个帧待传给休眠中的工作站。</p>
+</blockquote>
+</li>
+<li><p>Protected Frame位</p>
+<blockquote>
+<p>相对于固定式网络，无线传送本质上就比较容易被拦截。如果帧收到链路层安全协议的保护，则此位会被设定为<code>1</code>。</p>
+</blockquote>
+</li>
+<li><p>Order位</p>
+<blockquote>
+<p>帧与帧片段可依次传送，不过发送端与接收端的MAC必须付出额外的代价。一旦进行严格依次传送，则此位会被设定为<code>1</code>。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Duration-ID字段"><a href="#Duration-ID字段" class="headerlink" title="Duration/ID字段"></a>Duration/ID字段</h2><p>Duration/ID字段紧跟在Frame Control字段之后。有三种可能的形式，先看图再接着往下看：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/11/05/5bjtDrJgPnZToqS.png"></p>
+<ul>
+<li><p>Duration：设定NAV</p>
+<blockquote>
+<p>当第15个位被设定为<code>0</code>时，Duration/ID字段就会被用来设定NAV。此数值代表当前所进行的传送预计使用媒介多少微妙。工作站必须监视所收到的任何帧头并据此更新NAV。</p>
+</blockquote>
+</li>
+<li><p>无竞争周期所传送的帧</p>
+<blockquote>
+<p>在无精症周期（CFP），第14位为<code>0</code>，而第15位为<code>1</code>，其他所有为均为<code>0</code>，因此Duration/ID字段的值为32768.这个数值被解读为NAV。</p>
+</blockquote>
+</li>
+<li><p>PS-Poll帧</p>
+<blockquote>
+<p>在PS-Pool（省电-轮询）帧中，第14位与第15位会被同事设定为<code>1</code>。移动式工作站可以关闭天线以达到省电目的。</p>
+<p>休眠的工作站必须顶起醒来。为确保不遗漏任何帧，从休眠状态醒来的工作站必须送出一个PS-Pool帧，以便从接入点取得之前缓存的任何帧。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Address字段"><a href="#Address字段" class="headerlink" title="Address字段"></a>Address字段</h2><p>一个802.11帧最多可以包含4个地址（Address）字段。基本上，Address1表示接收端，Address2代表发送端，Address3字段被接收端拿来过滤地址。</p>
+<p>802.11所使用的寻址模式易迅其他的IEEE 802网络锁使用的格式。</p>
+<blockquote>
+<p>地址本身的长度有48位，如果传送给实际媒介的第一个位为<code>0</code>，则改地址代表单一工作站。如果第一位为<code>1</code>，则该地址代表一组实体工作站，称为组播（multicast）。如果所有位均为<code>1</code>，该帧属于广播。</p>
+</blockquote>
+<h2 id="顺序控制（Sequence-Control）字段"><a href="#顺序控制（Sequence-Control）字段" class="headerlink" title="顺序控制（Sequence Control）字段"></a>顺序控制（Sequence Control）字段</h2><p>此字段的长度为16位，用来重组帧片段以及丢弃重复帧。它是由4位的片段编号字段以及12位的顺序标号组成</p>
+<h2 id="帧主体"><a href="#帧主体" class="headerlink" title="帧主体"></a>帧主体</h2><p>帧主体也成为了数据字段，负责在工作站之间传递上层有效荷载（payload）。在最初指定的规范中，802.11帧最多可以传送2304个字节的有效荷载。</p>
+<h2 id="帧校验序列（FCS）"><a href="#帧校验序列（FCS）" class="headerlink" title="帧校验序列（FCS）"></a>帧校验序列（FCS）</h2><p>当帧送至无线接口时会先计算FCS，然后再经RF或IR链路传送出去。</p>
+<p>接收端随后会为收到的帧计算FCS，然后与记录在帧中的FCS进行比较。如果两者相符，则该帧极有可能在传送过程中未受损，如果帧的FCS游湖则随即予以丢弃，否则就交给上层协议处理。</p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
 </search>
