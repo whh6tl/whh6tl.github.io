@@ -3809,7 +3809,7 @@
 </blockquote>
 </li>
 </ul>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="利用DCF进行基于竞争的访问"><a href="#利用DCF进行基于竞争的访问" class="headerlink" title="利用DCF进行基于竞争的访问"></a>利用DCF进行基于竞争的访问</h2><p>大部分的传输操作均会采用DCF(分布式协调功能)。DCF允许多个独立的工作站互相交互，无需通过中心控制节点。因此可以用户IBSS网络或基础结构网络。</p>
+<h2 id="利用DCF进行基于竞争的访问"><a href="#利用DCF进行基于竞争的访问" class="headerlink" title="利用DCF进行基于竞争的访问"></a>利用DCF进行基于竞争的访问</h2><p>大部分的传输操作均会采用DCF(分布式协调功能)。DCF允许多个独立的工作站互相交互，无需通过中心控制节点。因此可以用户IBSS网络或基础结构网络。</p>
 <p>试图传输数据之前，工作站必须查看媒介是否处于闲置状态，若处于忙碌状态，工作站必须延迟访问并使用DCF的传输中将会运用到的两项基本规则。</p>
 <blockquote>
 <p>DIFS全称(Distributed Inter-frame Spacing,DIFS)分布式帧间间隙</p>
@@ -3835,7 +3835,7 @@
 </blockquote>
 </li>
 </ul>
-<pre><code>![](https://i.loli.net/2020/11/05/28n3JvP9jGSAb6M.png)</code></pre>
+<pre><code>![对比图](https://i.loli.net/2020/11/05/28n3JvP9jGSAb6M.png)</code></pre>
 <ul>
 <li><p>To DS与From DS</p>
 <blockquote>
