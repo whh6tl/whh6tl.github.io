@@ -3913,4 +3913,69 @@
         <tag>Wi-Fi协议</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Wi-Fi协议笔记(0X03)</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE03/</url>
+    <content><![CDATA[<h1 id="802-11MAC基础"><a href="#802-11MAC基础" class="headerlink" title="802.11MAC基础"></a>802.11MAC基础</h1><h2 id="802-11对上层协议的封装"><a href="#802-11对上层协议的封装" class="headerlink" title="802.11对上层协议的封装"></a>802.11对上层协议的封装</h2><p>802.11是以802.2的逻辑链路控制（LCC）封装来携带上层协议。</p>
+<p>传送时，用来封装LLC数据的方式有两种，一种是RFC 1024所描述的方式，另外一种则是802.1H所规范的方式。</p>
+<h2 id="广播与组播数据或管理帧"><a href="#广播与组播数据或管理帧" class="headerlink" title="广播与组播数据或管理帧"></a>广播与组播数据或管理帧</h2><p>广播与组播帧的交换过程最为简单，因为这些帧无需响应。这两种帧也可以视为组帧，因为其接受对象不限于单一工作站。成帧与寻址在802.11中较为复杂，使用此规则的帧的类型如下：</p>
+<ul>
+<li><strong>广播数据帧</strong>会在Address1字段中填入广播地址</li>
+<li><strong>组播数据帧</strong>会在Address1字段中填入组播地址</li>
+<li><strong>广播管理帧</strong>会在Address1字段中填入广播地址</li>
+</ul>
+<h2 id="单播帧"><a href="#单播帧" class="headerlink" title="单播帧"></a>单播帧</h2><p>在802.11标准中，针对个别工作站所传送的帧成为<strong>直接数据</strong>，也可称之为<strong>单播</strong>。单播帧必须得到确认以保证可靠性，也意味着可借助各种机制来改善传送效率。</p>
+<p>两个工作站之间的传送可靠性建立在简单的肯定确认上。单播数据帧必须得到肯定确认，否则该帧会被认定为已经遗失。</p>
+<blockquote>
+<p>帧分段是由MAC的分段阈值参数控制。</p>
+</blockquote>
+<h2 id="帧的处理与桥接"><a href="#帧的处理与桥接" class="headerlink" title="帧的处理与桥接"></a>帧的处理与桥接</h2><p>无线接入点的核心就是<strong>桥接器</strong>，负责在无线与有限媒介之间转换帧。</p>
+<h2 id="无线媒介至有线媒介（802-11至Ethernet）"><a href="#无线媒介至有线媒介（802-11至Ethernet）" class="headerlink" title="无线媒介至有线媒介（802.11至Ethernet）"></a>无线媒介至有线媒介（802.11至Ethernet）</h2><p>当接入点的无线接口接收到准备传送至有线网络的帧时，接入点必须在两种媒介之间桥接帧。以下是接入点必须进行的一些列操作</p>
+<ol>
+<li><p>当接入点接收到一个帧时，首先会检测该帧基本的完整性。</p>
+<p> 接下来，接入点会针对所使用的物理层，查看物理层的表头，然后验证802.1帧上的帧校验码（FCS）。</p>
+</li>
+<li><p>验证帧接收无误后，接入点就会继续查看是否该进行进一步处理该帧。</p>
+<ul>
+<li>传送至接入点的帧会将接入点的MAC地址（即BSSID）作为802.11MAC表头的Address1字段。不匹配该接入点的BSSID的帧予以丢弃。</li>
+<li>802.11 MAC接着检测且移除重复的帧。</li>
+</ul>
+</li>
+<li><p>一旦接入点判断出需要进一步处理该帧，就必须予以解密，因为该帧受到链路层安全算法的保护。</p>
+</li>
+<li><p>成功解密后，接入点查看该帧是否为帧片段，是否需要进一步重组。</p>
+</li>
+<li><p>如果经过BSSID 校验，判断接入点必须桥接该帧，较复杂的802.11 MAC 表头就会被转换为较简单的Ethernet MAC标头。</p>
+<ul>
+<li>Address3字段里的目的地址会被复制到Ethernet的目的地址。</li>
+<li>Address2字段里的来源地址会被复制到Ethernet的来源地址</li>
+<li>在802.11 Data字段里的SNAP标头将（Type字段里的）类型代码复制到Ethernet帧里的Type字段中。如果Ethernet帧也是用SNAP，那就复制整个SNAP标头</li>
+<li>顺序信息主要供帧片段重组之用，不过当帧被桥接之后予以丢弃。</li>
+</ul>
+</li>
+<li><p>重新计算FCS（帧校验码）。</p>
+</li>
+<li><p>将产生的心帧交付给Ethernet接口传送。</p>
+</li>
+</ol>
+<h2 id="有限媒介至无线媒介（Ethernet至802-11）"><a href="#有限媒介至无线媒介（Ethernet至802-11）" class="headerlink" title="有限媒介至无线媒介（Ethernet至802.11）"></a>有限媒介至无线媒介（Ethernet至802.11）</h2><p>正好相反</p>
+<ol>
+<li>验证Ethernet FCS后，介入点首先会查看是否需要进一步处理所接收到的帧，即查看该帧的目的地址是否属于当前接入点关联的工作站。</li>
+<li>将SNAP标头附加于Ethernet帧的数据之前。</li>
+<li>对帧的传送进行调度。</li>
+<li>一旦帧被置于队列等待，就会被赋予一个顺序编号。</li>
+<li>如果帧需要保护，则对帧（或每个帧片段）的主体加密</li>
+<li>802.11 MAC标头根据Ethernet MAC标头产生。</li>
+<li>重新计算FCS(帧校验码)。</li>
+<li>将产生的新帧交付给802.11接口传送。</li>
+</ol>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
 </search>
