@@ -9,7 +9,7 @@
         <category>网络通信协议</category>
       </categories>
       <tags>
-        <tag>AMQP协议</tag>
+        <tag>AMQP协议(暂无)</tag>
       </tags>
   </entry>
   <entry>
@@ -4099,6 +4099,72 @@
 </blockquote>
 </li>
 </ul>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wi-Fi协议笔记(0X05)</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE05/</url>
+    <content><![CDATA[<h1 id="有线等效加密"><a href="#有线等效加密" class="headerlink" title="有线等效加密"></a>有线等效加密</h1><h2 id="WEP的加密操作"><a href="#WEP的加密操作" class="headerlink" title="WEP的加密操作"></a>WEP的加密操作</h2><p>通信安全主要有三个主要目的：</p>
+<ol>
+<li><strong>机密性</strong>：为了防止数据不受未授权的第三者拦截</li>
+<li><strong>完整性</strong>：确保数据没有被修改</li>
+<li><strong>真实性</strong>：是所有安全策略的基础，因为数据的可信度</li>
+</ol>
+<h3 id="WEP的数据处理"><a href="#WEP的数据处理" class="headerlink" title="WEP的数据处理"></a>WEP的数据处理</h3><p>机密性与完整性的操作同时进行。加密之前，帧会通过完整性校验算法，产生一个成为完整性校验值（ICV）的散列值（hash）。ICV可确保帧在传送过程中未被改变。</p>
+<p>WEP需要以下三个输入项</p>
+<ul>
+<li>需要保护的有效荷载（payload）。</li>
+<li>秘钥（secret key），用来加密帧。可以用秘钥位字符创或秘钥编号来指定秘钥。</li>
+<li>初始向量（IV），和秘钥一起在传送帧时使用。</li>
+</ul>
+<p>经过处理后，WEP、会产生一个单一输出项：</p>
+<ul>
+<li>加密过的帧，可以通过不安全的网络加以传送，其中包含足够的信息使对方能够解密。</li>
+</ul>
+<h3 id="WEP的数据传送"><a href="#WEP的数据传送" class="headerlink" title="WEP的数据传送"></a>WEP的数据传送</h3><ol>
+<li>802.11帧由标头和payload组成，WEP只保护payload。</li>
+<li>根据802.11MAC的有效荷载（payload）计算出完整性校验值。</li>
+<li>帧加密秘钥组装完成，分为秘钥和初始向量（IV）。</li>
+<li>帧加密秘钥被当成RC4秘钥。</li>
+<li>将payload加密后，工作站开始组装待传的帧。</li>
+</ol>
+<blockquote>
+<p>揭秘过程刚好相反。</p>
+<ol>
+<li>验证FCS，确保帧未损毁</li>
+<li>解读受保护部分。</li>
+<li>得到解密数据后，验证ICV。</li>
+<li>如果ICV无误，根据SNAP标头所记载内容，将封包数据交给上层协议。</li>
+</ol>
+</blockquote>
+<h3 id="WEP秘钥的长度"><a href="#WEP秘钥的长度" class="headerlink" title="WEP秘钥的长度"></a>WEP秘钥的长度</h3><p>理论上，WEP秘钥可以搭配任意长度的秘钥。但是大多数产品均支持一种或两种长度的秘钥。位移唯一出现在标准中的秘钥长度是64位的WEP种子（seed），其中40位是两个工作站进行传送时共享的密码。</p>
+<p>另外一种是比较常用的采用较长的秘钥，通常是使用128-bit的WEP种子，其中104位秘而不宣。有些文档称之为WEP-104。</p>
+<h3 id="WEP秘钥的类型"><a href="#WEP秘钥的类型" class="headerlink" title="WEP秘钥的类型"></a>WEP秘钥的类型</h3><ul>
+<li><p>映射秘钥</p>
+<blockquote>
+<p>用来保护流动于特定来源与接收端之间的数据</p>
+</blockquote>
+</li>
+<li><p>默认秘钥</p>
+<blockquote>
+<p>如果两个802.11工作站之间并不存在映射关系，就必须改用默认秘钥，有时也称广播秘钥。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="WEP系统设计上的瑕疵"><a href="#WEP系统设计上的瑕疵" class="headerlink" title="WEP系统设计上的瑕疵"></a>WEP系统设计上的瑕疵</h2><ol>
+<li>手工管理秘钥是问题的症结之一</li>
+<li>标准的静态WEP只提供40位的秘钥。128位更安全。</li>
+<li>一旦使用重复密钥流，流密码就容易被识破</li>
+<li>WEP使用CRC进行完整性检查，CRC并没有密码学上的安全性。</li>
+<li>接入点具有解读帧的特权。</li>
+</ol>
 <p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
 ]]></content>
       <categories>
