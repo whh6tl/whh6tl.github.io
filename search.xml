@@ -3978,4 +3978,134 @@
         <tag>Wi-Fi协议</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Wi-Fi协议笔记(0X04)</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE04/</url>
+    <content><![CDATA[<h1 id="802-11成帧细节"><a href="#802-11成帧细节" class="headerlink" title="802.11成帧细节"></a>802.11成帧细节</h1><p>802.11帧主要有三种类型</p>
+<ul>
+<li><p>数据帧</p>
+<blockquote>
+<p>负责在工作站之间的搬运数据，它可能会因为所处的网络环境不同而有所差异。</p>
+<p>数据帧会将上层协议的数据置于帧主题中加以传递。</p>
+</blockquote>
+</li>
+<li><p>控制帧</p>
+<blockquote>
+<p>通常与数据帧搭配使用，负责区域的清空、信道的取得一级载波监听的维护，并与收到数据时予以肯定确认，借此提高工作站之间数据传送的可靠性。</p>
+</blockquote>
+</li>
+<li><p>管理帧</p>
+<blockquote>
+<p>负责监督，主要用来加入或退出无线网络一级处理接入点之间关联转移事宜。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="寻址与DS位"><a href="#寻址与DS位" class="headerlink" title="寻址与DS位"></a>寻址与DS位</h2><p>地址字段的编号与功能取决于设定了哪个DS（分布式系统）位，因此所适用的网络类型会间接的影响到地址字段的用法。</p>
+<ul>
+<li>Address 1字段代表帧接收端的地址。</li>
+<li>Address 2字段代表发送端的地址。</li>
+<li>Address 3字段是供接入点与分布式系统过滤之用。</li>
+</ul>
+<blockquote>
+<p>由于IBSS（独立基本服务集）并未使用接入点，因此不会设计分布式系统。发送端即为帧的来源，接收端即为帧的目的地。</p>
+<p>每个帧都会记载BSSID（基本服务集标识符），因此工作站可以检查广播与组播信息。</p>
+<p>只有隶属于同一个BSS的工作站才会处理该广播或组播信息。</p>
+<p>在IBSS中，BSSID是有随机数产生器随机产生的。</p>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/11/06/oab7xq81FuNUmIZ.png" alt="BSSID"></p>
+<blockquote>
+<p>帧产生字自服务器，所以服务器的MAC地址即为帧的源地址。</p>
+</blockquote>
+<h2 id="控制帧"><a href="#控制帧" class="headerlink" title="控制帧"></a>控制帧</h2><p>控制帧主要用于协助数据帧的传递。它们可用来管理无线媒介的访问（非媒介本身），以及提供MAC层的可靠性。</p>
+<h3 id="一般的帧控制字段"><a href="#一般的帧控制字段" class="headerlink" title="一般的帧控制字段"></a>一般的帧控制字段</h3><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/11/09/cIKynWfNjSXdLaD.png"></p>
+<ul>
+<li>Protocol（协议版本）</li>
+<li>Type（类型）</li>
+<li>SubType（子类型）</li>
+<li>ToDS与FromDS位</li>
+<li>More Fragments（更多片段）位</li>
+<li>ReTry（重试）位</li>
+<li>Power Management（电源管理）位</li>
+<li>More Date（更多数据）位</li>
+<li>Protected Frame（受保护帧）位</li>
+<li>Order（次序）位</li>
+</ul>
+<h2 id="管理帧"><a href="#管理帧" class="headerlink" title="管理帧"></a>管理帧</h2><h3 id="地址字段"><a href="#地址字段" class="headerlink" title="地址字段"></a>地址字段</h3><p>第一个地址字段是给帧的目的地址使用的。</p>
+<h3 id="计算持续时间"><a href="#计算持续时间" class="headerlink" title="计算持续时间"></a>计算持续时间</h3><ol>
+<li>无竞争周期内所传颂的任何帧均会将持续时间设为32768。</li>
+<li>基于竞争的访问周期内利用DCF所传送的帧会通过Duration字段防止别人访问媒介，以确保原子帧交换得以完成。</li>
+</ol>
+<h3 id="帧主体"><a href="#帧主体" class="headerlink" title="帧主体"></a>帧主体</h3><p>管理帧的主体所包含的固定字段与信息元素是用来<strong>运送信息</strong>的。</p>
+<p>管理帧十分灵活。帧主体中的大部分数据雨果使用长度固定的字段，就称为<strong>固定字段</strong>；如果字段长度不确定，就称为<strong>信息元素</strong></p>
+<p>所谓信息元素，是指长度不定的数据块。</p>
+<h2 id="管理帧的信息元素"><a href="#管理帧的信息元素" class="headerlink" title="管理帧的信息元素"></a>管理帧的信息元素</h2><p>信息元素是管理帧的可变长组件。信息元素通常包含一个<strong>Element ID</strong> （元素标识符）字段，一个<strong>Length</strong>（长度）字段以及一个<strong>长度不定字段</strong>。</p>
+<h2 id="管理帧的类型"><a href="#管理帧的类型" class="headerlink" title="管理帧的类型"></a>管理帧的类型</h2><ul>
+<li><p>Beacon（信标）帧</p>
+<blockquote>
+<p>Beacon帧时相当重要的网络维护任务，主要用来声明某个网络的存在。</p>
+<p>Beacon帧所及范围即为基本服务区域。</p>
+</blockquote>
+</li>
+<li><p>Probe Request （探查请求）帧</p>
+<blockquote>
+<p>移动式工作站会利用Probe Request（探查请求）帧来扫描所在区域内目前有哪些802.11网络。</p>
+<p>Probe Request帧包含两个字段：SSID以及Supported Rates（移动式工作站所支持的速率）。收到Probe Request帧的工作站会据此判断对方能否加入网络。</p>
+</blockquote>
+</li>
+<li><p>Probe Response帧</p>
+<blockquote>
+<p>如果Probe Request帧所探查的网络与之兼容，该网络就会以Probe Response帧相应。</p>
+<p>送出最后一个Beacon帧的工作站必须负责相应所收到的探查信息。</p>
+</blockquote>
+</li>
+<li><p>IBSS的通知传输指示消息（ATIM）帧</p>
+<blockquote>
+<p>IBSS中没有接入点，因此无法仰赖接入点来缓存帧。</p>
+<p>IBSS中的工作站如果为处于休眠状态的就守着缓存帧，就会在传递期间送出一个ATIM帧来通知对方有信息待传。</p>
+</blockquote>
+</li>
+<li><p>Disassociation帧与Deauthentication帧</p>
+<blockquote>
+<p>Disassociation（取消关联）帧用来终结一段关联关系。</p>
+<p>Deauthentication（接触身份验证）帧则用来终结一段认证关系。</p>
+</blockquote>
+</li>
+<li><p>Association Request（关联请求）帧</p>
+<blockquote>
+<p>一旦移动式工作站找到兼容网络并且通过身份验证，便会发送Association Request（关联请求）帧以试图加入网络。</p>
+</blockquote>
+</li>
+<li><p>Reassociation Request（重新关联请求）帧</p>
+<blockquote>
+<p>位于想用扩展服务区域，但在不同基本服务区域之间游走的移动式工作站若要再次使用分布式系统，必须与网络重新关联。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="帧等级"><a href="#帧等级" class="headerlink" title="帧等级"></a>帧等级</h2><p>帧可以被划分为3种等级，在状态1可以传递1级，状态2可以床底1、2级，状态3可以传递1、2、3级</p>
+<ul>
+<li><p>第一级帧</p>
+<blockquote>
+<p>第一级帧可以再任何状态中传递，它让802.11的工作站能后进行基本操作。</p>
+</blockquote>
+</li>
+<li><p>第二级帧</p>
+<blockquote>
+<p>工作站只有在经过身份验证之后才能传递第二级帧，而且第二级帧只能适用于状态2与状态3。第二级帧主要用来管理关联。关联或重新关联成功后，工作站就会进入状态3；如果关联失败，则工作站依然处于状态2。</p>
+</blockquote>
+</li>
+<li><p>第三级帧</p>
+<blockquote>
+<p>第三级帧的使用时机是在工作站认证成功并与接入点关联之后。一旦工作站进入状态3，就可以使用分布式系统服务，也可以和接入点范围以外的对象进行通信。</p>
+</blockquote>
+</li>
+</ul>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
 </search>
