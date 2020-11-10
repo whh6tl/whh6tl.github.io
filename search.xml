@@ -4174,4 +4174,61 @@
         <tag>Wi-Fi协议</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Wi-Fi协议笔记(0X06)</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE06/</url>
+    <content><![CDATA[<h1 id="802-11x用户身份验证"><a href="#802-11x用户身份验证" class="headerlink" title="802.11x用户身份验证"></a>802.11x用户身份验证</h1><h2 id="可扩展身份验证协议（EAP）"><a href="#可扩展身份验证协议（EAP）" class="headerlink" title="可扩展身份验证协议（EAP）"></a>可扩展身份验证协议（EAP）</h2><h3 id="EAP的封包格式"><a href="#EAP的封包格式" class="headerlink" title="EAP的封包格式"></a>EAP的封包格式</h3><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/11/09/czUaYBvnRew85gE.png"></p>
+<ul>
+<li><p>code（类型代码）</p>
+<blockquote>
+<p>其长度为1个字节，代表EAP封包的类型。封包的Data字段必须通过此字段来解析。</p>
+</blockquote>
+</li>
+<li><p>Identifier（标识符）</p>
+<blockquote>
+<p>长度为1个字节。内容为1个无符号整数，用来匹配请求与响应。</p>
+</blockquote>
+</li>
+<li><p>Length（长度）</p>
+<blockquote>
+<p>Length本身有两个字节。记载了整个封包的总字节数，包括Code、Identifier、Length以及Data这四个字段。</p>
+</blockquote>
+</li>
+<li><p>Data（数据）</p>
+<blockquote>
+<p>长度不定，取决于封包类型。也可能不占用任何字节。Data字段如何解析完全取决于Code字段的值。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="EAP身份验证方式"><a href="#EAP身份验证方式" class="headerlink" title="EAP身份验证方式"></a>EAP身份验证方式</h3><p>EAP会把证明用户身份的操作授权给一个成为<code>EAP method</code>（一组验证用户身份的规则）的附属协议。</p>
+<p>使用<code>EAP method</code>的优点是，EAP可以不用去管验证用户的细节。如果需求改变，就可以开发新的<code>EAP method</code>来满足这个需求。</p>
+<h3 id="EAP交换范例"><a href="#EAP交换范例" class="headerlink" title="EAP交换范例"></a>EAP交换范例</h3><ol>
+<li>认证者发出一个<code>请求/身份证明</code>封包以识别用户身份。</li>
+<li>客户端要求用户输入标识符，随后将所搜集到的用户表示符以<code>响应/身份证明</code>消息送出。</li>
+<li>一旦认出该用户，认证者随即会送出<code>认证质询。</code></li>
+<li>客户端在设定上是以<code>token card</code>（令牌卡）进行身份验证，因此它会送出一个<code>Response/NAK</code>（相应/否定确认）消息，提议以<code>一般令牌卡</code>作为认证机制。</li>
+<li>认证者送出<code>请求/一般令牌卡</code>的质询，要求取得卡号。</li>
+<li>用户输入卡号，通过<code>请求/一般令牌卡</code>送回。</li>
+<li>用户的响应不正确，因此认证失败。不过允许多次认证，因此会送出第二个<code>Request/Generic Token Card</code>（请求/一般令牌卡）的质询。</li>
+<li>用户再度响应，依然通过<code>Response/Generic Token Card</code>（响应/一般令牌卡）传递。</li>
+<li>此次响应正确，认证者发出<code>Success</code>消息</li>
+</ol>
+<h2 id="802-1X：网络连接端口的认证"><a href="#802-1X：网络连接端口的认证" class="headerlink" title="802.1X：网络连接端口的认证"></a>802.1X：网络连接端口的认证</h2><p>802.1X：“基于端口的网络访问控制。”</p>
+<h2 id="802-1X的架构及相关术语"><a href="#802-1X的架构及相关术语" class="headerlink" title="802.1X的架构及相关术语"></a>802.1X的架构及相关术语</h2><p><code>802.1X</code>为认证回话定义了三个组件：</p>
+<ul>
+<li>申请者：寻求访问网络资源的用户机器。</li>
+<li>认证者：控制网络访问，扮演传统拨号网络中访问服务器的角色。（只负责链路层的认证交换过程，并不维护任何用户信息）</li>
+<li>认证服务器：任何认证请求均会被传送至认证服务器进行实际的处理。</li>
+</ul>
+<p><code>802.1X</code>只是一个框架，并非一套完整的规范。实际的认证机制其实是通过认证服务器来完成的。</p>
+<h2 id="802-1X与无线局域网"><a href="#802-1X与无线局域网" class="headerlink" title="802.1X与无线局域网"></a>802.1X与无线局域网</h2><p><code>802.1X</code>为任何局域网，包括无线局域网，提供了一个用户认证的框架。</p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
 </search>
