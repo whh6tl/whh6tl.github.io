@@ -3132,8 +3132,8 @@
 <h3 id="部分功能存在越权"><a href="#部分功能存在越权" class="headerlink" title="部分功能存在越权"></a>部分功能存在越权</h3><p>部分设备只需要知道设备ID即可使用任意账户越权控制设备。</p>
 <h2 id="安全修复建议"><a href="#安全修复建议" class="headerlink" title="安全修复建议"></a>安全修复建议</h2><blockquote>
 <ol>
-<li>对于摄像头上的应用程序和服务，应有完善合理的健全机制来确保摄像头隐私内容不被第三方获取。例如谁相投经常开启的RTSP服务，如果不设置密码，任何人都可以通过视频播放软件直接获得视频内容。常见的Web、FTP等服务，如果涉及用户的隐私信息，都应做偷笑的身份认证。</li>
-<li>对于云服务来说，出来要避免传统的Web漏洞，对于存放在云端的视频备份，也应要做必要的加密处理，防止因云服务器被攻陷而导致用于隐私邪路</li>
+<li>对于摄像头上的应用程序和服务，应有完善合理的健全机制来确保摄像头隐私内容不被第三方获取。例如摄像头经常开启的RTSP服务，如果不设置密码，任何人都可以通过视频播放软件直接获得视频内容。常见的Web、FTP等服务，如果涉及用户的隐私信息，都应做有效的身份认证。</li>
+<li>对于云服务来说，出来要避免传统的Web漏洞，对于存放在云端的视频备份，也应要做必要的加密处理，防止因云服务器被攻陷而导致用户隐私泄露</li>
 <li>手机端的APP应该做必要的加固、混淆处理，增加逆向破解的成本，避免攻击者通过APP逆向分析业务逻辑。</li>
 </ol>
 </blockquote>
@@ -4222,6 +4222,62 @@
 </ul>
 <p><code>802.1X</code>只是一个框架，并非一套完整的规范。实际的认证机制其实是通过认证服务器来完成的。</p>
 <h2 id="802-1X与无线局域网"><a href="#802-1X与无线局域网" class="headerlink" title="802.1X与无线局域网"></a>802.1X与无线局域网</h2><p><code>802.1X</code>为任何局域网，包括无线局域网，提供了一个用户认证的框架。</p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wi-Fi协议笔记(0X07)</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE07/</url>
+    <content><![CDATA[<h1 id="802-11：RSN、TKIP与CCMP"><a href="#802-11：RSN、TKIP与CCMP" class="headerlink" title="802.11：RSN、TKIP与CCMP"></a>802.11：RSN、TKIP与CCMP</h1><h2 id="临时秘钥完整性协议（TKIP）"><a href="#临时秘钥完整性协议（TKIP）" class="headerlink" title="临时秘钥完整性协议（TKIP）"></a>临时秘钥完整性协议（TKIP）</h2><h3 id="TKIP与WEP的差异"><a href="#TKIP与WEP的差异" class="headerlink" title="TKIP与WEP的差异"></a>TKIP与WEP的差异</h3><ul>
+<li><p>秘钥层次结构与自动秘钥管理</p>
+<blockquote>
+<p>不同于WEP直接使用单一主秘钥的做法，TKIP使用了多个主秘钥。</p>
+<p>最后用来加密帧的秘钥是从这些秘钥派生而来。</p>
+</blockquote>
+</li>
+<li><p>每帧生成秘钥</p>
+<blockquote>
+<p>它会为每个帧派生出特有的RC4秘钥。</p>
+</blockquote>
+</li>
+<li><p>序列号计数器</p>
+<blockquote>
+<p>为每个帧编序列号即可识别出次序错乱的帧，如此便能防范所谓的重放攻击。</p>
+</blockquote>
+</li>
+<li><p>新的消息完整性校验（MIC）</p>
+<blockquote>
+<p>TKIP以比较牢靠的Michael的完整性校验三列算法，取代WEP所使用的线性散列算法。</p>
+</blockquote>
+</li>
+<li><p>消息完整性校验失败的对策</p>
+<blockquote>
+<p>MIC可能遭受主动式攻击而被攻陷，因此TKIP包含了一些对策以控制主动式攻击可能造成的损害。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="TKIP的数据传送"><a href="#TKIP的数据传送" class="headerlink" title="TKIP的数据传送"></a>TKIP的数据传送</h3><p>帧长生后，接着发送给TKIP以传送，过程如下：</p>
+<ol>
+<li>将802.11帧放在队列中等待传送，包含帧头以及payload。</li>
+<li>计算消息完整性校验值。</li>
+<li>赋予每个帧片段一个序列号。</li>
+<li>每个帧均会以其独有的WEP秘钥进行加密。</li>
+<li>帧本身加上步骤2所得到的Michael消息完整性校验值以及步骤4所得到的RC4秘钥一并传给WEP，由WEO进行帧封装测试。</li>
+</ol>
+<h3 id="TKIP的接收"><a href="#TKIP的接收" class="headerlink" title="TKIP的接收"></a>TKIP的接收</h3><ol>
+<li>一旦无线接口接收到帧，如果通过帧检查序列确认它不曾损毁，就将其交给TKIP做进一步验证。</li>
+<li>TKIP才去的第一个步骤是检查序列号以防范重放攻击。</li>
+<li>还原用来加密封包的WEP随机数种子。</li>
+<li>WEP随机数种子到手后，就可以出去帧外围包裹的WEP层，然后还原内容。还原过程中，WEP ICV必须接受校验。</li>
+<li>如果涉及到帧分段，那么在重组完整有效荷载之前，必须等到所有片段接收完成。</li>
+<li>帧重组之后，将会依帧内容计算其Michael值。如果计算出来的值与封包所记载的MIC值相符，则会将帧传递给较上层协议并且将序列号射程帧当中所记载的序列号。</li>
+</ol>
 <p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
 ]]></content>
       <categories>
