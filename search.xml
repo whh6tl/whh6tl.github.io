@@ -4459,4 +4459,106 @@
         <tag>Wi-Fi协议</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Wi-Fi协议名词解释</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE11/</url>
+    <content><![CDATA[<h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><p>AAA：身份验证，授权与计费</p>
+<p>ACK：确认机制</p>
+<p>AES：高级加密标准</p>
+<p>AID：关联标识符</p>
+<p>AKM：身份验证与秘钥管理</p>
+<p>AP：接入点</p>
+<p>AS：身份验证服务器</p>
+<p>ASN：抽象语法标记</p>
+<p>ATIM：通知传输指示消息</p>
+<p>BBS：基本服务集</p>
+<p>SSID：服务集标识符</p>
+<p>BSSID：基本服务集标识</p>
+<p>CCK：补码键控</p>
+<p>CCMP：特别坚固的加密协议</p>
+<p>CF：无竞争</p>
+<p>CFP：无竞争周期</p>
+<p>CRC：循环冗余校验</p>
+<p>CSMA/MA：载波监听多路访问/冲突避免（）通过延迟访问来避免多方同事访问传输媒介</p>
+<p>CTS：清除发送（通知对方已收到请求发送信息：RTS，可以开始传送数据的确认）</p>
+<p>DA：目的地地址</p>
+<p>DCF：分布式协调功能</p>
+<p>DFS：动态频率选择</p>
+<p>DHCP：动态主机配置协议</p>
+<p>DIFS：分布式帧间间隔</p>
+<p>DS：分布式系统</p>
+<p>DSSS：直接序列扩频</p>
+<p>DTIM：延迟传输指示映射</p>
+<p>EAP：可扩展身份验证协议</p>
+<p>EIFS：扩展帧间间隔</p>
+<p>EIRP：有效等向辐射功率</p>
+<p>ERP：有效辐射功率</p>
+<p>ESS：扩展服务集</p>
+<p>FCS：帧校验序列</p>
+<p>FH：跳频</p>
+<p>FHSS：跳频扩频</p>
+<p>GMK：组主秘钥</p>
+<p>GTK：组临时秘钥</p>
+<p>HR/DSSS：告诉直接序列扩频</p>
+<p>IAPP：接入点内部协议</p>
+<p>IBSS：独立基本服务集</p>
+<p>ICV：完整性校验值</p>
+<p>IEEE：电气和电子工程师协会</p>
+<p>IR：红外线</p>
+<p>ISI：符号间干扰</p>
+<p>IV：初始向量</p>
+<p>LLC：逻辑链路控制</p>
+<p>KCK：秘钥确认秘钥</p>
+<p>KEK：秘钥加密秘钥</p>
+<p>MAC：媒介访问控制</p>
+<p>MIB：管理信息库</p>
+<p>MIC：消息完整性校验码</p>
+<p>MIMO：多进/多出</p>
+<p>MPDU：MAC协议数据单元</p>
+<p>MSDU：MAC服务数据单元</p>
+<p>NAV：网络分配向量</p>
+<p>OFDM：正交频分复用</p>
+<p>OSI：开放式系统互联参考迷行</p>
+<p>PBCC：分组二进制卷积码</p>
+<p>PC：点协调者</p>
+<p>PCF：点协调功能</p>
+<p>PDU：协议数据单元</p>
+<p>PER：封包错误率</p>
+<p>PHY：物理层</p>
+<p>PIFS：PCF帧间间隔</p>
+<p>PLCP：物理层汇聚过程</p>
+<p>PMD：物理媒介相关</p>
+<p>PMK：成对主秘钥</p>
+<p>PPDU：PLCP协议数据单元</p>
+<p>PRF：伪随机函数</p>
+<p>PS：省电操作</p>
+<p>PSDU：PLCP服务数据单元</p>
+<p>PTK：成对临时秘钥</p>
+<p>RA：接收端地址</p>
+<p>RADIUS：远程认证拨号用户服务</p>
+<p>RC4：RC4加密算法</p>
+<p>RLAN：无线电局域网</p>
+<p>RF：射频</p>
+<p>RSN：强健安全网络</p>
+<p>RTS：请求传送</p>
+<p>SA：来源地址</p>
+<p>SFD：其实帧定界符</p>
+<p>SIFS：短帧间间隔</p>
+<p>TA：传送端地址</p>
+<p>TIM：传输只是映射</p>
+<p>TK：临时秘钥</p>
+<p>TKIP：临时秘钥完整性协议</p>
+<p>TCP：传输功率控制</p>
+<p>WEP：有限等效加密</p>
+<p>Wi-Fi：无线保真</p>
+<p>WPA and WPA2：WIFI保护访问</p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
 </search>
