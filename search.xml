@@ -4691,4 +4691,127 @@
         <tag>RF协议</tag>
       </tags>
   </entry>
+  <entry>
+    <title>RF协议笔记(0X01)</title>
+    <url>/RF%E5%8D%8F%E8%AE%AE02/</url>
+    <content><![CDATA[<h1 id="基本系统器件"><a href="#基本系统器件" class="headerlink" title="基本系统器件"></a>基本系统器件</h1><h2 id="天线"><a href="#天线" class="headerlink" title="天线"></a>天线</h2><h3 id="方框图"><a href="#方框图" class="headerlink" title="方框图"></a>方框图</h3><p>每个无线系统都有天线。天线的任务就是把电信号转化成无线波，或者把无线波转化成电信号。</p>
+<h3 id="天线特性"><a href="#天线特性" class="headerlink" title="天线特性"></a>天线特性</h3><p>天线可以使有源也可以是无源器件，有源天线仅仅比无源天线内部多了放大器。</p>
+<p>任一种天线的形状和大小都依赖于三个因素：</p>
+<ul>
+<li>天线的物理特性依赖的是<strong>频率</strong>。</li>
+<li>无线电波传播的方向</li>
+<li>天线发送或者接受的功率。功率越大，无线规模越大。</li>
+</ul>
+<h3 id="天线增益"><a href="#天线增益" class="headerlink" title="天线增益"></a>天线增益</h3><p>所有天线都有增益，无源也有（方向增益）。</p>
+<p>定向天线相对于各向同性天线被认为是具有增益，这是方向增益，不是功率增益。天线束月集中，它的增益越大。</p>
+<h3 id="极化"><a href="#极化" class="headerlink" title="极化"></a>极化</h3><p>当射频波在空气中传播，正弦波自身有方向：垂直或水平。这个方向称作极化。</p>
+<h3 id="一维、二维、智能天线"><a href="#一维、二维、智能天线" class="headerlink" title="一维、二维、智能天线"></a>一维、二维、智能天线</h3><p>一维天线由许多电线组成，单极和双极是两种最基本的一维天线。一个单极天线仅仅是一个直的天线，它的长度近似于要辐射信号波长的四分之一。双极信号长度近似于射频信号波长的一半。</p>
+<p>二维天线由片状、阵列状、喇叭状、碟状。一个片状天线就是一块正方形的金属。</p>
+<p>智能天线：在大多数蜂窝系统中，蜂窝被分成3个120度的扇区，每套天线负责120度的覆盖，因此当看一个天线方向图时，存在120度的波束宽度。</p>
+<h2 id="放大器"><a href="#放大器" class="headerlink" title="放大器"></a>放大器</h2><h3 id="放大器的基本属性"><a href="#放大器的基本属性" class="headerlink" title="放大器的基本属性"></a>放大器的基本属性</h3><p>放大器有三个基本属性：增益、噪声系数或输出功率、线性。</p>
+<p>放大器主要分为三类：低噪声、高功率、其他。</p>
+<ol>
+<li><p>增益</p>
+<blockquote>
+<p>增益是度量出书信号比输入信号大多少</p>
+</blockquote>
+</li>
+<li><p>噪声系数</p>
+<blockquote>
+<p>低噪声放大器（LNA）用于监听非常小的射频信号。LNA的安静度量叫做噪声系数（NF），用dB做度量单位。</p>
+<p>LNA的NF越低越好。</p>
+</blockquote>
+</li>
+<li><p>输出功率</p>
+<blockquote>
+<p>在射频信号从天线出来之前，高功率放大器（HPA）尽可能放大射频信号。信号越大，输出的越远。</p>
+<p>HPA的第二个基本属性是输出功率，用瓦特来度量。一般来说，功率越高越好。</p>
+</blockquote>
+</li>
+<li><p>线性</p>
+<blockquote>
+<p>数字无线通信的一个含义就是当一个数字信号加载到射频的载波上，信号通过人一个放大器都必须是真正的线性，</p>
+<p>线性用来度量放大器使信号失真的程度。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="放大器如何工作"><a href="#放大器如何工作" class="headerlink" title="放大器如何工作"></a>放大器如何工作</h3><p>当输入信号通过放大器时，它本身并没有真正变大。</p>
+<h3 id="特殊放大器"><a href="#特殊放大器" class="headerlink" title="特殊放大器"></a>特殊放大器</h3><ul>
+<li><p>限制放大器</p>
+<blockquote>
+<p>作用：限制了输出功率</p>
+<p>如果放大器的功率太大，它后边的器件容易损坏，这时候就需要限制放大器</p>
+</blockquote>
+</li>
+<li><p>平衡放大器</p>
+<blockquote>
+<p>在平衡放大器中，有两个并联的放大器</p>
+<p>优点</p>
+<ol>
+<li>如果一个坏了，另一个仍然可以工作，但性能会降低</li>
+<li>平衡放大器比普通放大器提供更好的匹配。</li>
+</ol>
+</blockquote>
+</li>
+<li><p>可变增益放大器</p>
+<blockquote>
+<p>可变增益放大器（VGA）有一个外部控制，允许用户在预定义范围内变化增益</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="滤波器"><a href="#滤波器" class="headerlink" title="滤波器"></a>滤波器</h2><h3 id="滤波器的功能"><a href="#滤波器的功能" class="headerlink" title="滤波器的功能"></a>滤波器的功能</h3><p>功能：滤除所有不需要的信号</p>
+<h3 id="特殊滤波器"><a href="#特殊滤波器" class="headerlink" title="特殊滤波器"></a>特殊滤波器</h3><ol>
+<li><p>双工机</p>
+<blockquote>
+<p>吧两个滤波器放在一个器件里。常用于基站天线的连接。既可以发射又能接收。</p>
+</blockquote>
+</li>
+<li><p>SAW滤波器</p>
+<blockquote>
+<p>SAW代表声表面波。随着频率变小，射频器件变大。</p>
+<p>SAW滤波器将射频信号转化为声音信号，然后滤出声音信号，最后再把声音信号转化为射频信号。</p>
+<p>SAW滤波器真正商业化的只在10MHz到约3GHz之间。</p>
+</blockquote>
+</li>
+<li><p>超导滤波器</p>
+<blockquote>
+<p>超导是特殊材料，没有阻抗。</p>
+<p>超导滤波器应用于蜂窝基站，是目前它们唯一真正的应用，因为它们非常大，而且超导滤波器工作是需要保持温度很低。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="混频器"><a href="#混频器" class="headerlink" title="混频器"></a>混频器</h2><h3 id="混频器的功能"><a href="#混频器的功能" class="headerlink" title="混频器的功能"></a>混频器的功能</h3><ul>
+<li><p>数学表达</p>
+<blockquote>
+<p>混频器的目的就是改变信号的频率但保持信号的其他特性不变。</p>
+</blockquote>
+</li>
+<li><p>改变频率</p>
+<blockquote>
+<p>信号的频率必须改变，因为日常生活中遇到的信号是在空中传播的不同频率的、携带信息的信号。</p>
+</blockquote>
+</li>
+<li><p>混频器的其他名字</p>
+<blockquote>
+<p>上变频器或下变频器。</p>
+<p>如果混频器是接收机的一部分，那么它就是下变频器。</p>
+<p>如果是发射机的一部分，就是上变频器。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="信源"><a href="#信源" class="headerlink" title="信源"></a>信源</h2><p>也称为振荡器，给混频器提供一个输入的振荡器叫做本地振荡器或LO。</p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><blockquote>
+<p>所有振荡器都是有源器件。</p>
+</blockquote>
+<p>振荡器就是射频最先发出来的地方。他们是射频的源。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/11/23/YJwoShiBT2kG4qO.png"></p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习途径是《射频和无线技术入门（第二版）》</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>RF协议</tag>
+      </tags>
+  </entry>
 </search>
