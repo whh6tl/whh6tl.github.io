@@ -902,19 +902,6 @@
       </tags>
   </entry>
   <entry>
-    <title>RF协议笔记(0X01)</title>
-    <url>/RF%E5%8D%8F%E8%AE%AE01/</url>
-    <content><![CDATA[<p>暂空，将之后要学习的内容列出来</p>
-<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
-]]></content>
-      <categories>
-        <category>网络通信协议</category>
-      </categories>
-      <tags>
-        <tag>RF协议</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Wi-Fi协议笔记(0X01)</title>
     <url>/Wi-Fi%E5%8D%8F%E8%AE%AE01/</url>
     <content><![CDATA[<h1 id="网络概论"><a href="#网络概论" class="headerlink" title="网络概论"></a>网络概论</h1><h2 id="802-11相关术语及其设计"><a href="#802-11相关术语及其设计" class="headerlink" title="802.11相关术语及其设计"></a>802.11相关术语及其设计</h2><p>802.11网络包含四种主要物理组件。包括：</p>
@@ -4552,6 +4539,84 @@
 <p>WEP：有限等效加密</p>
 <p>Wi-Fi：无线保真</p>
 <p>WPA and WPA2：WIFI保护访问</p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>Wi-Fi协议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wi-Fi协议笔记(0X10)</title>
+    <url>/Wi-Fi%E5%8D%8F%E8%AE%AE10/</url>
+    <content><![CDATA[<h1 id="使用802-11接入点"><a href="#使用802-11接入点" class="headerlink" title="使用802.11接入点"></a>使用802.11接入点</h1><h2 id="接入点的基本功能"><a href="#接入点的基本功能" class="headerlink" title="接入点的基本功能"></a>接入点的基本功能</h2><p>接入点是扮演无线与有限网络之间的桥梁。接入点具备网络桥接器的所有功能。</p>
+<p>接入点至少具备两个网络接口：</p>
+<ul>
+<li>无线接口通晓802.11相关细节。</li>
+<li>另一个接口连接至有线网络。</li>
+</ul>
+<p>所有无线接口都必须支持802.11信道访问的基本规则。接入点可以提供DHCP、NAT等服务。</p>
+<h2 id="接入点的种类"><a href="#接入点的种类" class="headerlink" title="接入点的种类"></a>接入点的种类</h2><ul>
+<li><p>家用：家庭网关</p>
+<blockquote>
+<p>大部分内设DHCP服务器，便于即插即用的配置设定。</p>
+<p>用户通常会被部署一个可路由的IP地址，因此NAT的做法十分常见。</p>
+<p>配备的WAN接口可能是调制解调器、串行端口甚至是DSL。</p>
+<p>通常自成一个独立的单元并且内设天线。</p>
+</blockquote>
+</li>
+<li><p>一般商用：企业接入点</p>
+<blockquote>
+<p>需要在较大的范围内提供移动性且必须有几个接入点彼此配合。</p>
+<p>企业级产品着重于可升级性，尽可能延长使用年限。</p>
+<p>通常企业级产品会附带实地勘察工具，网络管理人员可以根据覆盖范围的信号质量来规划大型的部署计划。</p>
+</blockquote>
+</li>
+<li><p>大型商用：无线交换器</p>
+<blockquote>
+<p>此架构中，功能较简单的几个轻量级接入点由一个中央交换器加以控制。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="安全性架构"><a href="#安全性架构" class="headerlink" title="安全性架构"></a>安全性架构</h1><h2 id="安全性的定义与分析"><a href="#安全性的定义与分析" class="headerlink" title="安全性的定义与分析"></a>安全性的定义与分析</h2><p>数据安全性可用三种属性加以定义，三者兼备才能确保安全性。    </p>
+<ul>
+<li><p>完整性</p>
+<blockquote>
+<p>如果数据被未授权的用户篡改，完整性就已被破坏。</p>
+</blockquote>
+</li>
+<li><p>私密性</p>
+</li>
+<li><p>可用性</p>
+</li>
+</ul>
+<h2 id="身份验证与访问控制"><a href="#身份验证与访问控制" class="headerlink" title="身份验证与访问控制"></a>身份验证与访问控制</h2><ul>
+<li><p>工作站身份验证</p>
+<blockquote>
+<p>工作站必须设定接入点所使用的网络名称（SSID）。</p>
+</blockquote>
+</li>
+<li><p>工作站与接入点关联（MAC地址过滤）</p>
+<blockquote>
+<p>接入点维护一份经过授权的MAC地址列表，不在列表上的工作站的关联请求就会被拒绝。</p>
+</blockquote>
+</li>
+<li><p>链路层（802.1X协议）</p>
+<blockquote>
+<p>802.1X与WPA。链路层身份验证机制在进行身份验证时之允许有限的网络访问，在确定用户身份后才会均需完整的网络访问。</p>
+</blockquote>
+</li>
+<li><p>网络层或传输层（防火墙）</p>
+</li>
+<li><p>MAC地址过滤（MAC白名单）</p>
+</li>
+<li><p>WPA预共享秘钥（允许工作站在只拥有“密码短与”的情况下进行身份验证。）</p>
+</li>
+<li><p>网络层（VPN）</p>
+</li>
+</ul>
 <p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
 ]]></content>
       <categories>
