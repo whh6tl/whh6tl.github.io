@@ -4692,7 +4692,7 @@
       </tags>
   </entry>
   <entry>
-    <title>RF协议笔记(0X01)</title>
+    <title>RF协议笔记(0X02)</title>
     <url>/RF%E5%8D%8F%E8%AE%AE02/</url>
     <content><![CDATA[<h1 id="基本系统器件"><a href="#基本系统器件" class="headerlink" title="基本系统器件"></a>基本系统器件</h1><h2 id="天线"><a href="#天线" class="headerlink" title="天线"></a>天线</h2><h3 id="方框图"><a href="#方框图" class="headerlink" title="方框图"></a>方框图</h3><p>每个无线系统都有天线。天线的任务就是把电信号转化成无线波，或者把无线波转化成电信号。</p>
 <h3 id="天线特性"><a href="#天线特性" class="headerlink" title="天线特性"></a>天线特性</h3><p>天线可以使有源也可以是无源器件，有源天线仅仅比无源天线内部多了放大器。</p>
@@ -4805,6 +4805,41 @@
 </blockquote>
 <p>振荡器就是射频最先发出来的地方。他们是射频的源。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/11/23/YJwoShiBT2kG4qO.png"></p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习途径是《射频和无线技术入门（第二版）》</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>RF协议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RF协议笔记(0X03)</title>
+    <url>/RF%E5%8D%8F%E8%AE%AE03/</url>
+    <content><![CDATA[<h1 id="其他器件"><a href="#其他器件" class="headerlink" title="其他器件"></a>其他器件</h1><h2 id="衰减器"><a href="#衰减器" class="headerlink" title="衰减器"></a>衰减器</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>衰减器就是反向放大器。</p>
+<p>有时在无线系统中补丁信号太大，就需要引入衰减器，通过衰减器使信号变小。</p>
+<h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><ul>
+<li><p>固定衰减器</p>
+<blockquote>
+<p>固定衰减器，使信号经受固定量的损耗，以dB来度量。</p>
+<p>有时固定衰减器被称为常量衰减器。</p>
+<p>一个典型的固定衰减器可能会表现出3dB的插入损耗，因此事3dB衰耗器</p>
+</blockquote>
+</li>
+<li><p>电压可变衰减器</p>
+<blockquote>
+<p>可变衰减器允许射频工程师在任何时候通过使用外部控制，来控制确切的衰减量。</p>
+<p>电压可变衰减器在给定衰减范围内变化衰减，受外部控制电压控制。</p>
+</blockquote>
+</li>
+<li><p>数字衰减器</p>
+<blockquote>
+<p>数字衰减器有多个输入控制，每个控制不同的衰减值。</p>
+<p>便于理解：吧数字衰减器看成是一束固定的衰减器，它们都在一排，可以在任何时候换进电路或者换出电路。</p>
+</blockquote>
+</li>
+</ul>
 <p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习途径是《射频和无线技术入门（第二版）》</em></p>
 ]]></content>
       <categories>
