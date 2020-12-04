@@ -103,7 +103,57 @@
   <entry>
     <title>BLE协议笔记(0X01)</title>
     <url>/BLE%E5%8D%8F%E8%AE%AE01/</url>
-    <content><![CDATA[<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
+    <content><![CDATA[<h1 id="蓝牙4-0-BLE简介"><a href="#蓝牙4-0-BLE简介" class="headerlink" title="蓝牙4.0 BLE简介"></a>蓝牙4.0 BLE简介</h1><h2 id="无线网络数据传输协议对比"><a href="#无线网络数据传输协议对比" class="headerlink" title="无线网络数据传输协议对比"></a>无线网络数据传输协议对比</h2><ul>
+<li>传统蓝牙数据传输速率小于3Mbps，典型数据传输距离为2~10m，典型应用是在两台蓝牙设备之间进行小量数据传输。</li>
+<li>IEEE 802.11b最高数据传输速率可达11Mbps，典型数据传输距离在30~100m，IEEE 802.11b提供了一种Internet的无线接入技术。如很多笔记本电脑使用自带wifi功能上网。</li>
+<li>ZigBee协议可以理解为一种短距离无线传感器网络与控制协议，传输速率低，主要传输控制信息，数据量相对于来说比较小，适用于电池的供电系统。</li>
+</ul>
+<h2 id="短距离无线网络分类"><a href="#短距离无线网络分类" class="headerlink" title="短距离无线网络分类"></a>短距离无线网络分类</h2><ul>
+<li>无线局域网（WLANs）</li>
+<li>无线个域网（WPANs）</li>
+</ul>
+<h3 id="蓝牙4-0-BLE"><a href="#蓝牙4-0-BLE" class="headerlink" title="蓝牙4.0 BLE"></a>蓝牙4.0 BLE</h3><p>蓝牙4.0版本涵盖了三种蓝牙技术</p>
+<ul>
+<li>传统蓝牙</li>
+<li>高速蓝牙</li>
+<li>低功耗蓝牙</li>
+</ul>
+<h3 id="蓝牙4-0-BLE的特点"><a href="#蓝牙4-0-BLE的特点" class="headerlink" title="蓝牙4.0 BLE的特点"></a>蓝牙4.0 BLE的特点</h3><ol>
+<li><p>高可靠性</p>
+<blockquote>
+<p>蓝牙4.0规范在射频、基带协议、链路管理协议（LMP）中采用可靠性措施，包括：差错检测和矫正、进行数据编解码、差错控制、数据加噪等。</p>
+</blockquote>
+</li>
+<li><p>低成本、低功耗</p>
+<blockquote>
+<p>低功耗蓝牙支持两种部署方式：双模式和单模式。</p>
+<p>双模式中，可以集成在现有的经典蓝牙控制器中，或在经典蓝牙技术芯片上增减低功耗堆栈，整体架构基本不变，因此城北增加有限。</p>
+<p>单模式面向高度集成、紧凑的设备。</p>
+<p>低功耗设计：蓝牙4.0功耗较传统蓝牙降低了百分之九十。</p>
+</blockquote>
+</li>
+<li><p>快速启动，瞬间连接</p>
+<blockquote>
+<p>蓝牙2.启动连接需要6s，而蓝牙4.0仅需3ms即可完成。</p>
+</blockquote>
+</li>
+<li><p>传输距离极大提高</p>
+<blockquote>
+<p>传统传输距离为2~10米，而4.0可达到60 ~ 100 米。</p>
+</blockquote>
+</li>
+<li><p>高安全性</p>
+<blockquote>
+<p>为保证数据传输的安全性，使用AES-128 CCM加密算法进行数据包加密和认证。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="蓝牙4-0-BLE协议简介"><a href="#蓝牙4-0-BLE协议简介" class="headerlink" title="蓝牙4.0 BLE协议简介"></a>蓝牙4.0 BLE协议简介</h2><p>蓝牙4.0 BLE规范中定义了GAP和GATT两个基本配置文件。</p>
+<ul>
+<li>协议栈中的GAP层负责设备访问模式和进行，包括设备发现、建立连接、终止连接、初始化安全特性和设备配置。</li>
+<li>协议栈中的GATT层用于已连接的蓝牙设备之间的数据通信。</li>
+</ul>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来学习途径是《蓝牙4.0BLE物联网开发技术实战完全教程》；</em></p>
 ]]></content>
       <categories>
         <category>网络通信协议</category>
@@ -4847,6 +4897,55 @@
       </categories>
       <tags>
         <tag>RF协议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BLE协议笔记(0X02)</title>
+    <url>/BLE%E5%8D%8F%E8%AE%AE02/</url>
+    <content><![CDATA[<h1 id="蓝牙4-0-BLE技术入门"><a href="#蓝牙4-0-BLE技术入门" class="headerlink" title="蓝牙4.0 BLE技术入门"></a>蓝牙4.0 BLE技术入门</h1><h2 id="蓝牙4-0-BLE协议栈"><a href="#蓝牙4-0-BLE协议栈" class="headerlink" title="蓝牙4.0 BLE协议栈"></a>蓝牙4.0 BLE协议栈</h2><p>协议栈是协议的具体实现形式，通俗的理解为用代码实现的函数库，便于调用。</p>
+<h3 id="BLE协议栈基础"><a href="#BLE协议栈基础" class="headerlink" title="BLE协议栈基础"></a>BLE协议栈基础</h3><ul>
+<li><p><strong>物理层</strong>是1Mbps自适应跳频的GFSK射频，工作与免许可证的2.4GHz ISM（工业、科学、医疗）频段。</p>
+</li>
+<li><p><strong>链路层</strong>用于控制设备的射频状态，设备将会处于物种状态之一：等待、广告、扫描、初始化、连接。</p>
+<blockquote>
+<p>广播设备：不需要建立连接就可以发送数据</p>
+<p>扫描设备：收听广播设备发出的数据</p>
+<p>发起连接的设备：通过发送请求来回应广播设备，如果广播设备接收请求，那么广播设备与发起连接的设备将会进入连接状态。</p>
+<p>发起连接的设备成为主机，接收连接请求的设备成为从机。</p>
+</blockquote>
+</li>
+<li><p><strong>主机控制接口层</strong>为主机和控制器之间提供标准通信接口,这一层可以使API或硬件接口，如UART、SPI、USB。</p>
+</li>
+<li><p><strong>逻辑链路控制及自适应协议层</strong>为上层提供数据封装服务，允许逻辑上的点对点数据通信。</p>
+</li>
+<li><p><strong>安全管理层</strong>定义了配对和秘钥分配方式，并为协议栈其他层与另一个设备之间的的安全连接和数据交换提供服务。</p>
+</li>
+<li><p><strong>属性协议层</strong>允许设备向另一个设备展示一块特定的数据，称之为属性。</p>
+</li>
+<li><p><strong>通用属性配置文件层</strong>定义了使用ATT的服务框架。</p>
+</li>
+</ul>
+<h2 id="蓝牙4-0-BLE协议栈中串口应用详解"><a href="#蓝牙4-0-BLE协议栈中串口应用详解" class="headerlink" title="蓝牙4.0 BLE协议栈中串口应用详解"></a>蓝牙4.0 BLE协议栈中串口应用详解</h2><p>使用串口的基本步骤</p>
+<blockquote>
+<ul>
+<li>初始化串口，包括设置波特率，终端等。</li>
+<li>向发送缓冲区发送数据或者从接受缓冲区读取数据。</li>
+</ul>
+</blockquote>
+<p>在蓝牙4.0 BLE协议栈中已经对串口初始化所需要的函数进行的实现，只需要传递几个参数就可以使用串口。</p>
+<p>在使用串口时，只需要掌握蓝牙4.0 BLE协议栈提供的串口操作相关的三个函数即可：</p>
+<ul>
+<li>uint8 HalUARTOpen</li>
+<li>uint16 HalUARTRead</li>
+<li>uint16 HalUARTWrite</li>
+</ul>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来学习途径是《蓝牙4.0BLE物联网开发技术实战完全教程》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>BLE协议</tag>
       </tags>
   </entry>
 </search>
