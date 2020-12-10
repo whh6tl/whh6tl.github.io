@@ -1,0 +1,323 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WHH's blog</title><meta name="description"><meta name="author" content="whh6tl"><meta name="copyright" content="whh6tl"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.whh6tl.com/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="website"><meta property="og:title" content="WHH's blog"><meta property="og:url" content="http://www.whh6tl.com/"><meta property="og:site_name" content="WHH's blog"><meta property="og:description"><meta property="og:image" content="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg"><meta property="article:published_time" content="2020-12-10T09:54:47.522Z"><meta property="article:modified_time" content="2020-12-10T09:54:47.522Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2020-12-10 17:54:47'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">68</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">19</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://i.loli.net/2020/10/14/FGgLP9EXjA7yrqV.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">WHH's blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site_title">WHH's blog</h1><div id="site_subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/whh6tl" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ly527564064@tom.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll_down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout_page" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/" title="汇编指令集">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/bgDoOV1CEkGPMf8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="汇编指令集"></a></div><div class="recent-post-info"><a class="article-title" href="/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/" title="汇编指令集">汇编指令集</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-31T13:00:00.000Z" title="发表于 2020-12-31 21:00:00">2020-12-31</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-12T07:37:20.000Z" title="更新于 2020-10-12 15:37:20">2020-10-12</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/x86%E6%B1%87%E7%BC%96/">x86汇编</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/x86%E6%B1%87%E7%BC%96/">x86汇编</a></span></div><div class="content">数据传输指令数据传输类指令主要包括数据传送、数据交换、堆栈操作、查表转换、地址传送、标志位传送、I/O数据传送指令。这类指令的主要特点是大部分指令操作完成后，对FR中的标志位不产生影响。它们在存储器和寄存器、寄存器和输入输出端口之间传送数据。 [4] 
+数据传送指令MOV：传送字或字节。
+MOVSX：先符号扩展，再传送。
+MOVZX：先零扩展，再传送。
+PUSH：把字压入堆栈。
+POP： 把字弹出堆栈。
+PUSHA： 把AX，CX，DX，BX，SP，BP，SI，DI依次压入堆栈。
+POPA： 把DI，SI，BP，SP，BX，DX，CX，AX依次弹出堆栈。
+PUSHAD： 把EAX，ECX，EDX，EBX，ESP，EBP，ESI，EDI依次压入堆栈。
+POPAD： 把EDI，ESI，EBP，ESP，EBX，EDX，ECX，EAX依次弹出堆栈。
+BSWAP： 交换32位寄存器里字节的顺序。
+XCHG： 交换字或字节。( 至少有一个操作数为寄存器,段寄存器不可作为操作数)
+CMPXCHG： 比较并交换操作数。（第二个操作数必须为累加器AL/AX/EAX）
+XADD： 先交换再累加。( 结果在 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/NFC%E5%8D%8F%E8%AE%AE01/" title="NFC协议笔记(0X01)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/phkBuFiHlqmNjbe.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NFC协议笔记(0X01)"></a></div><div class="recent-post-info"><a class="article-title" href="/NFC%E5%8D%8F%E8%AE%AE01/" title="NFC协议笔记(0X01)">NFC协议笔记(0X01)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-09T13:00:00.000Z" title="发表于 2020-12-09 21:00:00">2020-12-09</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-10T07:56:01.090Z" title="更新于 2020-12-10 15:56:01">2020-12-10</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/NFC%E5%8D%8F%E8%AE%AE/">NFC协议</a></span></div><div class="content">NFC概述RFID基础RFID简介RFID（射频识别或无线射频识别），常称为感应式电子晶片或近接卡、感应卡、非接触卡、电子标签、电子条码等。
+RFID是一种通信技术，可用过电信号识别特定目标并读写相关数据，而无需识别系统与特定目标之间建立机械或光学接触。
+常用频段分为以下4种：
+
+低频（30~300kHz）
+高频（3~300MHz）
+超高频（300MHz~3GHz）
+微波（2.45GHz以上）
+
+RFID的优点：
+
+体积小
+成本低廉
+不易被仿制
+可储存大量数据
+快速非接触式读取方式
+
+RFID系统的组成和工作原理一套完整的RFID系统由Reader（读取器）、RF Tag（感应器/射频标签）和coil（天线）3部分组成。
+工作原理：由Reader发射一特定频率之无线电波能量给感应器，用以驱动感应器电路将内部的ID Code送出，此时，Reader便会接收此ID Code。Transponder的特殊在于免用电池、免接触、免啥卡，故不怕脏污，且晶片密码为世界唯一、无法复制，安全性高、寿命长。
+感应器分类：
+感应器的主要功能在于接收到Reader的命令后，将本身所储存的代码回传给Reade ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/ZigBee%E5%8D%8F%E8%AE%AE02/" title="ZigBee协议笔记(0X02)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/ka4ZQLFct17bHYN.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ZigBee协议笔记(0X02)"></a></div><div class="recent-post-info"><a class="article-title" href="/ZigBee%E5%8D%8F%E8%AE%AE02/" title="ZigBee协议笔记(0X02)">ZigBee协议笔记(0X02)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-08T13:00:00.000Z" title="发表于 2020-12-08 21:00:00">2020-12-08</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-10T02:05:34.000Z" title="更新于 2020-12-10 10:05:34">2020-12-10</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/ZigBee%E5%8D%8F%E8%AE%AE/">ZigBee协议</a></span></div><div class="content">ZigBee协议栈结构和原理ZigBee协议栈概述ZigBee协议栈由一组子层构成，每层为其上层提供一组特定的服务：
+
+一个数据实体提供数据传输服务。
+一个管理实体提供全部其他服务。
+
+IEEE 802.15.4通信层IEEE 802.15.4标准定义了最下面的两层–物理层（PHY）和介质介入控制子层（MAC），而ZigBee直接使用了IEEE802.15.4所定义的物理层和介质介入控制子层来作为ZigBee的物理层和介质介入控制子层。
+PHY（物理）层物理层通过射频固件和射频硬件提供了一个从MAC层到物理层无线信号的接口。
+ZigBee物理层数据包由同步包头、物理层包头和物理层净荷3部分组成。
+
+同步包头由钱同步码（前导码）和数据包（帧）定界符组成，用于获取符号同步、扩频码同步和帧同步，也有助于粗略的频率调整；
+物理层包头只是净荷部分的长度；
+物理层净荷部分好友MAC层数据包，净荷部分最大昌都市127字节。
+
+MAC（介质介入控制子层）层MAC层在服务协议汇聚层（SSCS）和物理层之间提供了一个接口。
+
+MAC层包括一个管理实体，该实体通过一个服务接口可调用MAC层管理功能，该实体还 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/ZigBee%E5%8D%8F%E8%AE%AE01/" title="ZigBee协议笔记(0X01)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/ka4ZQLFct17bHYN.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ZigBee协议笔记(0X01)"></a></div><div class="recent-post-info"><a class="article-title" href="/ZigBee%E5%8D%8F%E8%AE%AE01/" title="ZigBee协议笔记(0X01)">ZigBee协议笔记(0X01)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-07T13:00:00.000Z" title="发表于 2020-12-07 21:00:00">2020-12-07</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-08T02:48:03.000Z" title="更新于 2020-12-08 10:48:03">2020-12-08</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/ZigBee%E5%8D%8F%E8%AE%AE/">ZigBee协议</a></span></div><div class="content">短距离无线数据网络基础典型的短距离无线数据网络技术ZigBeeZigBee是一种短距离、低速率无线网络技术，它是一种借与无线标记技术和蓝牙之间的技术方案，主要用于近距离无线连接。
+它有自己的无线电标准，在书乔哥微小的传感器之间互相协调实现通信。这些传感器只需要很少的能量，以接力的方式通过无线电波将数据从一个传感器传到另一个传感器，所以通信效率非常高。
+ZigBee的基础是IEEE 802.15.4，这是IEEE无线个人局域网工作组的一项标准，被称作ZigBee技术标准。
+每个ZigBee网络节点（FFD和RFD）可以支持多大31个传感器和受控设备，每一个传感器和受控设备可以有八种不同的接口方式，可以菜鸡和传输数字量和模拟量
+
+ZigBee技术的特点包括以下几个方面：
+
+省电。谅解五号电池支持长达6个月到2年左右的使用时间。
+可靠。采用了碰撞避免机制，同事为需要固定带宽的通信业务预留了专用时隙，避免的数据发送时的竞争和冲突；节点模块之间既有自动动态组网的功能，信息在整个ZigBee网络中通过自动路由的方式进行传输，从而保证了信息传输的可靠性。
+时延短。针对时延敏感的应用做了优化，通信时延 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/BLE%E5%8D%8F%E8%AE%AE02/" title="BLE协议笔记(0X02)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/WgRBVQH1vSom9Fn.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BLE协议笔记(0X02)"></a></div><div class="recent-post-info"><a class="article-title" href="/BLE%E5%8D%8F%E8%AE%AE02/" title="BLE协议笔记(0X02)">BLE协议笔记(0X02)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-04T13:00:00.000Z" title="发表于 2020-12-04 21:00:00">2020-12-04</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-04T03:31:46.201Z" title="更新于 2020-12-04 11:31:46">2020-12-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/BLE%E5%8D%8F%E8%AE%AE/">BLE协议</a></span></div><div class="content">蓝牙4.0 BLE技术入门蓝牙4.0 BLE协议栈协议栈是协议的具体实现形式，通俗的理解为用代码实现的函数库，便于调用。
+BLE协议栈基础
+物理层是1Mbps自适应跳频的GFSK射频，工作与免许可证的2.4GHz ISM（工业、科学、医疗）频段。
+
+链路层用于控制设备的射频状态，设备将会处于物种状态之一：等待、广告、扫描、初始化、连接。
+
+广播设备：不需要建立连接就可以发送数据
+扫描设备：收听广播设备发出的数据
+发起连接的设备：通过发送请求来回应广播设备，如果广播设备接收请求，那么广播设备与发起连接的设备将会进入连接状态。
+发起连接的设备成为主机，接收连接请求的设备成为从机。
+
+
+主机控制接口层为主机和控制器之间提供标准通信接口,这一层可以使API或硬件接口，如UART、SPI、USB。
+
+逻辑链路控制及自适应协议层为上层提供数据封装服务，允许逻辑上的点对点数据通信。
+
+安全管理层定义了配对和秘钥分配方式，并为协议栈其他层与另一个设备之间的的安全连接和数据交换提供服务。
+
+属性协议层允许设备向另一个设备展示一块特定的数据，称之为属性。
+
+通用属性配置文件层定义了使用ATT的服务框架。
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/BLE%E5%8D%8F%E8%AE%AE01/" title="BLE协议笔记(0X01)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/WgRBVQH1vSom9Fn.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BLE协议笔记(0X01)"></a></div><div class="recent-post-info"><a class="article-title" href="/BLE%E5%8D%8F%E8%AE%AE01/" title="BLE协议笔记(0X01)">BLE协议笔记(0X01)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-03T13:00:00.000Z" title="发表于 2020-12-03 21:00:00">2020-12-03</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-12-04T03:29:52.000Z" title="更新于 2020-12-04 11:29:52">2020-12-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/BLE%E5%8D%8F%E8%AE%AE/">BLE协议</a></span></div><div class="content">蓝牙4.0 BLE简介无线网络数据传输协议对比
+传统蓝牙数据传输速率小于3Mbps，典型数据传输距离为2~10m，典型应用是在两台蓝牙设备之间进行小量数据传输。
+IEEE 802.11b最高数据传输速率可达11Mbps，典型数据传输距离在30~100m，IEEE 802.11b提供了一种Internet的无线接入技术。如很多笔记本电脑使用自带wifi功能上网。
+ZigBee协议可以理解为一种短距离无线传感器网络与控制协议，传输速率低，主要传输控制信息，数据量相对于来说比较小，适用于电池的供电系统。
+
+短距离无线网络分类
+无线局域网（WLANs）
+无线个域网（WPANs）
+
+蓝牙4.0 BLE蓝牙4.0版本涵盖了三种蓝牙技术
+
+传统蓝牙
+高速蓝牙
+低功耗蓝牙
+
+蓝牙4.0 BLE的特点
+高可靠性
+
+蓝牙4.0规范在射频、基带协议、链路管理协议（LMP）中采用可靠性措施，包括：差错检测和矫正、进行数据编解码、差错控制、数据加噪等。
+
+
+低成本、低功耗
+
+低功耗蓝牙支持两种部署方式：双模式和单模式。
+双模式中，可以集成在现有的经典蓝牙控制器中，或在经典蓝牙技术芯片上增减低功耗堆栈，整体架构基 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/RF%E5%8D%8F%E8%AE%AE03/" title="RF协议笔记(0X03)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/OjCquVmk9vJdX4P.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RF协议笔记(0X03)"></a></div><div class="recent-post-info"><a class="article-title" href="/RF%E5%8D%8F%E8%AE%AE03/" title="RF协议笔记(0X03)">RF协议笔记(0X03)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-29T13:00:00.000Z" title="发表于 2020-11-29 21:00:00">2020-11-29</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-30T08:11:38.000Z" title="更新于 2020-11-30 16:11:38">2020-11-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/RF%E5%8D%8F%E8%AE%AE/">RF协议</a></span></div><div class="content">其他器件衰减器功能衰减器就是反向放大器。
+有时在无线系统中补丁信号太大，就需要引入衰减器，通过衰减器使信号变小。
+类型
+固定衰减器
+
+固定衰减器，使信号经受固定量的损耗，以dB来度量。
+有时固定衰减器被称为常量衰减器。
+一个典型的固定衰减器可能会表现出3dB的插入损耗，因此事3dB衰耗器
+
+
+电压可变衰减器
+
+可变衰减器允许射频工程师在任何时候通过使用外部控制，来控制确切的衰减量。
+电压可变衰减器在给定衰减范围内变化衰减，受外部控制电压控制。
+
+
+数字衰减器
+
+数字衰减器有多个输入控制，每个控制不同的衰减值。
+便于理解：吧数字衰减器看成是一束固定的衰减器，它们都在一排，可以在任何时候换进电路或者换出电路。
+
+
+
+PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习途径是《射频和无线技术入门（第二版）》
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/RF%E5%8D%8F%E8%AE%AE02/" title="RF协议笔记(0X02)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/OjCquVmk9vJdX4P.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RF协议笔记(0X02)"></a></div><div class="recent-post-info"><a class="article-title" href="/RF%E5%8D%8F%E8%AE%AE02/" title="RF协议笔记(0X02)">RF协议笔记(0X02)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-27T13:00:00.000Z" title="发表于 2020-11-27 21:00:00">2020-11-27</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-30T08:12:04.646Z" title="更新于 2020-11-30 16:12:04">2020-11-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/RF%E5%8D%8F%E8%AE%AE/">RF协议</a></span></div><div class="content">基本系统器件天线方框图每个无线系统都有天线。天线的任务就是把电信号转化成无线波，或者把无线波转化成电信号。
+天线特性天线可以使有源也可以是无源器件，有源天线仅仅比无源天线内部多了放大器。
+任一种天线的形状和大小都依赖于三个因素：
+
+天线的物理特性依赖的是频率。
+无线电波传播的方向
+天线发送或者接受的功率。功率越大，无线规模越大。
+
+天线增益所有天线都有增益，无源也有（方向增益）。
+定向天线相对于各向同性天线被认为是具有增益，这是方向增益，不是功率增益。天线束月集中，它的增益越大。
+极化当射频波在空气中传播，正弦波自身有方向：垂直或水平。这个方向称作极化。
+一维、二维、智能天线一维天线由许多电线组成，单极和双极是两种最基本的一维天线。一个单极天线仅仅是一个直的天线，它的长度近似于要辐射信号波长的四分之一。双极信号长度近似于射频信号波长的一半。
+二维天线由片状、阵列状、喇叭状、碟状。一个片状天线就是一块正方形的金属。
+智能天线：在大多数蜂窝系统中，蜂窝被分成3个120度的扇区，每套天线负责120度的覆盖，因此当看一个天线方向图时，存在120度的波束宽度。
+放大器放大器的基本属性放大器有三个 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/RF%E5%8D%8F%E8%AE%AE01/" title="RF协议笔记(0X01)">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/OjCquVmk9vJdX4P.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RF协议笔记(0X01)"></a></div><div class="recent-post-info"><a class="article-title" href="/RF%E5%8D%8F%E8%AE%AE01/" title="RF协议笔记(0X01)">RF协议笔记(0X01)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-22T13:00:00.000Z" title="发表于 2020-11-22 21:00:00">2020-11-22</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-23T11:30:55.000Z" title="更新于 2020-11-23 19:30:55">2020-11-23</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/RF%E5%8D%8F%E8%AE%AE/">RF协议</a></span></div><div class="content">基本概念简介基本电子术语瓦特（W）：功率测量单位
+交流电压（AC），比如插座
+直流电压（DC），比如电池
+射频基础发射机和接收机
+电信号随电流在导体中移动，进入“T”盒子。T就是发射机，发射机将电子电流转换成空气中的波。
+波以光速传播，再达到标注为R的盒子。盒子R就是接收机，将波转换成电子电流。
+信号模拟信号如果是能量强度（电流或波）随时间而变化就可以存储信息。当点能量以受控方式随时间变化时就称为信号。信号分为两类：
+
+模拟信号
+数字信号
+
+在射频世界里，信号强度通常都是以功率（W）来衡量。
+信号在1秒内完成一个完整正弦波的次数就是信号的频率（Hz）。
+频率根据频率可以将一个射频信号和另一个射频信号隔离，也可以区分不同的无线应用。
+
+数字信号数字信号是用来表示信息的，不用来承载空气中传播的信息。
+只有模拟信号（正弦波）可以承载信息。
+射频行为影响射频能量的两个基本概念是损耗和增益。
+损耗和增益器件所有元器件都可以归为有源和无源的两类。
+需要供电才能正常工作的叫有源器件，反之叫无源器件。
+所有器件都或显示损耗特性，或显示增益特性。如果出来的信号大于进去的信号，表明该器件有增益，这样的器件 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/Wi-Fi%E5%8D%8F%E8%AE%AE11/" title="Wi-Fi协议名词解释">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Wi-Fi协议名词解释"></a></div><div class="recent-post-info"><a class="article-title" href="/Wi-Fi%E5%8D%8F%E8%AE%AE11/" title="Wi-Fi协议名词解释">Wi-Fi协议名词解释</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-20T13:00:00.000Z" title="发表于 2020-11-20 21:00:00">2020-11-20</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-18T14:48:48.000Z" title="更新于 2020-11-18 22:48:48">2020-11-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/Wi-Fi%E5%8D%8F%E8%AE%AE/">Wi-Fi协议</a></span></div><div class="content">名词解释AAA：身份验证，授权与计费
+ACK：确认机制
+AES：高级加密标准
+AID：关联标识符
+AKM：身份验证与秘钥管理
+AP：接入点
+AS：身份验证服务器
+ASN：抽象语法标记
+ATIM：通知传输指示消息
+BBS：基本服务集
+SSID：服务集标识符
+BSSID：基本服务集标识
+CCK：补码键控
+CCMP：特别坚固的加密协议
+CF：无竞争
+CFP：无竞争周期
+CRC：循环冗余校验
+CSMA/MA：载波监听多路访问/冲突避免（）通过延迟访问来避免多方同事访问传输媒介
+CTS：清除发送（通知对方已收到请求发送信息：RTS，可以开始传送数据的确认）
+DA：目的地地址
+DCF：分布式协调功能
+DFS：动态频率选择
+DHCP：动态主机配置协议
+DIFS：分布式帧间间隔
+DS：分布式系统
+DSSS：直接序列扩频
+DTIM：延迟传输指示映射
+EAP：可扩展身份验证协议
+EIFS：扩展帧间间隔
+EIRP：有效等向辐射功率
+ERP：有效辐射功率
+ESS：扩展服务集
+FCS：帧校验序列
+FH：跳频
+FHSS：跳频扩频
+GMK：组主秘钥
+GTK：组临时秘钥
+HR/DSSS：告诉直接序列扩频
+IAPP：接 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">whh6tl</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives"><div class="headline">文章</div><div class="length_num">68</div></a></div><div class="card-info-data-item is-center">      <a href="/tags"><div class="headline">标签</div><div class="length_num">19</div></a></div><div class="card-info-data-item is-center"><a href="/categories"><div class="headline">分类</div><div class="length_num">10</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/whh6tl"><i class="fab fa-github"></i><span>whh's github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/whh6tl" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ly527564064@tom.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">王火火不偷懒也不太捞</div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-recent-item"><div class="aside-recent-post"><a class="aside-post-cover" href="/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/" title="汇编指令集"><img class="aside-post-bg" data-lazy-src="https://i.loli.net/2020/10/12/bgDoOV1CEkGPMf8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="汇编指令集"/></a><div class="aside-post-info"><a class="aside-post-title" href="/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/" title="汇编指令集">汇编指令集</a><time class="aside-post_meta post-meta-date" datetime="2020-12-31T13:00:00.000Z" title="发表于 2020-12-31 21:00:00">2020-12-31</time></div></div><div class="aside-recent-post"><a class="aside-post-cover" href="/NFC%E5%8D%8F%E8%AE%AE01/" title="NFC协议笔记(0X01)"><img class="aside-post-bg" data-lazy-src="https://i.loli.net/2020/10/12/phkBuFiHlqmNjbe.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NFC协议笔记(0X01)"/></a><div class="aside-post-info"><a class="aside-post-title" href="/NFC%E5%8D%8F%E8%AE%AE01/" title="NFC协议笔记(0X01)">NFC协议笔记(0X01)</a><time class="aside-post_meta post-meta-date" datetime="2020-12-09T13:00:00.000Z" title="发表于 2020-12-09 21:00:00">2020-12-09</time></div></div><div class="aside-recent-post"><a class="aside-post-cover" href="/ZigBee%E5%8D%8F%E8%AE%AE02/" title="ZigBee协议笔记(0X02)"><img class="aside-post-bg" data-lazy-src="https://i.loli.net/2020/10/12/ka4ZQLFct17bHYN.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ZigBee协议笔记(0X02)"/></a><div class="aside-post-info"><a class="aside-post-title" href="/ZigBee%E5%8D%8F%E8%AE%AE02/" title="ZigBee协议笔记(0X02)">ZigBee协议笔记(0X02)</a><time class="aside-post_meta post-meta-date" datetime="2020-12-08T13:00:00.000Z" title="发表于 2020-12-08 21:00:00">2020-12-08</time></div></div><div class="aside-recent-post"><a class="aside-post-cover" href="/ZigBee%E5%8D%8F%E8%AE%AE01/" title="ZigBee协议笔记(0X01)"><img class="aside-post-bg" data-lazy-src="https://i.loli.net/2020/10/12/ka4ZQLFct17bHYN.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ZigBee协议笔记(0X01)"/></a><div class="aside-post-info"><a class="aside-post-title" href="/ZigBee%E5%8D%8F%E8%AE%AE01/" title="ZigBee协议笔记(0X01)">ZigBee协议笔记(0X01)</a><time class="aside-post_meta post-meta-date" datetime="2020-12-07T13:00:00.000Z" title="发表于 2020-12-07 21:00:00">2020-12-07</time></div></div><div class="aside-recent-post"><a class="aside-post-cover" href="/BLE%E5%8D%8F%E8%AE%AE02/" title="BLE协议笔记(0X02)"><img class="aside-post-bg" data-lazy-src="https://i.loli.net/2020/10/12/WgRBVQH1vSom9Fn.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BLE协议笔记(0X02)"/></a><div class="aside-post-info"><a class="aside-post-title" href="/BLE%E5%8D%8F%E8%AE%AE02/" title="BLE协议笔记(0X02)">BLE协议笔记(0X02)</a><time class="aside-post_meta post-meta-date" datetime="2020-12-04T13:00:00.000Z" title="发表于 2020-12-04 21:00:00">2020-12-04</time></div></div></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ARM%E6%B1%87%E7%BC%96/"><span class="card-category-list-name">ARM汇编</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Android%E5%8F%8D%E7%BC%96%E8%AF%91/"><span class="card-category-list-name">Android反编译</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CVE/"><span class="card-category-list-name">CVE</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">JS学习笔记</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/x86%E6%B1%87%E7%BC%96/"><span class="card-category-list-name">x86汇编</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%91/"><span class="card-category-list-name">固件逆向</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%99%BA%E8%83%BD%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/"><span class="card-category-list-name">智能硬件安全</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%A1%AC%E4%BB%B6%E7%94%B5%E8%B7%AF%E6%9E%84%E6%88%90/"><span class="card-category-list-name">硬件电路构成</span><span class="card-category-list-count">1</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories">
+                <span>查看更多</span><i class="fas fa-angle-right"></i></a></li>           
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/AMQP%E5%8D%8F%E8%AE%AE-%E6%9A%82%E6%97%A0/" style="font-size: 16px; color: #999">AMQP协议(暂无)</a> <a href="/tags/ARM%E6%B1%87%E7%BC%96/" style="font-size: 17.71px; color: #999ea4">ARM汇编</a> <a href="/tags/Android%E5%8F%8D%E7%BC%96%E8%AF%91/" style="font-size: 16px; color: #999">Android反编译</a> <a href="/tags/BLE%E5%8D%8F%E8%AE%AE/" style="font-size: 16.86px; color: #999b9e">BLE协议</a> <a href="/tags/CoAP%E5%8D%8F%E8%AE%AE/" style="font-size: 16px; color: #999">CoAP协议</a> <a href="/tags/JT808%E5%8D%8F%E8%AE%AE/" style="font-size: 16px; color: #999">JT808协议</a> <a href="/tags/JavaScript/" style="font-size: 20.29px; color: #99a4b4">JavaScript</a> <a href="/tags/MQTT%E5%8D%8F%E8%AE%AE/" style="font-size: 16px; color: #999">MQTT协议</a> <a href="/tags/NFC%E5%8D%8F%E8%AE%AE/" style="font-size: 16px; color: #999">NFC协议</a> <a href="/tags/RF%E5%8D%8F%E8%AE%AE/" style="font-size: 17.71px; color: #999ea4">RF协议</a> <a href="/tags/Wi-Fi%E5%8D%8F%E8%AE%AE/" style="font-size: 21.14px; color: #99a7ba">Wi-Fi协议</a> <a href="/tags/ZigBee%E5%8D%8F%E8%AE%AE/" style="font-size: 16.86px; color: #999b9e">ZigBee协议</a> <a href="/tags/x86%E6%B1%87%E7%BC%96/" style="font-size: 22px; color: #99a9bf">x86汇编</a> <a href="/tags/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%91/" style="font-size: 16px; color: #999">固件逆向</a> <a href="/tags/%E6%99%BA%E8%83%BD%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8/" style="font-size: 19.43px; color: #99a2af">智能硬件安全</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" style="font-size: 16.86px; color: #999b9e">漏洞复现</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E7%94%B5%E8%B7%AF%E6%9E%84%E6%88%90/" style="font-size: 16px; color: #999">硬件电路构成</a> <a href="/tags/%E9%80%86%E5%90%91%EF%BC%88%E5%9F%BA%E7%A1%80%EF%BC%89/" style="font-size: 16px; color: #999">逆向（基础）</a> <a href="/tags/%E9%80%86%E5%90%91%EF%BC%88%E8%B0%83%E8%AF%95%EF%BC%89/" style="font-size: 18.57px; color: #99a0a9">逆向（调试）</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/12/"><span class="card-archive-list-date">十二月 2020</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">十一月 2020</span><span class="card-archive-list-count">14</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">十月 2020</span><span class="card-archive-list-count">15</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/09/"><span class="card-archive-list-date">九月 2020</span><span class="card-archive-list-count">24</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">八月 2020</span><span class="card-archive-list-count">9</span></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="webinfo-article-name">文章数目 :</div><div class="webinfo-article-count">68</div></div><div class="webinfo-item"><div class="webinfo-runtime-name">已运行时间 :</div><div class="webinfo-runtime-count" id="webinfo-runtime-count" publish_date="8/20/2020 00:00:00">     </div></div><div class="webinfo-item"><div class="webinfo-site-wordcount-name">本站总字数 :</div><div class="webinfo-site-wordcount">58.9k</div></div><div class="webinfo-item">      <div class="webinfo-site-uv-name">本站访客数 :</div><div class="webinfo-site-uv-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="webinfo-site-name">本站总访问量 :</div><div class="webinfo-site-pv-count" id="busuanzi_value_site_pv"></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://i.loli.net/2020/10/14/FGgLP9EXjA7yrqV.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By whh6tl</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    var typed = new Typed("#subtitle", {
+      strings: "王火火可不太捞!".split(","),
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: false,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = '王'
+  }
+}
+
+if (true) {
+  if (typeof Typed === 'function') subtitleType()
+  else $.getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js', subtitleType)
+} else {
+  subtitleType()
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script></div></body></html>

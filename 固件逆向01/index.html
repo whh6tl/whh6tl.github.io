@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>固件逆向学习笔记(0X01) | WHH's blog</title><meta name="description" content="网上看到有人逆向小米的note3的rom，固件逆向资料比较少，只看理论必不行，研究了研究后大体搞明白了，不明白的时候感觉好复杂好难，研究完后…就这？瞬间感觉拿不出手了，但是还是写一篇来记录一下，以后还可以返回来看一看。 下载rom首先下载小米note3的rom，下载地址： 小米官网固件下载 选择好以后下载就ok br转换dat 下载好之后解压zip包，按说解压后里边应该有system.img文件的"><meta name="keywords" content="固件逆向"><meta name="author" content="whh6tl"><meta name="copyright" content="whh6tl"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.whh6tl.com/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%9101/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="固件逆向学习笔记(0X01)"><meta property="og:url" content="http://www.whh6tl.com/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%9101/"><meta property="og:site_name" content="WHH's blog"><meta property="og:description" content="网上看到有人逆向小米的note3的rom，固件逆向资料比较少，只看理论必不行，研究了研究后大体搞明白了，不明白的时候感觉好复杂好难，研究完后…就这？瞬间感觉拿不出手了，但是还是写一篇来记录一下，以后还可以返回来看一看。 下载rom首先下载小米note3的rom，下载地址： 小米官网固件下载 选择好以后下载就ok br转换dat 下载好之后解压zip包，按说解压后里边应该有system.img文件的"><meta property="og:image" content="https://raw.githubusercontent.com/whh6tl/img/master/back2-2.jpg"><meta property="article:published_time" content="2020-10-30T13:00:00.000Z"><meta property="article:modified_time" content="2020-11-05T02:09:47.802Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-05 10:09:47'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">68</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">19</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDrom"><span class="toc-number">1.</span> <span class="toc-text">下载rom</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#br%E8%BD%AC%E6%8D%A2dat"><span class="toc-number">2.</span> <span class="toc-text">br转换dat</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dat%E8%BD%AC%E6%8D%A2img"><span class="toc-number">3.</span> <span class="toc-text">dat转换img</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#img%E8%A7%A3%E5%8E%8Bsystem%E7%9B%AE%E5%BD%95"><span class="toc-number">4.</span> <span class="toc-text">img解压system目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E5%8F%96odex"><span class="toc-number">5.</span> <span class="toc-text">提取odex</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#odex%E8%BD%AC%E6%8D%A2dex"><span class="toc-number">6.</span> <span class="toc-text">odex转换dex</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dex%E8%BD%AC%E6%8D%A2jar"><span class="toc-number">7.</span> <span class="toc-text">dex转换jar</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#jd-jui%E5%88%86%E6%9E%90jar%E5%8C%85"><span class="toc-number">8.</span> <span class="toc-text">jd-jui分析jar包</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://raw.githubusercontent.com/whh6tl/img/master/back2-2.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">WHH's blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">固件逆向学习笔记(0X01)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-30T13:00:00.000Z" title="发表于 2020-10-30 21:00:00">2020-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-05T02:09:47.802Z" title="更新于 2020-11-05 10:09:47">2020-11-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%91/">固件逆向</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">685</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>网上看到有人逆向小米的note3的rom，固件逆向资料比较少，只看理论必不行，研究了研究后大体搞明白了，不明白的时候感觉好复杂好难，研究完后…就这？瞬间感觉拿不出手了，但是还是写一篇来记录一下，以后还可以返回来看一看。</p>
+<h1 id="下载rom"><a href="#下载rom" class="headerlink" title="下载rom"></a>下载rom</h1><p>首先下载小米note3的rom，下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://www.miui.com/download.html">小米官网固件下载</a></p>
+<p>选择好以后下载就ok</p>
+<h1 id="br转换dat"><a href="#br转换dat" class="headerlink" title="br转换dat"></a>br转换dat</h1><blockquote>
+<p>下载好之后解压zip包，按说解压后里边应该有system.img文件的，但是并没有，android5开始以后没有system.img文件了，而是改为system.new.dat，小米里边却是一个system.new.dat.br，于是上网继续学习br文件转换为dat文件，找到一个好用的工具，比较舒适，叫<a target="_blank" rel="noopener" href="https://github.com/google/brotli/releases">brotli</a>，在brotli.exe路径下进入cmd，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brotli.exe -d system.new.dat.br</span><br></pre></td></tr></table></figure>
+
+<p>之后会自动生成dat文件</p>
+</blockquote>
+<h1 id="dat转换img"><a href="#dat转换img" class="headerlink" title="dat转换img"></a>dat转换img</h1><p>得到dat文件之后就需要system.img文件了，网上各种方法都有，最终自己总结了一下最简便的一个工具，《ROM制作工具RomMakeTool》</p>
+<p>使用方法如图</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/YwPxgziE3OmvHD1.png"></p>
+<h1 id="img解压system目录"><a href="#img解压system目录" class="headerlink" title="img解压system目录"></a>img解压system目录</h1><p>得到system.img文件后就需要转换system文件目录了，从网上搜一个system.img转换工具，或者继续使用上边的工具</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/ZahlYAH95x7Xe6L.png"></p>
+<h1 id="提取odex"><a href="#提取odex" class="headerlink" title="提取odex"></a>提取odex</h1><p>解压完后就会得到一个system目录，APK文件内如果有dex文件那就直接到dex转jar步骤，没有的话就需要找odex文件了，odex文件路径参考：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;system&#x2F;priv-app&#x2F;Settings&#x2F;oat&#x2F;arm64&#x2F;Settings.odex</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="odex转换dex"><a href="#odex转换dex" class="headerlink" title="odex转换dex"></a>odex转换dex</h1><p>找到odex文件后，需要现在工具来先转换成为samli文件，然后再将samli文件转换为dex格式。</p>
+<ol>
+<li><p>baksmali.jar 用于将odex解析成smali的工具。<br> 下载地址<a target="_blank" rel="noopener" href="https://bitbucket.org/JesusFreke/smali/downloads/">baksmali.jar</a></p>
+ <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar baksmali.jar de Settings.odex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>smali.jar 将smali文件转出成dex文件</p>
+<p> 下载地址<a target="_blank" rel="noopener" href="https://bitbucket.org/JesusFreke/smali/downloads/">smali.jar 下载地址</a></p>
+ <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar smali.jar a out -o Settings.dex</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="dex转换jar"><a href="#dex转换jar" class="headerlink" title="dex转换jar"></a>dex转换jar</h1><p>dex文件还不能直接打开，需要转换成jar格式，转化工具使用dex2jar。</p>
+<p>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java d2j-dex2jar.bat Settings.dex</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在转换的时候可能会报错，提示版本不匹配之类的。查了查资料，发现原因并不是出现在dex2jar的工具版本中，是出在dex文件中，dex2jar工具定义dex头是35或36才行，然后打开dex文件看一下dex头，果然，dex头是39。</p>
+<p>然后使用工具WinHex打开dex文件，将dex头改为36，再用dex2jar，成功生成jar文件。</p>
+</blockquote>
+<h1 id="jd-jui分析jar包"><a href="#jd-jui分析jar包" class="headerlink" title="jd-jui分析jar包"></a>jd-jui分析jar包</h1><p>最后就是使用jd-jui分析得到的jar包了<img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/30/IfOae5E4Y89JtHu.png"></p>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/feiduclear_up/article/details/79443205">https://blog.csdn.net/feiduclear_up/article/details/79443205</a></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Wthh6tl</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.whh6tl.com/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%9101/">http://www.whh6tl.com/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%9101/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.whh6tl.com" target="_blank">WHH's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%9B%BA%E4%BB%B6%E9%80%86%E5%90%91/">固件逆向</a></div><div class="post_share"><div class="social-share" data-image="https://raw.githubusercontent.com/whh6tl/img/master/back2-2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/ARM%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/10/12/VNiAnLEJYhomCtp.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ARM汇编指令集</div></div></a></div><div class="next-post pull-right"><a href="/ARM%E6%B1%87%E7%BC%9601/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/10/12/VNiAnLEJYhomCtp.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ARM汇编学习笔记(0X01)</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://raw.githubusercontent.com/whh6tl/img/master/back2-2.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By whh6tl</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'cI4aeIGeJ1JoT9EuyAoPpBC9-gzGzoHsz',
+      appKey: 'pr9R4Ncy9tGPb0PO9C3DmMnp',
+      placeholder: '...',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://leancloud.cn/',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script></div></body></html>

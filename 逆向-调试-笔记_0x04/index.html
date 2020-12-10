@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>逆向（调试）学习笔记(0X04) | WHH's blog</title><meta name="description" content="手写PE文件准备工作将要完成的功能：  弹出一个有”确定“按钮的对话框 提示对话框上显示“Hello,PE File!” 单机确定按钮后退出   弹出提示对话框的API函数是MessageBox，进程退出使用的是ExitProcess函数。 MessageBox 函数是系统中 user32.dll 导出的一个函数，ExitProcess 函数是系统中 kernel32.dll 中导出的一个函数。"><meta name="keywords" content="逆向"><meta name="author" content="whh6tl"><meta name="copyright" content="whh6tl"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.whh6tl.com/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x04/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="逆向（调试）学习笔记(0X04)"><meta property="og:url" content="http://www.whh6tl.com/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x04/"><meta property="og:site_name" content="WHH's blog"><meta property="og:description" content="手写PE文件准备工作将要完成的功能：  弹出一个有”确定“按钮的对话框 提示对话框上显示“Hello,PE File!” 单机确定按钮后退出   弹出提示对话框的API函数是MessageBox，进程退出使用的是ExitProcess函数。 MessageBox 函数是系统中 user32.dll 导出的一个函数，ExitProcess 函数是系统中 kernel32.dll 中导出的一个函数。"><meta property="og:image" content="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg"><meta property="article:published_time" content="2020-10-15T13:00:00.000Z"><meta property="article:modified_time" content="2020-10-16T01:03:38.000Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-16 09:03:38'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">68</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">19</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99PE%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">手写PE文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%AD%97%E8%8A%82%E5%AE%8C%E6%88%90PE%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">用十六进制字节完成PE文件</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">WHH's blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">逆向（调试）学习笔记(0X04)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-15T13:00:00.000Z" title="发表于 2020-10-15 21:00:00">2020-10-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-16T01:03:38.000Z" title="更新于 2020-10-16 09:03:38">2020-10-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%80%86%E5%90%91/">逆向</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="手写PE文件"><a href="#手写PE文件" class="headerlink" title="手写PE文件"></a>手写PE文件</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>将要完成的功能：</p>
+<ul>
+<li>弹出一个有”确定“按钮的对话框</li>
+<li>提示对话框上显示“Hello,PE File!”</li>
+<li>单机确定按钮后退出</li>
+</ul>
+<blockquote>
+<p>弹出提示对话框的API函数是<code>MessageBox</code>，进程退出使用的是<code>ExitProcess</code>函数。</p>
+<p><em><code>MessageBox</code> 函数是系统中 user32.dll 导出的一个函数，<code>ExitProcess</code> 函数是系统中 kernel32.dll 中导出的一个函数。</em></p>
+</blockquote>
+<p>PE文件规划</p>
+<blockquote>
+<ul>
+<li>DOS头</li>
+<li>PE标识符(PE\0\0)</li>
+<li>文件头</li>
+<li>可选头</li>
+<li>节表</li>
+<li>节（代码节、数据节、导入表节）</li>
+</ul>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/W2dY4JcQXysLMoq.png"></p>
+<p>各个节的作用</p>
+<ul>
+<li>代码节中存放<code>MessageBox</code>函数和<code>ExitProcess</code>函数的代码。</li>
+<li>数据节中存放调用 <code>Message Box</code>函数时，在提示框中显示的内容，即存放的是字<br>  符串的数据。</li>
+<li>导入表节中存放 <code>MessageBox</code> 函数和 <code>ExitProcess</code> 函数的导入函数信息。</li>
+</ul>
+<h3 id="用十六进制字节完成PE文件"><a href="#用十六进制字节完成PE文件" class="headerlink" title="用十六进制字节完成PE文件"></a>用十六进制字节完成PE文件</h3><p>构造PE文件的顺序是将结构逐一构造，就是先构造DOS头、PE标识等，最后完成PE文件的代码</p>
+<p><strong>创建文件的步骤</strong></p>
+<blockquote>
+<p>C32Asm编辑器  —&gt;  文件  —&gt;  新建16进制文件  —&gt;  文件大小填写64</p>
+<p>在DOS头结构体中，最后死歌字节是指向PE标识符的便宜</p>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/DZWf1Icy3dQSVoz.png"></p>
+<p><strong>构造PE标识符</strong></p>
+<p>构造完DOS头后，紧接着构造PE标识符，PE标识符站四个字节，因此在C32Asm增减四个字节的位置</p>
+<blockquote>
+<p>菜单  —&gt;  编辑  —&gt;  插入数据  —&gt;  插入数据大小  —&gt;  填写“4”</p>
+<p>将前两个字节填写为50 45</p>
+</blockquote>
+<p><strong>构造文件头(IMAGE_FILE_HEADER)结构</strong></p>
+<blockquote>
+<p>该文件体大小为14H字节（十进制为20字节），在C32Asm中插入20字节数据，修改填充表如图所示</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/lOgkZxP5TsUBqCr.png"></p>
+<p>填充后的数据如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/JCYkBw5iPHGcxRd.png"></p>
+</blockquote>
+<p><strong>构造可选头(IMAGE_OPTIONAL_HEADER)结构</strong></p>
+<p>该结构体分为32位和64位，本次使用32位</p>
+<p>该结构体大小为0E0h字节（转换为十进制为224字节），在C32Asm填充224字节的数据。</p>
+<p>填充后数据如下图：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/mGwaRLF8NDoUlZb.png"></p>
+<p>填充完基础数据部分后，需要填写数据目录部分，由于手动完成的是一个EXE文件，因此数据目录中只需要存在两项：</p>
+<ul>
+<li>第一个数据目录项（导入表）</li>
+<li>第十三个数据目录项（导入地址表）</li>
+</ul>
+<p>导入地址表后放入导入表，导入地址表占用16个字节</p>
+<p><strong>构造节表(IMAGE_SECTION_HEADER)结构</strong></p>
+<p>节表中一共包含三个节表项，也就是需要构造三个IMAGE_SECTION_HEADER结构体</p>
+<p>IMAGE_SECTION_HEADER结构体的大小是40个字节，由于需要构造3个，所以占用120字节</p>
+<p>填充完成后如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/WEt6OHvN2rGLld5.png"></p>
+<p><strong>0数据的填充</strong></p>
+<p>在 IMAGE_OPTIONAL_HEADER结构体中 的 <code>SizeOfHeader</code> 字段的值是 0x00001000。因此，为了按照对齐粒度需要将头部的大小用 0<br>字节补足，头部文件当前位432字节，最后一位地址为<code>000001B0</code>，用0x1000-0x01B0=0x0E50，转换为10进制数为3664，所以还需填充3664位。</p>
+<p>在填充完 PE 文件头部后，需要继续填充 0x00001000 字节的 0 字符，该 0x00001000 字 节的数据用来存放.text 节的内容，即代码节的内容</p>
+<p>继续使用 C32Asm 插入 4096 个 0 字符。 由于代码节是最后完成的部分，因此这里只是先对其填充 0 字符。</p>
+<p><strong>填充.data节的数据</strong></p>
+<p>.data 节是用来保存程序在运行时弹出提示对话框时，对话框上显示的字符串。提示对 话框使用的是 MessageBox 函数来完成</p>
+<p>本例中<code>MessageBox</code> 函数的第二个参数和第三个参数分别是两个字符串，第二个参数 <code>lpText</code> 是 提示对话框中用于显示的字符串，第三个参数l<code>pCaption</code>是提示对话框中标题显示的字符串。 在本例子中，<code>lpText</code> 显示的字符串是“<code>Hello, Pe Binary Diy!</code>!”,<code>lpCaption</code>显示的字符串是<br>“<code>Binary Diy</code>”。</p>
+<p>在 0x00002000 的地址处写入 <code>lpText</code> 的值，在 0x00002020 的地址处写入 <code>lpCaption</code> 的值，如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/Ii4y8lwXeC7czrb.png"></p>
+<p><strong>插入.idata节的数据</strong></p>
+<p>.idata 节用来保存 PE 文件中重要的两个部分，分别是导入表和导入地址表</p>
+<p>导入表和导入地址表的地址分别是由数据目录给出的。导入地址表的偏移地址在 0x00003000，而导入表的偏移地址在 0x00003010 处。</p>
+<p>在文件偏移地址为 0x00003010 处进行构造占位用的导入表，导入后结果如下图</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/JlkQZd9xaVuWger.png"></p>
+<blockquote>
+<p>在该实例中导入了两个 DLL 文件，分别是 user32.dll 和 kernel32.dll。在 user32.dll 中调用 了 MessageBoxA 函数，在 kernel32.dll 中调用了 ExitProcess 函数。</p>
+</blockquote>
+<p>构造 user32.dll 的导入信息，按照 IMAGE_IMPORT_DESCRIPTOR 结构体来进行构造。</p>
+<blockquote>
+<ol>
+<li>在0x00003050 地址处构造导入表的 <code>Name</code> 字段的值“user32.dll”。 </li>
+<li>在 0x00003060 地址处构造导入表的 <code>OriginalFirstThunk</code> 字段的值“0x00003070”。</li>
+<li>在 0x00003070 地址处根据 IMAGE_IMPORT_BY_NAME 结构体构造导入函数的 名称。</li>
+<li>在 0x00003000 地址处是导入地址表，该值由 FirstThunk 来指向，该值在磁盘上时与 OriginalFirstThunk 相同。因此，在文件偏移地址 0x00003000 处填入 0x00003070。</li>
+</ol>
+</blockquote>
+<p>构造后如下图所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/IPinDAu8yVtEWMj.png"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/PIBfloMe1ki23wG.png"></p>
+<p>根据表5-6重新导入数据，得到下图：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/15/WE8BqtjUX76JmYH.png"></p>
+<p><strong>填充.text节的数据</strong></p>
+<p>在OD中对数据进行查看后，得到如下的结果： </p>
+<ul>
+<li><p>.<code>text</code> 节的位置从 0x00401000 处开始； </p>
+</li>
+<li><p>“<code>Hello,PE Binary Diy</code>!!”字符串的地址在 0x00402000 处；</p>
+</li>
+<li><p>“<code>Binary Diy</code>”字符串的地址在 0x00402020 处； </p>
+</li>
+<li><p>“<code>MessageBoxA</code>”函数的导入地址在 0x403000 处；</p>
+</li>
+<li><p>“<code>ExitProcess</code>”函数的导入地址在 0x403008 处。</p>
+</li>
+</ul>
+<p>选中录入的反汇编代码，单击鼠标右键，在弹出的菜单中选择“复制到可执行文件”→ “选择”，在弹出的“文件”窗口中单击鼠标右键，在弹出的菜单中选择“保存文件”，将文件<br>命名为“pe1.exe”进行保存。</p>
+<p><strong>至此一个可执行文件就构造完成了</strong></p>
+<p><u><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《加密与解密（第4版）》；</em></u></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Wthh6tl</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.whh6tl.com/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x04/">http://www.whh6tl.com/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x04/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.whh6tl.com" target="_blank">WHH's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%80%86%E5%90%91%EF%BC%88%E8%B0%83%E8%AF%95%EF%BC%89/">逆向（调试）</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8(0x01)/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/10/20/lteXZ4EQ5oTyAjM.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">智能硬件安全_笔记(0X01)</div></div></a></div><div class="next-post pull-right"><a href="/%E9%80%86%E5%90%91-%E8%B0%83%E8%AF%95-%E7%AC%94%E8%AE%B0_0x02/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">逆向（调试）学习笔记(0X02)</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/逆向-调试-笔记_0x01/" title="逆向（调试）学习笔记(0X01)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-12</div><div class="relatedPosts_title">逆向（调试）学习笔记(0X01)</div></div></a></div><div class="relatedPosts_item"><a href="/逆向-调试-笔记_0x02/" title="逆向（调试）学习笔记(0X02)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-14</div><div class="relatedPosts_title">逆向（调试）学习笔记(0X02)</div></div></a></div><div class="relatedPosts_item"><a href="/逆向-调试-笔记_0x03/" title="逆向（调试）学习笔记(0X03)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-14</div><div class="relatedPosts_title">逆向（调试）学习笔记(0X03)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By whh6tl</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'cI4aeIGeJ1JoT9EuyAoPpBC9-gzGzoHsz',
+      appKey: 'pr9R4Ncy9tGPb0PO9C3DmMnp',
+      placeholder: '...',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://leancloud.cn/',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script></div></body></html>

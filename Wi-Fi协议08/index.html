@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wi-Fi协议笔记(0X08) | WHH's blog</title><meta name="description" content="管理操作管理结构在概念上，802.11管理结构由三个组件组成   Mac层管理实体（MLME） 物理层管理实体（PLME） 系统管理实体（SME）   扫描被动扫描被动扫描可以节省电力，因为不需要传送任何信号。在被动扫描中，工作站会在信道列表所列的各个信道之间不断切换并静候Beacon帧的到来。 主动扫描在每个信道上，工作站都会发出Probe Request帧来请求某个特定网络予以响应。扫描过程如"><meta name="keywords" content="网络通信协议"><meta name="author" content="whh6tl"><meta name="copyright" content="whh6tl"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.whh6tl.com/Wi-Fi%E5%8D%8F%E8%AE%AE08/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Wi-Fi协议笔记(0X08)"><meta property="og:url" content="http://www.whh6tl.com/Wi-Fi%E5%8D%8F%E8%AE%AE08/"><meta property="og:site_name" content="WHH's blog"><meta property="og:description" content="管理操作管理结构在概念上，802.11管理结构由三个组件组成   Mac层管理实体（MLME） 物理层管理实体（PLME） 系统管理实体（SME）   扫描被动扫描被动扫描可以节省电力，因为不需要传送任何信号。在被动扫描中，工作站会在信道列表所列的各个信道之间不断切换并静候Beacon帧的到来。 主动扫描在每个信道上，工作站都会发出Probe Request帧来请求某个特定网络予以响应。扫描过程如"><meta property="og:image" content="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg"><meta property="article:published_time" content="2020-11-16T13:00:00.000Z"><meta property="article:modified_time" content="2020-11-16T14:06:54.000Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-11-16 22:06:54'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">68</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">19</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">管理操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">管理结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.</span> <span class="toc-text">扫描</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A2%AB%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">被动扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">主动扫描</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#82-11%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">1.3.</span> <span class="toc-text">82.11身份验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%94%BE%E7%B3%BB%E7%BB%9F%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">开放系统身份验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">关联操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E8%BF%87%E7%A8%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text">关联过程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PCF%E6%97%A0%E7%AB%9E%E4%BA%89%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">PCF无竞争服务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5PCF%E6%8F%90%E4%BE%9B%E6%97%A0%E7%AB%9E%E4%BA%89%E8%AE%BF%E9%97%AE"><span class="toc-number">2.1.</span> <span class="toc-text">以PCF提供无竞争访问</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82%E6%A6%82%E8%BF%B0"><span class="toc-number">3.</span> <span class="toc-text">物理层概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">物理层结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#802-11%E7%9A%84RF%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">802.11的RF工程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RF%E9%9B%B6%E4%BB%B6"><span class="toc-number">3.2.1.</span> <span class="toc-text">RF零件</span></a></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">WHH's blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Wi-Fi协议笔记(0X08)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-16T13:00:00.000Z" title="发表于 2020-11-16 21:00:00">2020-11-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-16T14:06:54.000Z" title="更新于 2020-11-16 22:06:54">2020-11-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">网络通信协议</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="管理操作"><a href="#管理操作" class="headerlink" title="管理操作"></a>管理操作</h1><h2 id="管理结构"><a href="#管理结构" class="headerlink" title="管理结构"></a>管理结构</h2><p>在概念上，802.11管理结构由三个组件组成</p>
+<blockquote>
+<ul>
+<li>Mac层管理实体（MLME）</li>
+<li>物理层管理实体（PLME）</li>
+<li>系统管理实体（SME）</li>
+</ul>
+</blockquote>
+<h2 id="扫描"><a href="#扫描" class="headerlink" title="扫描"></a>扫描</h2><h3 id="被动扫描"><a href="#被动扫描" class="headerlink" title="被动扫描"></a>被动扫描</h3><p>被动扫描可以节省电力，因为不需要传送任何信号。在被动扫描中，工作站会在信道列表所列的各个信道之间不断切换并静候Beacon帧的到来。</p>
+<h3 id="主动扫描"><a href="#主动扫描" class="headerlink" title="主动扫描"></a>主动扫描</h3><p>在每个信道上，工作站都会发出Probe Request帧来请求某个特定网络予以响应。扫描过程如下：</p>
+<ol>
+<li>跳至某个信道，然后等候来帧指示或者等到Probe Delay定时器超时。</li>
+<li>利用基本的DCF访问过程取得媒介使用权，然后送出一个Probe Request帧。</li>
+<li>至少等候一段最短的信道时间<ul>
+<li>如果媒介并不忙碌，表示没有网络存在，因此可以跳至下个信道。</li>
+<li>如果在最短的信道时间媒介分厂忙碌，那就继续等候一段时间，直到最长的信道时间超时，然后处理任何的Probe Response帧。</li>
+</ul>
+</li>
+</ol>
+<h2 id="82-11身份验证"><a href="#82-11身份验证" class="headerlink" title="82.11身份验证"></a>82.11身份验证</h2><h3 id="开放系统身份验证"><a href="#开放系统身份验证" class="headerlink" title="开放系统身份验证"></a>开放系统身份验证</h3><ol>
+<li>第一个帧是子类型为authentication（身份验证）的管理帧。身份验证请求包含两个元素：<ul>
+<li>身份验证算法标识字段被设定为0，代表使用开放系统认证方式。</li>
+<li>身份验证事务序列号字段被设定为1，代表该帧实际上为事务序列中的第一个帧。</li>
+</ul>
+</li>
+<li>工作站以MAC地址作为身份证明。</li>
+<li>第三个帧也是子类型为authentication的管理帧，其中包含三个信息元素：<ul>
+<li>身份验证算法标识字段被设定为0，代表使用开放系统身份验证。</li>
+<li>序列号为2</li>
+<li>还有状态码用来指出身份验证的请求结果。</li>
+</ul>
+</li>
+</ol>
+<h2 id="关联操作"><a href="#关联操作" class="headerlink" title="关联操作"></a>关联操作</h2><p>一旦完成身份验证，工作站就可以跟接入点进行关联，以便获得网络的完全访问权。关联属于一种记录保持过程，它让分布式系统能够记录每个移动式工作站的位置，以便将传送给移动式工作站的帧传送给正确的接入点。</p>
+<p>关联只限于infrastructure（基础结构型网络），在逻辑上等同于在有线网络中插入网线。</p>
+<h3 id="关联过程"><a href="#关联过程" class="headerlink" title="关联过程"></a>关联过程</h3><ol>
+<li>一旦移动式工作站与接入点完成身份验证，便可送出关联请求帧。未经过身份验证的工作站会在接入点的响应中收到取消关联帧。</li>
+<li>接入点会对关联请求进行处理。<ul>
+<li>关联请求获准，接入点会以成功的状态码0以及关联标识符（AID）响应。</li>
+<li>关联请求失败，只返回状态码并终止过程。</li>
+</ul>
+</li>
+<li>接入点开始为移动式工作站处理帧。</li>
+</ol>
+<h1 id="PCF无竞争服务"><a href="#PCF无竞争服务" class="headerlink" title="PCF无竞争服务"></a>PCF无竞争服务</h1><blockquote>
+<p>点协调功能（point coordination function，简称<strong>PCF</strong>）</p>
+</blockquote>
+<h2 id="以PCF提供无竞争访问"><a href="#以PCF提供无竞争访问" class="headerlink" title="以PCF提供无竞争访问"></a>以PCF提供无竞争访问</h2><p>如果需要用到无竞争传输，便可运用PCF。</p>
+<blockquote>
+<p>CP（竞争周期）再短，至少也要能传送一个最大的帧以及得到相应的确认。若基于竞争的服务超出CFP（无竞争周期）预定的开始时间，CFP就会被压缩。</p>
+</blockquote>
+<h1 id="物理层概述"><a href="#物理层概述" class="headerlink" title="物理层概述"></a>物理层概述</h1><p>802.11结构的第二个要件为物理层（physical layer），通常简写为PHY。</p>
+<h2 id="物理层结构"><a href="#物理层结构" class="headerlink" title="物理层结构"></a>物理层结构</h2><p>物理层被分为两个子层：</p>
+<ul>
+<li><p>物理层汇聚过程（PLCP）子层</p>
+<blockquote>
+<p>功能：结合来自MAC的帧与空中所传输的无线电波，PLCP同事会为帧加上自己的标头。</p>
+</blockquote>
+</li>
+<li><p>物理媒体相关（PMD）子层</p>
+<blockquote>
+<p>功能：负责将PLCP所传来的每个位利用天线传送至空中。</p>
+</blockquote>
+</li>
+</ul>
+<p>三种以无线电技术为基础的物理层：</p>
+<ul>
+<li>802.11a：正交频分复用（OFDM）物理层</li>
+<li>802.11b：告诉直接序列（DR/DS或HR/DSSS）物理层</li>
+<li>802.11g：增强速率物理层（ERP）</li>
+<li>802.11n：多进多出（MIMO）或高吞吐量物理层</li>
+</ul>
+<h2 id="802-11的RF工程"><a href="#802-11的RF工程" class="headerlink" title="802.11的RF工程"></a>802.11的RF工程</h2><h3 id="RF零件"><a href="#RF零件" class="headerlink" title="RF零件"></a>RF零件</h3><ul>
+<li><p>天线</p>
+<blockquote>
+<p>天线是RF系统中最关键的零件，因为它们负责将线路中的电子信号转换为电波以及将电波反转为电路信号。</p>
+<p>天线的长度取决于频率：频率越高，天线越短。</p>
+</blockquote>
+</li>
+<li><p>放大器</p>
+<blockquote>
+<p>放大器可以增强信号。信号的放大或增益是以分贝（dB）作为测量单位。</p>
+<p>放大器大致可分为三种：低噪声、高功率与其他种类。</p>
+<p>低噪声放大器（LNA）通常与天线连接，用来将收到的信号放大到与RF系统连接的电子零件可识别的程度。</p>
+<p>高功率放大器（HPA）则是用来将信号提升至最大的功率后传送。</p>
+</blockquote>
+</li>
+</ul>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《WiFi802.11无线网络权威指南（第二版）》；</em></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Wthh6tl</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.whh6tl.com/Wi-Fi%E5%8D%8F%E8%AE%AE08/">http://www.whh6tl.com/Wi-Fi%E5%8D%8F%E8%AE%AE08/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.whh6tl.com" target="_blank">WHH's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Wi-Fi%E5%8D%8F%E8%AE%AE/">Wi-Fi协议</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/Wi-Fi%E5%8D%8F%E8%AE%AE09/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Wi-Fi协议笔记(0X09)</div></div></a></div><div class="next-post pull-right"><a href="/Wi-Fi%E5%8D%8F%E8%AE%AE07/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Wi-Fi协议笔记(0X07)</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/Wi-Fi协议01/" title="Wi-Fi协议笔记(0X01)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-11-05</div><div class="relatedPosts_title">Wi-Fi协议笔记(0X01)</div></div></a></div><div class="relatedPosts_item"><a href="/Wi-Fi协议02/" title="Wi-Fi协议笔记(0X02)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-11-06</div><div class="relatedPosts_title">Wi-Fi协议笔记(0X02)</div></div></a></div><div class="relatedPosts_item"><a href="/Wi-Fi协议03/" title="Wi-Fi协议笔记(0X03)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-11-09</div><div class="relatedPosts_title">Wi-Fi协议笔记(0X03)</div></div></a></div><div class="relatedPosts_item"><a href="/Wi-Fi协议04/" title="Wi-Fi协议笔记(0X04)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-11-09</div><div class="relatedPosts_title">Wi-Fi协议笔记(0X04)</div></div></a></div><div class="relatedPosts_item"><a href="/Wi-Fi协议05/" title="Wi-Fi协议笔记(0X05)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-11-09</div><div class="relatedPosts_title">Wi-Fi协议笔记(0X05)</div></div></a></div><div class="relatedPosts_item"><a href="/Wi-Fi协议06/" title="Wi-Fi协议笔记(0X06)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-11-10</div><div class="relatedPosts_title">Wi-Fi协议笔记(0X06)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://i.loli.net/2020/10/12/xC5Guy1MnFUpIac.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By whh6tl</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'cI4aeIGeJ1JoT9EuyAoPpBC9-gzGzoHsz',
+      appKey: 'pr9R4Ncy9tGPb0PO9C3DmMnp',
+      placeholder: '...',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://leancloud.cn/',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script></div></body></html>

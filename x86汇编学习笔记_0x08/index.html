@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>x86汇编学习笔记(0X08) | WHH's blog</title><meta name="description" content="第一个程序一个源程序从写出到执行的过程 文本编辑 –&gt;  源程序文件 使用文本编辑器，用汇编语言编写汇编源程序  编译链接  –&gt;  可执行文件 使用汇编语言编译程序对源程序文件中的源程序进行编译，产生目标文件；再用链接程序对目标文件进行链接，生成可在操作系统中直接运行的可执行文件，这一步的结果，产生了一个可在操作系统中运行的可执行文件。  可执行文件包含两部分内容  程序（从源程序中"><meta name="keywords" content="x86汇编"><meta name="author" content="whh6tl"><meta name="copyright" content="whh6tl"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.whh6tl.com/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x08/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="x86汇编学习笔记(0X08)"><meta property="og:url" content="http://www.whh6tl.com/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x08/"><meta property="og:site_name" content="WHH's blog"><meta property="og:description" content="第一个程序一个源程序从写出到执行的过程 文本编辑 –&gt;  源程序文件 使用文本编辑器，用汇编语言编写汇编源程序  编译链接  –&gt;  可执行文件 使用汇编语言编译程序对源程序文件中的源程序进行编译，产生目标文件；再用链接程序对目标文件进行链接，生成可在操作系统中直接运行的可执行文件，这一步的结果，产生了一个可在操作系统中运行的可执行文件。  可执行文件包含两部分内容  程序（从源程序中"><meta property="og:image" content="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg"><meta property="article:published_time" content="2020-09-09T13:00:00.000Z"><meta property="article:modified_time" content="2020-10-12T07:43:23.000Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-10-12 15:43:23'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">68</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">19</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">第一个程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E6%BA%90%E7%A8%8B%E5%BA%8F%E4%BB%8E%E5%86%99%E5%87%BA%E5%88%B0%E6%89%A7%E8%A1%8C%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">一个源程序从写出到执行的过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91-%E2%80%93-gt-%E6%BA%90%E7%A8%8B%E5%BA%8F%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">文本编辑 –&gt;  源程序文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5-%E2%80%93-gt-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.2.</span> <span class="toc-text">编译链接  –&gt;  可执行文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C"><span class="toc-number">1.1.3.</span> <span class="toc-text">执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">源程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.</span> <span class="toc-text">伪指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E2%80%9C%E7%A8%8B%E5%BA%8F%E2%80%9D"><span class="toc-number">1.2.2.</span> <span class="toc-text">源程序中的“程序”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%8F%B7"><span class="toc-number">1.2.3.</span> <span class="toc-text">标号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.4.</span> <span class="toc-text">程序的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%BF%94%E5%9B%9E"><span class="toc-number">1.2.5.</span> <span class="toc-text">程序返回</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E6%BA%90%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.3.</span> <span class="toc-text">编辑源程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-number">1.4.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.5.</span> <span class="toc-text">连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.5.1.</span> <span class="toc-text">连接的作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E7%AE%80%E5%8C%96%E7%9A%84%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E8%AF%91%E5%92%8C%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.6.</span> <span class="toc-text">以简化的方式进行编译和连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%A4%96%E5%A3%B3"><span class="toc-number">1.6.1.</span> <span class="toc-text">操作系统的外壳</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B1%87%E7%BC%96%E7%A8%8B%E5%BA%8F%E4%BB%8E%E5%86%99%E5%87%BA%E5%88%B0%E6%89%A7%E8%A1%8C%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">汇编程序从写出到执行的过程</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">WHH's blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">x86汇编学习笔记(0X08)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-09-09T13:00:00.000Z" title="发表于 2020-09-09 21:00:00">2020-09-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-12T07:43:23.000Z" title="更新于 2020-10-12 15:43:23">2020-10-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/x86%E6%B1%87%E7%BC%96/">x86汇编</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="第一个程序"><a href="#第一个程序" class="headerlink" title="第一个程序"></a>第一个程序</h1><h2 id="一个源程序从写出到执行的过程"><a href="#一个源程序从写出到执行的过程" class="headerlink" title="一个源程序从写出到执行的过程"></a>一个源程序从写出到执行的过程</h2><ol>
+<li><h3 id="文本编辑-–-gt-源程序文件"><a href="#文本编辑-–-gt-源程序文件" class="headerlink" title="文本编辑 –&gt;  源程序文件"></a>文本编辑 –&gt;  源程序文件</h3><p> 使用文本编辑器，用汇编语言编写汇编源程序</p>
+</li>
+<li><h3 id="编译链接-–-gt-可执行文件"><a href="#编译链接-–-gt-可执行文件" class="headerlink" title="编译链接  –&gt;  可执行文件"></a>编译链接  –&gt;  可执行文件</h3><p> 使用汇编语言编译程序对源程序文件中的源程序进行编译，产生目标文件；再用链接程序对目标文件进行链接，生成可在操作系统中直接运行的可执行文件，这一步的结果，产生了一个可在操作系统中运行的可执行文件。</p>
+<blockquote>
+<p>可执行文件包含两部分内容</p>
+<ul>
+<li>程序（从源程序中的汇编指令翻译过来的机器码）和数据（源程序中定义的数据）</li>
+<li>相关的描述信息（比如，程序有多大、要占用多少内存空间等）</li>
+</ul>
+</blockquote>
+</li>
+<li><h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><p> 在操作系统中，执行可执行文件中的程序</p>
+</li>
+</ol>
+<h2 id="源程序"><a href="#源程序" class="headerlink" title="源程序"></a>源程序</h2><ol>
+<li><h3 id="伪指令"><a href="#伪指令" class="headerlink" title="伪指令"></a>伪指令</h3><blockquote>
+<p><code>XXX segment</code></p>
+<p><code>···</code></p>
+<p><code>···</code></p>
+<p><code>XXX ends</code></p>
+<p>segment说明一个段开始，ends说明一个段结束</p>
+</blockquote>
+<blockquote>
+<p><code>end</code></p>
+<p>end是一个回避版程序的结束标记</p>
+</blockquote>
+<blockquote>
+<p><code>assume</code></p>
+<p>这条伪指令的含义为“假设”。它假设某一段寄存器和程序中的某一个用segment…ends定义的段相关</p>
+</blockquote>
+</li>
+<li><h3 id="源程序中的“程序”"><a href="#源程序中的“程序”" class="headerlink" title="源程序中的“程序”"></a>源程序中的“程序”</h3><p> 可以将源程序文件中的所有内容成为<strong>源程序</strong>，将最终由机器执行、处理的数据成为<strong>程序</strong></p>
+<p> 程序最先由汇编指令的形式存在于源程序中，经过编译、连接后转变为机器码，存储在可执行文件中。</p>
+</li>
+<li><h3 id="标号"><a href="#标号" class="headerlink" title="标号"></a>标号</h3><p> 除了汇编指令和伪指令外，还有一些标号，比如“codesg”。一个标号代表了一个地址，比如“codesg”在“segment”前面，作为一个段的名称，这个段的名称最终被编译、连接处理成一个段地址。</p>
+</li>
+<li><h3 id="程序的结构"><a href="#程序的结构" class="headerlink" title="程序的结构"></a>程序的结构</h3> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">assume cs:abc		&#x2F;&#x2F;&quot;abc被当做胆码段来用，所以，应该将abc和cs联系起来&quot;</span><br><span class="line"></span><br><span class="line">abc segment         &#x2F;&#x2F;&quot;定义一个段，名称为abc&quot;</span><br><span class="line"></span><br><span class="line">mov ax,2			\</span><br><span class="line">add ax,ax			 --&gt;&quot;实现的指令&quot;</span><br><span class="line">add,ax,ax			&#x2F;</span><br><span class="line"></span><br><span class="line">abc ends			&#x2F;&#x2F;&quot;段在何处结束&quot;</span><br><span class="line"></span><br><span class="line">end					&#x2F;&quot;程序在何处结束&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h3 id="程序返回"><a href="#程序返回" class="headerlink" title="程序返回"></a>程序返回</h3><p> 一个程序结束后，将CPU的控制权交还给似的它可以运行的程序，这个过程称为程序返回。</p>
+<p> 程序返回的指令：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov ax,4c00H</span><br><span class="line">int 21H</span><br></pre></td></tr></table></figure>
+
+<h2 id="编辑源程序"><a href="#编辑源程序" class="headerlink" title="编辑源程序"></a>编辑源程序</h2><ol>
+<li><p>进入CMD</p>
+</li>
+<li><p>运行  <code>edit</code></p>
+</li>
+<li><p>file-&gt;new</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>如源程序存放在C:\1.asm，编译器在<code>c:\masm</code>目录下</p>
+</li>
+<li><p>进入DOS模式，进入<code>C:\masm</code>目录，运行<code>masm.exe</code></p>
+</li>
+<li><p>如要编译的文件在<code>C:\masm</code>目录下，是1.asm，输入<code>1</code>即可。</p>
+<p> 如果在 其他目录下，必须输入绝对路劲。</p>
+</li>
+<li><p>出现OBJ后，可直接回车生成1.obj文件，也可以指定绝对路径，如</p>
+<p> <code>c:\windows\1</code></p>
+</li>
+<li><p>NUL.LST（提示输入列表文件名称）</p>
+<p> 这个文件是编译器将源程序编译为目标文件的过程中产生的文件</p>
+<p> 可直接<code>Enter</code>跳过</p>
+</li>
+<li><p>NUL.CRF（提示输入交叉引用文件名称）</p>
+<p> 功能如编译列表文件相同</p>
+<p> 可直接<code>Enter</code>跳过</p>
+</li>
+<li><p>编译完成后，会生成一个<code>.obj</code>的文件，这是编译所得到的结果</p>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>在对源程序进行编译后，我们需要对目标文件进行连接，从而得到可执行文件。</p>
+<p>工具：微软的Overlay Linker3.60连接器</p>
+</li>
+<li><p>进入DOS模式，进入<code>c:\\masm</code>目录，运行link.exe</p>
+</li>
+<li><p>输入要连接的文件名，Enter</p>
+</li>
+<li><p>NUM.MAP（映像文件名称）</p>
+<p> 中间结果，可Enter跳过</p>
+</li>
+<li><p>LIB（库文件名称）</p>
+<p> 库文件中包含要调用的子程序，如果包含子程序，就需要在连接的时候，将库文件和目标文件连接在一起，生成可执行文件。</p>
+<p> 如果没有，Enter跳过即可</p>
+</li>
+<li><p>生成exe文件。</p>
+<h3 id="连接的作用"><a href="#连接的作用" class="headerlink" title="连接的作用"></a>连接的作用</h3></li>
+<li><p>源程序很大时，可以分为多个源程序编译，每个都变成目标文件后，在连接的时候将他们连接到一起生成一个exe。</p>
+</li>
+<li><p>调用子程序时，需要连接到一起，生成一个exe</p>
+</li>
+<li><p>源程序–&gt;(编译)–&gt;目标文件–&gt;(连接)–&gt;可执行文件</p>
+<h2 id="以简化的方式进行编译和连接"><a href="#以简化的方式进行编译和连接" class="headerlink" title="以简化的方式进行编译和连接"></a>以简化的方式进行编译和连接</h2><p>编译、连接的最终目的都是生成可执行文件，中间的中间文件都可以省略。</p>
+</li>
+<li><p>简洁的编译过程</p>
+<p> DOS进入到<code>masm</code>目录，输入如下指令: </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masm c:\1;            &#x2F;&#x2F;&quot;在当前路径下自动生成.obj的文件,分号不可省略&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>简洁的连接过程</p>
+<p> DOS进入到<code>masm</code>目录，输入如下指令: </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link 1;               &#x2F;&#x2F;&quot;当前路径下生成.EXE的文件,分号不可省略&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作系统的外壳"><a href="#操作系统的外壳" class="headerlink" title="操作系统的外壳"></a>操作系统的外壳</h3><p> 就CMD呗！全称command.com</p>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="汇编程序从写出到执行的过程"><a href="#汇编程序从写出到执行的过程" class="headerlink" title="汇编程序从写出到执行的过程"></a>汇编程序从写出到执行的过程</h1><p>编程（Edit） –&gt;  1.asm  –&gt;   编译（masm）  –&gt;  1.obj  –&gt;  连接  –&gt;  1.exe  –&gt;  加载（command）  –&gt;  内存中的程序  –&gt;  运行（CPU）</p>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《汇编语言（第3版）》王爽著；</em></strong></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Wthh6tl</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.whh6tl.com/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x08/">http://www.whh6tl.com/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x08/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.whh6tl.com" target="_blank">WHH's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/x86%E6%B1%87%E7%BC%96/">x86汇编</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E9%80%86%E5%90%91-%E5%9F%BA%E7%A1%80-%E7%AC%94%E8%AE%B0_0x01/"><img class="prev-cover" data-lazy-src="https://i.loli.net/2020/10/12/fX1J6wmtICdNoZV.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">逆向（基础）学习笔记(0X01)</div></div></a></div><div class="next-post pull-right"><a href="/x86%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_0x07/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">x86汇编学习笔记(0X07)</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/x86汇编学习笔记_0x01/" title="x86汇编学习笔记(0X01)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-12</div><div class="relatedPosts_title">x86汇编学习笔记(0X01)</div></div></a></div><div class="relatedPosts_item"><a href="/x86汇编学习笔记_0x02/" title="x86汇编学习笔记(0X02)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-12</div><div class="relatedPosts_title">x86汇编学习笔记(0X02)</div></div></a></div><div class="relatedPosts_item"><a href="/x86汇编学习笔记_0x03/" title="x86汇编学习笔记(0X03)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-12</div><div class="relatedPosts_title">x86汇编学习笔记(0X03)</div></div></a></div><div class="relatedPosts_item"><a href="/x86汇编学习笔记_0x04/" title="x86汇编学习笔记(0X04)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-12</div><div class="relatedPosts_title">x86汇编学习笔记(0X04)</div></div></a></div><div class="relatedPosts_item"><a href="/x86汇编学习笔记_0x05/" title="x86汇编学习笔记(0X05)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-12</div><div class="relatedPosts_title">x86汇编学习笔记(0X05)</div></div></a></div><div class="relatedPosts_item"><a href="/x86汇编学习笔记_0x06/" title="x86汇编学习笔记(0X06)"><img class="relatedPosts_cover" data-lazy-src="https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fas fa-history fa-fw"></i> 2020-10-12</div><div class="relatedPosts_title">x86汇编学习笔记(0X06)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://i.loli.net/2020/10/12/YJITcmWUnok872X.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By whh6tl</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'cI4aeIGeJ1JoT9EuyAoPpBC9-gzGzoHsz',
+      appKey: 'pr9R4Ncy9tGPb0PO9C3DmMnp',
+      placeholder: '...',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://leancloud.cn/',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script></div></body></html>
