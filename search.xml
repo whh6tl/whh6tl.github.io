@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>AMQP协议笔记(0X01)</title>
+    <title>AMQP协议笔记(暂空)</title>
     <url>/AMQP%E5%8D%8F%E8%AE%AE0_1/</url>
     <content><![CDATA[<p>*<u>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</p>
 ]]></content>
@@ -327,7 +327,7 @@
       </tags>
   </entry>
   <entry>
-    <title>CoAP协议笔记(0X01)</title>
+    <title>CoAP协议笔记(暂空)</title>
     <url>/CoAP%E5%8D%8F%E8%AE%AE01/</url>
     <content><![CDATA[<p>暂空，将之后要学习的内容列出来</p>
 <p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
@@ -913,7 +913,7 @@
       </tags>
   </entry>
   <entry>
-    <title>JT808协议笔记(0X01)</title>
+    <title>JT808协议笔记(暂空)</title>
     <url>/JT808%E5%8D%8F%E8%AE%AE01/</url>
     <content><![CDATA[<p>暂空，将之后要学习的内容列出来</p>
 <p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
@@ -926,7 +926,7 @@
       </tags>
   </entry>
   <entry>
-    <title>MQTT协议笔记(0X01)</title>
+    <title>MQTT协议笔记(暂空)</title>
     <url>/MQTT%E5%8D%8F%E8%AE%AE01/</url>
     <content><![CDATA[<p>暂空，将之后要学习的内容列出来</p>
 <p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；</em></p>
@@ -5132,6 +5132,66 @@
       </categories>
       <tags>
         <tag>ZigBee协议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NFC协议笔记(0X02)</title>
+    <url>/NFC%E5%8D%8F%E8%AE%AE02/</url>
+    <content><![CDATA[<h1 id="NFC协议基础"><a href="#NFC协议基础" class="headerlink" title="NFC协议基础"></a>NFC协议基础</h1><h2 id="NFC技术标准"><a href="#NFC技术标准" class="headerlink" title="NFC技术标准"></a>NFC技术标准</h2><p>NFC技术标准主要包含四层，分别如下：</p>
+<ul>
+<li><p>RF Layer（射频层）</p>
+<blockquote>
+<p>NFC通信距离大概10cm左右，属于近距离通信，其底层的射频标准为ISO18092、IDS1433 Type B和Felica；</p>
+</blockquote>
+</li>
+<li><p>Mode Switch（模式切换）</p>
+<blockquote>
+<p>一个可以将射频层数据切换到NFC Type A、NFC Type B或NFC Type F三种机制的切换标准</p>
+</blockquote>
+</li>
+<li><p>NFC IP1</p>
+<blockquote>
+<p>即ISO 18092，本处突出强调其标准中的数据交换中的部分。</p>
+</blockquote>
+</li>
+<li><p>LLCP（逻辑链路控制协议）</p>
+<blockquote>
+<p>该协议同于管理ISO18092的NDC设备之间逻辑连接的标准，主要用于P2P模式。</p>
+</blockquote>
+</li>
+<li><p>NFC Forum Protocol Bindings</p>
+<blockquote>
+<p>P2P模式下，高层数据传递采用的是集成传统的IP、OBEX（对象交换）等来实现设备间数据的传递。</p>
+</blockquote>
+</li>
+<li><p>Tag Type</p>
+<blockquote>
+<p>标签类型，在读写模式下NFC设备能够读取的标签的类型。其中，该标签的类型必须支持ISO18092、IDS1433A/B、MIFARE等标准。</p>
+</blockquote>
+</li>
+<li><p>NDEF（NFC数据交换格式）</p>
+<blockquote>
+<p>这是NFC一个标准的数据传递协议。</p>
+</blockquote>
+</li>
+<li><p>RTD（记录类型定义）</p>
+<blockquote>
+<p>NFC NDEF数据格式中定义的数据类型。</p>
+</blockquote>
+</li>
+<li><p>Card Emulation（卡模拟）</p>
+<blockquote>
+<p>NFC设备模拟成卡片的标准。</p>
+</blockquote>
+</li>
+</ul>
+<p><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来，学习途径是《Android NFC开发实战讲解》；</em></p>
+]]></content>
+      <categories>
+        <category>网络通信协议</category>
+      </categories>
+      <tags>
+        <tag>NFC协议</tag>
       </tags>
   </entry>
 </search>
