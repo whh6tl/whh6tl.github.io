@@ -5244,4 +5244,113 @@
         <tag>NFC协议</tag>
       </tags>
   </entry>
+  <entry>
+    <title></title>
+    <url>/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%EF%BC%88%E5%9B%BA%E4%BB%B6%E7%95%AA%E5%A4%96%EF%BC%89_/</url>
+    <content><![CDATA[<h2 id="固件概述"><a href="#固件概述" class="headerlink" title="固件概述"></a>固件概述</h2><p>固件就是写入EROM（可擦只读存储器）或EEPROM（点可擦可编程只读存储器）中的程序。</p>
+<p>在IoT设备中固件可以说是神经中枢，也可以称作操作系统，它包括很多模块：驱动、控制、解码、传送、检测。</p>
+<h2 id="常见固件获取方式"><a href="#常见固件获取方式" class="headerlink" title="常见固件获取方式*"></a>常见固件获取方式*</h2><p>常见的固件获取方式有四种：</p>
+<ul>
+<li>官网提供固件下载</li>
+<li>抓包分析固件更新URL</li>
+<li>调试串口获取</li>
+<li>暴力读取固件存储芯片数据</li>
+</ul>
+<p>大部分IoT设备的官网没有直接提供下载链接。通常，可以通过分析手机APP端是否有固件更新功能或者直接抓取终端设备的网络数据包，提取固件更新URL。</p>
+<p>很多厂商不提供固件更新，或网络数据强加密使我们不能获取有效固件URL数据。这种情况下，我们可以通过拆卸IoT设备，观察硬件布局和硬件型号推测固件存储设备，采用暴力读取固件存储芯片数据的方式获取固件</p>
+<h2 id="从固件存储芯片中读取固件"><a href="#从固件存储芯片中读取固件" class="headerlink" title="从固件存储芯片中读取固件"></a>从固件存储芯片中读取固件</h2><p>一般用到的工具：夹式放大镜、镊子、热风枪拆焊台、焊接台、编程器及相关软件。</p>
+<h2 id="Flash芯片中获取固件的基本流程"><a href="#Flash芯片中获取固件的基本流程" class="headerlink" title="Flash芯片中获取固件的基本流程"></a>Flash芯片中获取固件的基本流程</h2><ol>
+<li><p>辨别Flash芯片</p>
+<blockquote>
+<p>辨别Flash芯片的方法：通过放大镜，观看芯片表面型号、电路板表示以及针脚辨别Flash芯片。</p>
+</blockquote>
+</li>
+<li><p>使用吹焊机拆解芯片</p>
+<blockquote>
+<p>当确认Flash芯片后，使用吹焊机和镊子拆卸芯片，吹焊机一般调节在400度夺走。</p>
+</blockquote>
+</li>
+<li><p>使用编程器获取二进制数据</p>
+<blockquote>
+<p>吧Flash芯片放入编程器中，将编程器USB口插入计算机，再用编程器软件读取，使用编程器软件之前需要安装驱动。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="调试串口获取shell访问权限"><a href="#调试串口获取shell访问权限" class="headerlink" title="调试串口获取shell访问权限"></a>调试串口获取shell访问权限</h2><ol>
+<li><p>寻找串口</p>
+<p> 一般情况下，串口至少包含以下四个引脚：</p>
+<ul>
+<li><p>VCC：电源电压，该引脚表明串口工作电压</p>
+</li>
+<li><p>GND：接地，该引脚电压通常与PCB地短接</p>
+</li>
+<li><p>TXD：数据发送引脚</p>
+</li>
+<li><p>RXD：数据接收引脚</p>
+<p>对于没有直接标明串口的PCB主板，在寻找串口时主要步骤为观察和验证</p>
+</li>
+</ul>
+<ol>
+<li><p>观察</p>
+<blockquote>
+<p>通过万用表探测与其他GND短接的引脚，那么这一根就是GND，进而根据电势差寻找VCC.</p>
+<p>VCC引脚的特点：</p>
+<p>（1）VCC引脚通常被画成方形，其他引脚为圆形。</p>
+<p>（2）串口端的VCC电压几乎不是3.3V就是5V。</p>
+</blockquote>
+</li>
+<li><p>验证</p>
+<blockquote>
+<p>单独引出所怀疑的引脚后分别尝试接到计算机串口的RXD商，给板子供电后查看计算机串口调试工具有误数据或者字符串输出。厂商通常使用的破特率为115200,如果这个波特率下没有数据输出则尝试其他波特率。</p>
+<p>如果最终没有输出，则这个结构要么不是串口，要么就是为安全起见固件程序并没有在串口上输出数据。</p>
+</blockquote>
+<h3 id="获取访问控制权限"><a href="#获取访问控制权限" class="headerlink" title="获取访问控制权限"></a>获取访问控制权限</h3><p>以某款摄像头为例，通过USB-RS232接诶摄像头的串口至PC机，在给摄像头上电后，可以看到PC机串口调试工具显示出的log信息，如下如所示</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2020/10/20/H1hBMrpYxtjNiLF.png"></p>
+<p>通过打断u-boot引导可以得知摄像头u-boot所支持的一些命令，这些命令可能已经对摄像头构成安全隐患了。</p>
+<h2 id="binwalk功能"><a href="#binwalk功能" class="headerlink" title="binwalk功能"></a>binwalk功能</h2></li>
+<li><p>过滤功能</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -y xxx.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>排除过滤器</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -x xxx(要排除的特征) yyy.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>高级过滤器</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -y filesystem -x xxx(要排除的特征) yyy.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>递归提取</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -Me xxx.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>操作码</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -A xxx.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>转换功能</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -l 32 -C xxx.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>比较功能</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -W xxx.bin yyy.bin zzz.bin</span><br><span class="line">#相同字节是绿色，不同字节是共色，蓝色是文件中的不同部分</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串分析</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -S xxx.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>熵分析</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -E xxx.bin</span><br><span class="line">binwalk -AE xxx.bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>日志记录功能</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">binwalk -f a.log xxx.bin</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+</li>
+</ol>
+<p>建PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《智能硬件安全》刘键皓 等编著；</p>
+]]></content>
+      <categories>
+        <category>智能硬件安全</category>
+      </categories>
+      <tags>
+        <tag>智能硬件安全</tag>
+      </tags>
+  </entry>
 </search>
