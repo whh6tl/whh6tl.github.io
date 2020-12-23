@@ -5245,7 +5245,7 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>智能硬件安全_笔记(番外)</title>
     <url>/%E7%A1%AC%E4%BB%B6%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%EF%BC%88%E5%9B%BA%E4%BB%B6%E7%95%AA%E5%A4%96%EF%BC%89_/</url>
     <content><![CDATA[<h2 id="固件概述"><a href="#固件概述" class="headerlink" title="固件概述"></a>固件概述</h2><p>固件就是写入EROM（可擦只读存储器）或EEPROM（点可擦可编程只读存储器）中的程序。</p>
 <p>在IoT设备中固件可以说是神经中枢，也可以称作操作系统，它包括很多模块：驱动、控制、解码、传送、检测。</p>
