@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>智能设备安全分析_笔记(0X01) | WHH's blog</title><meta name="description" content="本篇是参考绿盟格物实验室的一篇文章而写的笔记以及推荐书籍的记录笔记，因为是个人笔记就写的比较随意了 先来看一下通信的架构拓扑图。 智能设备基础概述拓扑图当前大部分智能设备采用的是“智能设备终端”&lt;–&gt; “云服务端” &lt;–&gt;“移动终端 APP”系统架构 [4] 情况可能缺少云端或者 APP 端。  硬件组成：   CPU：X86&#x2F;ARM&#x2F;MIPS&#x2F;PPC等 内存：SDRAM&#x2F;"><meta name="keywords" content="智能设备安全分析"><meta name="author" content="whh6tl"><meta name="copyright" content="whh6tl"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.whh6tl.com/%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0(0x01)/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="智能设备安全分析_笔记(0X01)"><meta property="og:url" content="http://www.whh6tl.com/%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0(0x01)/"><meta property="og:site_name" content="WHH's blog"><meta property="og:description" content="本篇是参考绿盟格物实验室的一篇文章而写的笔记以及推荐书籍的记录笔记，因为是个人笔记就写的比较随意了 先来看一下通信的架构拓扑图。 智能设备基础概述拓扑图当前大部分智能设备采用的是“智能设备终端”&lt;–&gt; “云服务端” &lt;–&gt;“移动终端 APP”系统架构 [4] 情况可能缺少云端或者 APP 端。  硬件组成：   CPU：X86&#x2F;ARM&#x2F;MIPS&#x2F;PPC等 内存：SDRAM&#x2F;"><meta property="og:image" content="https://i.loli.net/2021/01/04/iKpPFXaYSIj3zEq.jpg"><meta property="article:published_time" content="2021-01-05T13:00:00.000Z"><meta property="article:modified_time" content="2021-01-05T15:38:49.000Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-01-05 23:38:49'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://raw.githubusercontent.com/whh6tl/img/master/cc.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">72</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">20</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">11</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">智能设备基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E5%9B%BE"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">拓扑图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E6%94%BB%E5%87%BB%E9%9D%A2%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">智能设备攻击面：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#APP%E5%8F%AF%E8%83%BD%E5%AD%98%E5%9C%A8%E7%9A%84%E9%A3%8E%E9%99%A9%E7%82%B9%EF%BC%9A"><span class="toc-number">1.1.2.</span> <span class="toc-text">APP可能存在的风险点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8"><span class="toc-number">1.2.</span> <span class="toc-text">网络通信协议安全</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%AE%89%E5%85%A8"><span class="toc-number">2.</span> <span class="toc-text">硬件安全</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PCB%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">2.1.</span> <span class="toc-text">PCB信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PCB%E4%B8%9D%E5%8D%B0"><span class="toc-number">2.1.1.</span> <span class="toc-text">PCB丝印</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%AF%E7%89%87%E4%BF%A1%E6%81%AF"><span class="toc-number">2.1.2.</span> <span class="toc-text">芯片信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%9B%BA%E5%BB%BA%E8%AE%AE"><span class="toc-number">2.1.3.</span> <span class="toc-text">加固建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB"><span class="toc-number">2.2.</span> <span class="toc-text">中间人攻击</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BA%E4%BB%B6%E5%AE%89%E5%85%A8"><span class="toc-number">3.</span> <span class="toc-text">固件安全</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E4%BB%B6%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">固件存储位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E4%BB%B6%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">固件获取方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E4%BB%B6%E5%8A%A0%E5%9B%BA"><span class="toc-number">3.3.</span> <span class="toc-text">固件加固</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E4%BC%A0%E8%BE%93%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%AE%A4%E8%AF%81"><span class="toc-number">3.3.1.</span> <span class="toc-text">通信传输加密与认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E8%97%8F%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.3.2.</span> <span class="toc-text">隐藏接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%BB%E6%8E%A7%E8%8A%AF%E7%89%87%E8%AF%BB%E4%BF%9D%E6%8A%A4"><span class="toc-number">3.3.3.</span> <span class="toc-text">设置主控芯片读保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BA%E4%BB%B6%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%AE%A4%E8%AF%81"><span class="toc-number">3.3.4.</span> <span class="toc-text">固件加密与认证</span></a></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2021/01/04/iKpPFXaYSIj3zEq.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">WHH's blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 无情链接</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">智能设备安全分析_笔记(0X01)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-05T13:00:00.000Z" title="发表于 2021-01-05 21:00:00">2021-01-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-05T15:38:49.000Z" title="更新于 2021-01-05 23:38:49">2021-01-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90/">智能设备安全分析</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>本篇是参考绿盟格物实验室的一篇文章而写的笔记以及推荐书籍的记录笔记，因为是个人笔记就写的比较随意了</p>
+<p>先来看一下通信的架构拓扑图。</p>
+<h1 id="智能设备基础"><a href="#智能设备基础" class="headerlink" title="智能设备基础"></a>智能设备基础</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h4 id="拓扑图"><a href="#拓扑图" class="headerlink" title="拓扑图"></a>拓扑图</h4><p>当前大部分智能设备采用的是“智能设备终端”&lt;–&gt; “云服务端” &lt;–&gt;“移动终端 APP”系统架构 [4] 情况可能缺少云端或者 APP 端。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/01/04/w3GJjsvaFdiESzh.png"></p>
+<p>硬件组成：</p>
+<blockquote>
+<ul>
+<li>CPU：X86/ARM/MIPS/PPC等</li>
+<li>内存：SDRAM/RAM存储/SD 卡/MMC卡 / 硬盘</li>
+<li>网口</li>
+<li>串口</li>
+<li>USB 口</li>
+<li>无线接口：Wi-Fi/ 蓝牙 /ZigBee 等</li>
+</ul>
+</blockquote>
+<h3 id="智能设备攻击面："><a href="#智能设备攻击面：" class="headerlink" title="智能设备攻击面："></a>智能设备攻击面：</h3><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/01/04/RjsCKt91l4SYDnc.png"></p>
+<h3 id="APP可能存在的风险点："><a href="#APP可能存在的风险点：" class="headerlink" title="APP可能存在的风险点："></a>APP可能存在的风险点：</h3><ul>
+<li>登陆鉴权机制是否完善</li>
+<li>通讯数据是否加密传输</li>
+<li>敏感信息是否加密存储</li>
+<li>加密算法是否健壮</li>
+</ul>
+<h2 id="网络通信协议安全"><a href="#网络通信协议安全" class="headerlink" title="网络通信协议安全"></a>网络通信协议安全</h2><p>在智能设备系统中，除了智能设备终端、移动终端 APP、云服务端这三个重要节点外，三者之间的通讯安全 对整个系统来说也是也举足轻重。</p>
+<blockquote>
+<ol>
+<li>APP 与云端一般通过HTTP、HTTPS 通信，分析中应判断通信流量是否加密，可否抓包劫持通信数据； </li>
+<li>设备与云端一般采用 MQTT、 XMPP、 CoAP 等协议通信，也会使用 HTTP、 HTTPS 通信 , 部分厂家的 设备会使用私有协议进行通讯，例如京东、小米、broadlink 等；</li>
+<li>APP 与设备之间通信一般利用短距离无线网络进行通信，如 ZigBee、 Wi-Fi 以及蓝牙等。</li>
+</ol>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/01/05/p5zy1FYwrEH74TA.png" alt="技术对比"></p>
+<h1 id="硬件安全"><a href="#硬件安全" class="headerlink" title="硬件安全"></a>硬件安全</h1><h2 id="PCB信息收集"><a href="#PCB信息收集" class="headerlink" title="PCB信息收集"></a>PCB信息收集</h2><p>PCB（ Printed Circuit Board），中文名称为印制电路板，又称印刷线路板，是重要的电子部件，是电子元器 件的支撑体。</p>
+<h3 id="PCB丝印"><a href="#PCB丝印" class="headerlink" title="PCB丝印"></a>PCB丝印</h3><p>会暴露各引脚的名称以及功能</p>
+<h3 id="芯片信息"><a href="#芯片信息" class="headerlink" title="芯片信息"></a>芯片信息</h3><p>芯片信号往往可以从官方披露信息、芯片上标出而得到。通过搜索引擎可查看引脚图与固件下载方式。</p>
+<h3 id="加固建议"><a href="#加固建议" class="headerlink" title="加固建议"></a>加固建议</h3><ol>
+<li>出厂前清除丝印</li>
+<li>设置读保护，使得设备不可读</li>
+<li>使用不常见的螺丝使得不能被拆卸</li>
+<li>设置篡改检测</li>
+</ol>
+<h2 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h2><p>攻击可以嗅探两个不同的硬件组件之间传递的数据，并加以分析，如果这些信息没有经过加密处理，很容易 获取到关键信息，例如秘钥之类。</p>
+<h1 id="固件安全"><a href="#固件安全" class="headerlink" title="固件安全"></a>固件安全</h1><h2 id="固件存储位置"><a href="#固件存储位置" class="headerlink" title="固件存储位置"></a>固件存储位置</h2><p>安全分析人员只要知道智能设备的组成部分中哪些元器件具备存储固件的能力，就能大体知道固件在 智能设备上的存储位置了。</p>
+<p>必须知道智能设备固件被厂家写入的地址，才算完整地获取到固件的位置信息。</p>
+<p>固件在主板上存储的方式，可以简单分成两类：</p>
+<ol>
+<li><p>集成式 </p>
+<blockquote>
+<p>通常设备的固件会被写入到 FLASH 中</p>
+</blockquote>
+</li>
+<li><p>分离式 </p>
+<blockquote>
+<p>通过引导加载程序（Bootloader）或者利用 JTAG/SWD 等调试接口，控制主控器的读写存储器流程，进而读出固件内容（前提条件 是需要知道固件在存储器 (ROM) 中或者被映射到内存（RAM）中的地址范围。）</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="固件获取方法"><a href="#固件获取方法" class="headerlink" title="固件获取方法"></a>固件获取方法</h2><ul>
+<li><p><strong>网络升级截获（FTP、HTTP）</strong></p>
+<blockquote>
+<p>当智能设备进入升级流程时，可以通过抓取升级过程的流量信息，得到智能设备 通过网络升级固件的具体流程，通过模拟固件升级的过程获取固件。</p>
+</blockquote>
+</li>
+<li><p><strong>直接读存储芯片</strong></p>
+<blockquote>
+<p>将存储器通过焊接的方式取下来</p>
+<p>用编程器把固件读取出来</p>
+</blockquote>
+</li>
+<li><p><strong>通过串口等通信总线读取</strong></p>
+<blockquote>
+<p>以STM32单片机为例，首先把PC与板载UART 接口相连，然后利用主控器内部的Bootloader获取固件</p>
+</blockquote>
+</li>
+<li><p><strong>通过调试接口读取</strong></p>
+<blockquote>
+<p>有些产品的主板上，会暴露硬件开发调试时所用的接口，如 JTAG/SWD 接口</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="固件加固"><a href="#固件加固" class="headerlink" title="固件加固"></a>固件加固</h2><h3 id="通信传输加密与认证"><a href="#通信传输加密与认证" class="headerlink" title="通信传输加密与认证"></a>通信传输加密与认证</h3><p>在产品的升级流程中建议加入加密传输和请求认证的功能。FTP–&gt;SFTP，HTTP–&gt;HTTPS。</p>
+<h3 id="隐藏接口"><a href="#隐藏接口" class="headerlink" title="隐藏接口"></a>隐藏接口</h3><p>隐藏引脚信息、删除焊点和丝印</p>
+<h3 id="设置主控芯片读保护"><a href="#设置主控芯片读保护" class="headerlink" title="设置主控芯片读保护"></a>设置主控芯片读保护</h3><p>在主控芯片内设置读保护。</p>
+<h3 id="固件加密与认证"><a href="#固件加密与认证" class="headerlink" title="固件加密与认证"></a>固件加密与认证</h3><p>利用存储区域的密钥加密设备固件，由于密钥获取难度大，因此可保证提取的固件中文件系统无法被提取。</p>
+<p><strong><em>PS:本文仅是学习笔记，将自己认为重要的点记录下来；学习的途径是《智能设备安全分析手册》绿盟格物实验室 编著；</em></strong></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Wthh6tl</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.whh6tl.com/%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0(0x01)/">http://www.whh6tl.com/%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0(0x01)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.whh6tl.com" target="_blank">WHH's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90/">智能设备安全分析</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/01/04/iKpPFXaYSIj3zEq.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E9%9B%86/"><img class="next-cover" data-lazy-src="https://i.loli.net/2020/10/12/bgDoOV1CEkGPMf8.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">汇编指令集</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(https://i.loli.net/2021/01/04/iKpPFXaYSIj3zEq.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By whh6tl</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'cI4aeIGeJ1JoT9EuyAoPpBC9-gzGzoHsz',
+      appKey: 'pr9R4Ncy9tGPb0PO9C3DmMnp',
+      placeholder: '...',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://leancloud.cn/',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script></div></body></html>
