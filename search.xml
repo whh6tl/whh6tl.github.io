@@ -5390,18 +5390,26 @@
   <entry>
     <title>技术分享2021.09（服务器是如何被攻陷的）</title>
     <url>/sec_share/</url>
-    <content><![CDATA[<h2 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h2><h3 id="前渗透"><a href="#前渗透" class="headerlink" title="前渗透"></a>前渗透</h3><h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>1、真实IP</p>
-<p>2、开放端口</p>
-<p>3、管理后台</p>
-<p>4、web应用</p>
-<p>5、中间件以及版本信息</p>
-<h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>cve漏洞、上传漏洞、Sql注入等获取服务器权限</p>
+    <content><![CDATA[<h2 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h2><h3 id="前渗透"><a href="#前渗透" class="headerlink" title="前渗透"></a>前渗透</h3><h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>1、真实IP、开放端口、管理后台、web应用、子域名、中间件以及版本信息、其他…</p>
+<h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>cve漏洞，上传漏洞，Sql注入、XSS，CSRF，逻辑漏洞，跨域漏洞等组合获取服务器权限</p>
 <hr>
 <h3 id="后渗透"><a href="#后渗透" class="headerlink" title="后渗透"></a>后渗透</h3><p>提权（低权限用户提升至root/System权限）、权限维持、docker逃逸、反向代理、内网资产绘制、横向渗透</p>
 <hr>
-<h2 id="服务器为什么会被远程控制"><a href="#服务器为什么会被远程控制" class="headerlink" title="服务器为什么会被远程控制"></a>服务器为什么会被远程控制</h2><p>弱口令+后台文件上传</p>
-<p>中间件版本存在漏洞</p>
-<p>不安全的服务器配置</p>
+<h3 id="POC、EXP"><a href="#POC、EXP" class="headerlink" title="POC、EXP"></a>POC、EXP</h3><p>POC：全称 ‘ Proof of Concept ‘，中文 ‘ 概念验证 ‘ ，常指一段漏洞证明的代码。</p>
+<p>EXP：全称 ‘ Exploit ‘，中文 ‘ 利用 ‘，指利用系统漏洞进行攻击的动作。</p>
+<p><em>POC是用来证明漏洞存在的，EXP是用来利用漏洞的。</em></p>
+<hr>
+<h2 id="服务器为什么会被远程控制"><a href="#服务器为什么会被远程控制" class="headerlink" title="服务器为什么会被远程控制"></a>服务器为什么会被远程控制</h2><p><strong>弱口令+后台任意文件上传</strong></p>
+<p><em>如何上传对应的小马呢？</em></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#按URL划分</span><br><span class="line">https:&#x2F;&#x2F;example.com&#x2F;1.asp?id&#x3D;1</span><br><span class="line">https:&#x2F;&#x2F;example.com&#x2F;1.php?id&#x3D;1</span><br><span class="line">https:&#x2F;&#x2F;example.com&#x2F;1.jsp?id&#x3D;1</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#按web服务划分</span><br><span class="line">Nginx和Apache：php </span><br><span class="line"></span><br><span class="line">Tomcat(java): jsp ,jspx</span><br><span class="line"></span><br><span class="line">IIS :aspx ,ashx ,asp ,asa ,cer ,cdx</span><br></pre></td></tr></table></figure>
+<p><strong>中间件版本/配置存在漏洞</strong></p>
+<p><em>部分中间件在特定版本之前都存在通用漏洞。</em></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">例如：</span><br><span class="line">mongo-express， 0.54.0 之前的版本</span><br><span class="line">PHP 7.0 版本</span><br><span class="line">PHP 7.1 版本</span><br><span class="line">PHP 7.2 版本</span><br><span class="line">PHP 7.3 版本</span><br></pre></td></tr></table></figure>
+<p><strong>不安全的服务器配置</strong></p>
+<p>高危端口没有关闭、防火墙未启用等等</p>
 <hr>
 <h2 id="攻击示例"><a href="#攻击示例" class="headerlink" title="攻击示例"></a>攻击示例</h2><h3 id="MongoDB-mongo-express远程代码执行（CVE-2019-10758"><a href="#MongoDB-mongo-express远程代码执行（CVE-2019-10758" class="headerlink" title="MongoDB mongo-express远程代码执行（CVE-2019-10758)"></a>MongoDB mongo-express远程代码执行（CVE-2019-10758)</h3><h4 id="漏洞描述："><a href="#漏洞描述：" class="headerlink" title="漏洞描述："></a>漏洞描述：</h4><p>mongo-express是一款mongodb的第三方Web界面，使用node和express开发。如果攻击者可以成功登录，或者目标服务器没有修改默认的账号密码（admin:pass），则可以执行任意node.js代码。</p>
 <h4 id="影响版本："><a href="#影响版本：" class="headerlink" title="影响版本："></a>影响版本：</h4><p>mongo-express， 0.54.0 之前的版本</p>
@@ -5409,8 +5417,17 @@
 <p>nc监听get shell</p>
 <h3 id="PHP远程代码执行漏洞复现（CVE-2019-11043）"><a href="#PHP远程代码执行漏洞复现（CVE-2019-11043）" class="headerlink" title="PHP远程代码执行漏洞复现（CVE-2019-11043）"></a>PHP远程代码执行漏洞复现（CVE-2019-11043）</h3><h4 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h4><p>CVE-2019-11043 是一个远程代码执行漏洞，使用某些特定配置的 Nginx + PHP-FPM 的服务器存在漏洞，可允许攻击者远程执行代码。</p>
 <p>向Nginx + PHP-FPM的服务器 URL发送 %0a 时，服务器返回异常。</p>
-<h4 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h4><p>构建环境，运行exp文件，访问web的index.php?a=whoami</p>
-<p>nc监听get shell</p>
+<h4 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h4><ul>
+<li>PHP 7.0 版本</li>
+<li>PHP 7.1 版本</li>
+<li>PHP 7.2 版本</li>
+<li>PHP 7.3 版本</li>
+</ul>
+<h4 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h4><p>构建环境，查看是否正常运行；</p>
+<p>运行exp文件，访问web的index.php?a=whoami测试；</p>
+<p>公网服务器使用 nc 监听端口；</p>
+<p>web执行nc命令或bash一句话；</p>
+<p>getshell ~</p>
 <h3 id="CVE-2019-0708漏洞复现"><a href="#CVE-2019-0708漏洞复现" class="headerlink" title="CVE-2019-0708漏洞复现"></a>CVE-2019-0708漏洞复现</h3><p>有可能蓝屏，有可能get shell</p>
 <h3 id="ms17-010（永恒之蓝）"><a href="#ms17-010（永恒之蓝）" class="headerlink" title="ms17-010（永恒之蓝）"></a>ms17-010（永恒之蓝）</h3><p>win7开启445端口可以直接get shell</p>
 <h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><h2 id="拿到服务器以后的目的"><a href="#拿到服务器以后的目的" class="headerlink" title="拿到服务器以后的目的"></a>拿到服务器以后的目的</h2><p>收集完这一台服务器的信息后就跑路了吗？NO</p>
