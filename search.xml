@@ -5496,7 +5496,7 @@
   <entry>
     <title>进度分享（第二阶段）</title>
     <url>/%E6%8C%91%E6%88%98%E9%A1%B9%E7%9B%AE_%E8%BF%9B%E5%BA%A6%E5%88%86%E4%BA%AB/</url>
-    <content><![CDATA[<h2 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h2><h2 id="第一阶段完成了什么"><a href="#第一阶段完成了什么" class="headerlink" title="第一阶段完成了什么"></a>第一阶段完成了什么</h2><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/09/22/v62blA1W9G4Ncpd.png" alt="阶段一-方案A"></p>
+    <content><![CDATA[<h2 id="第一阶段完成了什么"><a href="#第一阶段完成了什么" class="headerlink" title="第一阶段完成了什么"></a>第一阶段完成了什么</h2><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/09/22/v62blA1W9G4Ncpd.png" alt="阶段一-方案A"></p>
 <p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/09/22/WsGtxPuB6k8mgec.png" alt="阶段一-方案B"></p>
 <h3 id="ELK服务器的各个服务部署"><a href="#ELK服务器的各个服务部署" class="headerlink" title="ELK服务器的各个服务部署"></a>ELK服务器的各个服务部署</h3><ul>
 <li>Logstash</li>
@@ -5543,7 +5543,7 @@
 <li><p><strong>日志数据分析</strong></p>
 <p>读取操作系统和应用程序日志，识别应用程序或系统错误、错误配置、尝试或已成功的恶意活动、策略违规以及其他安全和操作问题。</p>
 </li>
-<li><p>文件完整性监控</p>
+<li><p><strong>文件完整性监控</strong></p>
 <p>识别需要注意的文件的内容、权限、所有权和属性的变化。</p>
 </li>
 <li><p><strong>CVE漏洞检测</strong></p>
@@ -5571,6 +5571,9 @@
 </li>
 <li><p><strong>Agent显示已注册成功，但Manager端收不到数据</strong></p>
 <p>定位到原因是因为Manager端使用了云服务器，TCP传输端口“1514”、“1515”默认禁止连接，在云服务器后台开放端口连接后，成功接收到数据。</p>
+</li>
+<li><p><strong>部分agent节点掉线</strong></p>
+<p>部分服务器设置了定时重启，需要将agent加入到开机启动项中。</p>
 </li>
 <li><p><strong>Kibana调用wazuh-api报错</strong></p>
 <p>kibana安装wazuh模块以后，需要把模块配置改为使用https方式调用wazuh-api，并指定wazuh的地址，使用http协议会报错“内部服务器错误”</p>
