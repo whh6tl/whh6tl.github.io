@@ -5555,9 +5555,6 @@
 <li><p><strong>安全合规性检测</strong></p>
 <p>提供了一些必要的安全控制，以符合行业标准和法规。</p>
 </li>
-<li><p><strong>容器安全检测</strong></p>
-<p>监控主机和 Docker 容器的行为并检测威胁、漏洞和异常。</p>
-</li>
 </ul>
 <h3 id="问题-amp-解决方案-1"><a href="#问题-amp-解决方案-1" class="headerlink" title="问题&amp;解决方案"></a>问题&amp;解决方案</h3><ol>
 <li><p><strong>存储的日志数据过多</strong></p>
