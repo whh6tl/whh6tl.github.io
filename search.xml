@@ -5499,9 +5499,12 @@
     <content><![CDATA[<h2 id="第一阶段完成了什么"><a href="#第一阶段完成了什么" class="headerlink" title="第一阶段完成了什么"></a>第一阶段完成了什么</h2><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/09/22/v62blA1W9G4Ncpd.png" alt="阶段一-方案A"></p>
 <p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/09/22/WsGtxPuB6k8mgec.png" alt="阶段一-方案B"></p>
 <h3 id="ELK服务器的各个服务部署"><a href="#ELK服务器的各个服务部署" class="headerlink" title="ELK服务器的各个服务部署"></a>ELK服务器的各个服务部署</h3><ul>
-<li>Logstash</li>
-<li>ElsticSearch</li>
-<li>Kibana</li>
+<li><p>Logstash</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">① 定义接收数据方式。</span><br><span class="line">② 过滤内容提取自定义字段（eve_name,src_ip等）。</span><br><span class="line">③ 定义geoip字段，IP定位。</span><br><span class="line">④ 定义输出到ES。</span><br><span class="line">⑤ （第三阶段）过滤误报，使用logstash的drop功能丢弃误报包提升精准度。</span><br></pre></td></tr></table></figure></li>
+<li><p>ElsticSearch</p>
+</li>
+<li><p>Kibana</p>
+</li>
 </ul>
 <h3 id="被监控服务器的各个服务部署"><a href="#被监控服务器的各个服务部署" class="headerlink" title="被监控服务器的各个服务部署"></a>被监控服务器的各个服务部署</h3><ul>
 <li>Suricata</li>
@@ -5520,7 +5523,6 @@
 <li>自定义时间范围内的攻击趋势</li>
 <li>自定义重点关注的对象（源IP、被攻击服务器名称、攻击事件）</li>
 <li>自定义可视化、仪表盘</li>
-<li></li>
 </ul>
 <h2 id="第二阶段计划"><a href="#第二阶段计划" class="headerlink" title="第二阶段计划"></a>第二阶段计划</h2><ul>
 <li>ELK服务器的Wazuh管理端搭建    </li>
